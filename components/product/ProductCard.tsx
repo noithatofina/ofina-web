@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { ShoppingCart, Eye, Heart } from 'lucide-react'
+import { ProductImage } from './ProductImage'
 import { formatPrice, calcDiscountPercent } from '@/lib/utils'
 import type { Product } from '@/lib/supabase'
 
@@ -18,13 +18,13 @@ export function ProductCard({ product }: Props) {
   return (
     <article className="card group">
       <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
-        <Link href={`/san-pham/${product.slug}`}>
-          <Image
+        <Link href={`/san-pham/${product.slug}`} className="block w-full h-full">
+          <ProductImage
             src={img}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full group-hover:scale-105 transition-transform duration-500"
           />
         </Link>
 

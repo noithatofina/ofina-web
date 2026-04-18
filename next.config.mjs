@@ -2,12 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    unoptimized: true,  // Dùng URL gốc (tránh lỗi Image Optimizer với external host)
     remotePatterns: [
       { protocol: 'https', hostname: 'govi.vn' },
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
-    formats: ['image/avif', 'image/webp'],
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],

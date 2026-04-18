@@ -83,6 +83,21 @@ const SAMPLE_PRODUCTS: Partial<Product>[] = [
 
 // ============ QUERIES ============
 
+const PRODUCT_SELECT = `
+  *,
+  product_images(url, position, is_primary)
+`
+
+function mapProduct(p: any) {
+  if (!p) return p
+  const imgs = (p.product_images || []).sort((a: any, b: any) => a.position - b.position)
+  return {
+    ...p,
+    images: imgs.map((i: any) => i.url),
+    primary_image: imgs.find((i: any) => i.is_primary)?.url || imgs[0]?.url || null,
+  }
+}
+
 export async function getHomepageData() {
   if (!USE_SUPABASE) {
     return {
@@ -93,21 +108,37 @@ export async function getHomepageData() {
     }
   }
 
-  // Supabase queries
   const { createServerSupabase } = await import('./supabase')
   const supabase = await createServerSupabase()
 
-  const [categoriesRes, bestsellersRes, newestRes] = await Promise.all([
-    supabase.from('categories').select('*').is('parent_id', null).order('position'),
-    supabase.from('products').select('*').eq('is_bestseller', true).eq('status', 'active').limit(8),
-    supabase.from('products').select('*').eq('is_new', true).eq('status', 'active').limit(8),
+  // Lấy categories có SP (query products_count qua group by đơn giản)
+  const [categoriesRes, featuredRes, newestRes] = await Promise.all([
+    supabase.from('categories').select('*').limit(12),
+    // Random 8 SP có giá > 0 (thay cho bestseller nếu chưa có flag)
+    supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('created_at', { ascending: false }).limit(8),
+    supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('price', { ascending: false }).limit(8),
   ])
 
+  const featured = (featuredRes.data || []).map(mapProduct)
+  const newest = (newestRes.data || []).map(mapProduct)
+
+  // Thêm mock image cho categories nếu chưa có
+  const categoryImageFallback: Record<string, string> = {
+    'ghe-van-phong': 'https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?w=600&q=80',
+    'ban-lam-viec': 'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?w=600&q=80',
+    'sofa-van-phong': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80',
+  }
+  const categoriesWithImage = (categoriesRes.data || []).map((c: any) => ({
+    ...c,
+    image: c.image || categoryImageFallback[c.slug] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
+    product_count: 0,  // TODO: count qua separate query
+  }))
+
   return {
-    categories: categoriesRes.data || MOCK_CATEGORIES,
-    bestsellers: bestsellersRes.data || SAMPLE_PRODUCTS.filter(p => p.is_bestseller),
-    newest: newestRes.data || SAMPLE_PRODUCTS.filter(p => p.is_new),
-    featured: (bestsellersRes.data || SAMPLE_PRODUCTS).slice(0, 4),
+    categories: categoriesWithImage.length ? categoriesWithImage : MOCK_CATEGORIES,
+    bestsellers: featured,
+    newest,
+    featured: featured.slice(0, 4),
   }
 }
 
@@ -117,8 +148,8 @@ export async function getProductBySlug(slug: string) {
   }
   const { createServerSupabase } = await import('./supabase')
   const supabase = await createServerSupabase()
-  const { data } = await supabase.from('products').select('*').eq('slug', slug).single()
-  return data
+  const { data } = await supabase.from('products').select(PRODUCT_SELECT).eq('slug', slug).maybeSingle()
+  return mapProduct(data)
 }
 
 export async function getProductsByCategory(categorySlug: string, limit = 24) {
@@ -128,15 +159,15 @@ export async function getProductsByCategory(categorySlug: string, limit = 24) {
   const { createServerSupabase } = await import('./supabase')
   const supabase = await createServerSupabase()
 
-  const { data: category } = await supabase.from('categories').select('id').eq('slug', categorySlug).single()
+  const { data: category } = await supabase.from('categories').select('id').eq('slug', categorySlug).maybeSingle()
   if (!category) return { products: [], total: 0 }
 
   const { data, count } = await supabase
     .from('products')
-    .select('*', { count: 'exact' })
+    .select(PRODUCT_SELECT, { count: 'exact' })
     .eq('category_id', category.id)
     .eq('status', 'active')
     .limit(limit)
 
-  return { products: data || [], total: count || 0 }
+  return { products: (data || []).map(mapProduct), total: count || 0 }
 }

@@ -1,5 +1,7 @@
-import { createBrowserClient, createServerClient } from '@supabase/ssr'
+import { createBrowserClient, createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+
+type CookieToSet = { name: string; value: string; options?: CookieOptions }
 
 export function createClient() {
   return createBrowserClient(
@@ -18,7 +20,7 @@ export async function createServerSupabase() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)

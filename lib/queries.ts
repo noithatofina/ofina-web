@@ -184,6 +184,31 @@ export async function getProductBySlug(slug: string) {
   return mapProduct(data)
 }
 
+export async function getNewProductsByCategory(categorySlugs: string[], limit = 8) {
+  if (!USE_SUPABASE) return SAMPLE_PRODUCTS.slice(0, limit)
+  const { createServerSupabase } = await import('./supabase')
+  const supabase = await createServerSupabase()
+
+  // Get category IDs
+  const { data: cats } = await supabase
+    .from('categories')
+    .select('id')
+    .in('slug', categorySlugs)
+  if (!cats || cats.length === 0) return []
+
+  const catIds = cats.map((c: any) => c.id)
+  const { data } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT)
+    .eq('status', 'active')
+    .gt('price', 0)
+    .in('category_id', catIds)
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  return (data || []).map(mapProduct)
+}
+
 export async function getNewProducts(opts: { limit?: number; offset?: number } = {}) {
   const { limit = 24, offset = 0 } = opts
   if (!USE_SUPABASE) return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }

@@ -152,7 +152,22 @@ export async function getProductBySlug(slug: string) {
   return mapProduct(data)
 }
 
-export async function getProductsByCategory(categorySlug: string, limit = 24) {
+export async function getCategoryInfo(slug: string) {
+  if (!USE_SUPABASE) {
+    return MOCK_CATEGORIES.find(c => c.slug === slug) || null
+  }
+  const { createServerSupabase } = await import('./supabase')
+  const supabase = await createServerSupabase()
+  const { data } = await supabase.from('categories').select('*').eq('slug', slug).maybeSingle()
+  return data
+}
+
+export async function getProductsByCategory(
+  categorySlug: string,
+  opts: { limit?: number; offset?: number; sort?: string } = {}
+) {
+  const { limit = 24, offset = 0, sort = 'newest' } = opts
+
   if (!USE_SUPABASE) {
     return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
   }
@@ -162,12 +177,20 @@ export async function getProductsByCategory(categorySlug: string, limit = 24) {
   const { data: category } = await supabase.from('categories').select('id').eq('slug', categorySlug).maybeSingle()
   if (!category) return { products: [], total: 0 }
 
-  const { data, count } = await supabase
+  let q = supabase
     .from('products')
     .select(PRODUCT_SELECT, { count: 'exact' })
     .eq('category_id', category.id)
     .eq('status', 'active')
-    .limit(limit)
 
+  // Sort
+  if (sort === 'price-asc') q = q.order('price', { ascending: true }).gt('price', 0)
+  else if (sort === 'price-desc') q = q.order('price', { ascending: false })
+  else if (sort === 'name') q = q.order('name', { ascending: true })
+  else q = q.order('created_at', { ascending: false })
+
+  q = q.range(offset, offset + limit - 1)
+
+  const { data, count } = await q
   return { products: (data || []).map(mapProduct), total: count || 0 }
 }

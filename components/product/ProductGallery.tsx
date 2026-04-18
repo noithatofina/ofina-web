@@ -30,6 +30,7 @@ export function ProductGallery({ images, productName }: Props) {
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
           className="w-full h-full"
+          watermark="full"
         />
         {imgs.length > 1 && (
           <>
@@ -73,6 +74,7 @@ export function ProductGallery({ images, productName }: Props) {
                 fill
                 sizes="100px"
                 className="w-full h-full"
+                watermark="none"
               />
             </button>
           ))}

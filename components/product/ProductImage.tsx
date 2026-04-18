@@ -12,19 +12,23 @@ interface Props {
   height?: number
   priority?: boolean
   sizes?: string
+  watermark?: 'full' | 'small' | 'none'
 }
 
 /**
- * Product Image với OFINA watermark overlay
- * Che logo/watermark gốc của nhà cung cấp, branding lại thành OFINA
+ * Product Image với OFINA watermark overlay tinh gọn
+ * - `full`: Watermark lớn ở góc trên phải (cho ảnh chính)
+ * - `small`: Watermark nhỏ (cho thumbnail / card)
+ * - `none`: Không watermark
  */
 export function ProductImage({
-  src, alt, className, fill, width, height, priority, sizes
+  src, alt, className, fill, width, height, priority, sizes,
+  watermark = 'small',
 }: Props) {
   if (!src) {
     return (
       <div className={cn('bg-gray-100 flex items-center justify-center', className)}>
-        <span className="text-gray-400">No image</span>
+        <span className="text-gray-400 text-sm">No image</span>
       </div>
     )
   }
@@ -51,21 +55,22 @@ export function ProductImage({
         />
       )}
 
-      {/* OFINA Watermark Overlay - góc dưới trái */}
-      <div className="absolute bottom-2 left-2 z-10 pointer-events-none">
-        <div className="bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-bold tracking-wide shadow-lg">
-          OFINA
+      {/* Watermark layer - Che logo Govi bằng OFINA */}
+      {watermark === 'full' && (
+        <div className="absolute top-4 right-4 z-10 pointer-events-none">
+          <div className="bg-gradient-to-br from-brand-900 to-brand-800 text-white px-3 py-1.5 rounded-md shadow-lg font-display font-bold text-base tracking-wider">
+            OFINA
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* OFINA Corner Watermark lớn - góc phải trên (mờ) */}
-      <div className="absolute top-3 right-3 z-10 pointer-events-none opacity-70">
-        <div className="font-display text-white text-lg font-bold drop-shadow-lg" style={{
-          textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(30,58,138,0.5)'
-        }}>
-          OFINA
+      {watermark === 'small' && (
+        <div className="absolute top-2 right-2 z-10 pointer-events-none">
+          <div className="bg-black/40 backdrop-blur-md text-white px-2 py-0.5 rounded text-[10px] font-bold tracking-wider">
+            OFINA
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

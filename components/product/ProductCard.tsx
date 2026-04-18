@@ -49,6 +49,7 @@ export function ProductCard({ product }: Props) {
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
             className="w-full h-full group-hover:scale-105 transition-transform duration-500"
+            watermark="small"
           />
         </Link>
 

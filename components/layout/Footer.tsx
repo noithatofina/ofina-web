@@ -69,14 +69,18 @@ export function Footer() {
 
         {/* Danh mục */}
         <div>
-          <h3 className="text-white font-bold text-lg mb-4">Danh mục</h3>
+          <h3 className="text-white font-bold text-lg mb-4">Danh mục nổi bật</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/danh-muc/ghe-van-phong" className="hover:text-accent-400">Ghế văn phòng</Link></li>
-            <li><Link href="/danh-muc/ban-lam-viec" className="hover:text-accent-400">Bàn làm việc</Link></li>
-            <li><Link href="/danh-muc/tu-ho-so" className="hover:text-accent-400">Tủ hồ sơ</Link></li>
-            <li><Link href="/danh-muc/sofa" className="hover:text-accent-400">Sofa văn phòng</Link></li>
-            <li><Link href="/danh-muc/ban-nang-ha" className="hover:text-accent-400">Bàn nâng hạ</Link></li>
-            <li><Link href="/khuyen-mai" className="hover:text-accent-400">Khuyến mãi</Link></li>
+            <li><Link href="/danh-muc/ghe-xoay-van-phong" className="hover:text-accent-400">Ghế xoay văn phòng</Link></li>
+            <li><Link href="/danh-muc/ghe-da-giam-doc" className="hover:text-accent-400">Ghế da giám đốc</Link></li>
+            <li><Link href="/danh-muc/ghe-cong-thai-hoc" className="hover:text-accent-400">Ghế công thái học</Link></li>
+            <li><Link href="/danh-muc/ban-lam-viec-chan-sat" className="hover:text-accent-400">Bàn làm việc</Link></li>
+            <li><Link href="/danh-muc/ban-hop-van-phong-chan-sat" className="hover:text-accent-400">Bàn họp</Link></li>
+            <li><Link href="/danh-muc/ban-nang-ha-thong-minh" className="hover:text-accent-400">Bàn nâng hạ điện</Link></li>
+            <li><Link href="/danh-muc/tu-ho-so-cao" className="hover:text-accent-400">Tủ hồ sơ</Link></li>
+            <li><Link href="/danh-muc/tu-locker-go" className="hover:text-accent-400">Tủ locker</Link></li>
+            <li><Link href="/danh-muc/sofa-van-phong" className="hover:text-accent-400">Sofa văn phòng</Link></li>
+            <li><Link href="/san-pham" className="hover:text-accent-400 font-semibold">Xem tất cả sản phẩm →</Link></li>
           </ul>
         </div>
 

@@ -6,65 +6,17 @@ import { useState, useEffect, FormEvent } from 'react'
 import { Search, ShoppingCart, Phone, Menu, X, ChevronDown } from 'lucide-react'
 import { CONTACT, cn } from '@/lib/utils'
 import { useCart } from '@/lib/cart'
-
-const NAV_CATEGORIES = [
-  {
-    label: 'Ghế văn phòng',
-    href: '/danh-muc/ghe-van-phong',
-    children: [
-      { label: 'Ghế xoay văn phòng', href: '/danh-muc/ghe-xoay-van-phong' },
-      { label: 'Ghế da giám đốc', href: '/danh-muc/ghe-da-giam-doc' },
-      { label: 'Ghế công thái học', href: '/danh-muc/ghe-cong-thai-hoc' },
-      { label: 'Ghế chân quỳ', href: '/danh-muc/ghe-chan-quy' },
-      { label: 'Ghế hội trường', href: '/danh-muc/ghe-hoi-truong' },
-      { label: 'Ghế phòng chờ', href: '/danh-muc/ghe-phong-cho' },
-    ]
-  },
-  {
-    label: 'Bàn làm việc',
-    href: '/danh-muc/ban-lam-viec',
-    children: [
-      { label: 'Bàn nhân viên', href: '/danh-muc/ban-nhan-vien' },
-      { label: 'Bàn giám đốc', href: '/danh-muc/ban-giam-doc' },
-      { label: 'Bàn lãnh đạo', href: '/danh-muc/ban-lanh-dao' },
-      { label: 'Bàn họp', href: '/danh-muc/ban-hop-van-phong' },
-      { label: 'Bàn nâng hạ', href: '/danh-muc/ban-nang-ha-thong-minh' },
-      { label: 'Cụm bàn làm việc', href: '/danh-muc/cum-ban-lam-viec-4-nguoi' },
-    ]
-  },
-  {
-    label: 'Tủ & Kệ',
-    href: '/danh-muc/tu-van-phong',
-    children: [
-      { label: 'Tủ tài liệu gỗ', href: '/danh-muc/tu-tai-lieu-go' },
-      { label: 'Tủ tài liệu sắt', href: '/danh-muc/tu-tai-lieu-sat' },
-      { label: 'Tủ locker', href: '/danh-muc/tu-locker-go' },
-      { label: 'Tủ giám đốc', href: '/danh-muc/tu-giam-doc' },
-      { label: 'Kệ trang trí', href: '/danh-muc/ke-trang-tri' },
-    ]
-  },
-  {
-    label: 'Sofa văn phòng',
-    href: '/danh-muc/sofa-van-phong',
-    children: [
-      { label: 'Sofa đơn', href: '/danh-muc/sofa-don' },
-      { label: 'Sofa đôi', href: '/danh-muc/sofa-doi' },
-      { label: 'Sofa góc', href: '/danh-muc/sofa-goc' },
-      { label: 'Ghế thư giãn', href: '/danh-muc/ghe-thu-gian' },
-    ]
-  },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Về OFINA', href: '/gioi-thieu' },
-]
+import { NAV_MENU } from '@/lib/nav-menu'
 
 export function Header() {
   const router = useRouter()
   const { count } = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const [openMega, setOpenMega] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -116,31 +68,51 @@ export function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            {NAV_CATEGORIES.map((cat) => (
+            {NAV_MENU.map((item) => (
               <div
-                key={cat.label}
+                key={item.label}
                 className="relative"
-                onMouseEnter={() => setOpenDropdown(cat.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
+                onMouseEnter={() => setOpenMega(item.label)}
+                onMouseLeave={() => setOpenMega(null)}
               >
                 <Link
-                  href={cat.href}
+                  href={item.href}
                   className="px-3 py-2 text-gray-700 hover:text-brand-900 font-medium transition-colors inline-flex items-center gap-1"
                 >
-                  {cat.label}
-                  {cat.children && <ChevronDown className="w-4 h-4" />}
+                  {item.label}
+                  {item.mega && <ChevronDown className="w-4 h-4" />}
                 </Link>
-                {cat.children && openDropdown === cat.label && (
-                  <div className="absolute top-full left-0 bg-white shadow-2xl rounded-lg py-2 w-56 border border-gray-100 animate-fade-in">
-                    {cat.children.map((child) => (
+                {item.mega && openMega === item.label && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-xl border border-gray-100 animate-fade-in mt-1 overflow-hidden">
+                    <div className="p-6 grid gap-6" style={{ gridTemplateColumns: `repeat(${item.mega.columns.length}, minmax(200px, 1fr))`, minWidth: `${item.mega.columns.length * 220}px` }}>
+                      {item.mega.columns.map((col) => (
+                        <div key={col.heading}>
+                          <h4 className="font-bold text-brand-900 text-sm uppercase tracking-wider mb-3 border-b border-gray-100 pb-2">
+                            {col.heading}
+                          </h4>
+                          <ul className="space-y-1.5">
+                            {col.items.map((cat) => (
+                              <li key={cat.slug}>
+                                <Link
+                                  href={`/danh-muc/${cat.slug}`}
+                                  className="block text-sm text-gray-700 hover:text-brand-900 hover:translate-x-1 transition-all py-1"
+                                >
+                                  {cat.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="bg-brand-50 px-6 py-3 text-center">
                       <Link
-                        key={child.href}
-                        href={child.href}
-                        className="block px-4 py-2 text-gray-700 hover:bg-brand-50 hover:text-brand-900 transition-colors"
+                        href={item.href}
+                        className="text-sm font-semibold text-brand-900 hover:underline"
                       >
-                        {child.label}
+                        Xem tất cả {item.label.toLowerCase()} →
                       </Link>
-                    ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -187,7 +159,7 @@ export function Header() {
                   autoFocus
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Tìm kiếm sản phẩm... (vd: ghế xoay, bàn họp)"
+                  placeholder="Tìm kiếm sản phẩm... (vd: ghế xoay, bàn họp, OFN-GXV)"
                   className="flex-1 px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900"
                 />
                 <button type="submit" className="btn-primary">Tìm kiếm</button>
@@ -201,17 +173,61 @@ export function Header() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="lg:hidden border-t bg-white">
+          <div className="lg:hidden border-t bg-white max-h-[80vh] overflow-y-auto">
             <div className="container-custom py-4 space-y-1">
-              {NAV_CATEGORIES.map((cat) => (
-                <Link
-                  key={cat.label}
-                  href={cat.href}
-                  className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-brand-50 hover:text-brand-900"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {cat.label}
-                </Link>
+              {NAV_MENU.map((item) => (
+                <div key={item.label}>
+                  {item.mega ? (
+                    <>
+                      <button
+                        onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
+                        className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-900 font-semibold hover:bg-brand-50"
+                      >
+                        {item.label}
+                        <ChevronDown className={cn(
+                          "w-4 h-4 transition-transform",
+                          mobileExpanded === item.label && "rotate-180"
+                        )} />
+                      </button>
+                      {mobileExpanded === item.label && (
+                        <div className="pl-4 pb-2 space-y-2">
+                          <Link
+                            href={item.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="block px-3 py-1.5 text-sm font-semibold text-brand-900 hover:bg-brand-50 rounded"
+                          >
+                            Xem tất cả →
+                          </Link>
+                          {item.mega.columns.map((col) => (
+                            <div key={col.heading}>
+                              <div className="px-3 text-xs font-bold text-gray-500 uppercase mt-3 mb-1">
+                                {col.heading}
+                              </div>
+                              {col.items.map((cat) => (
+                                <Link
+                                  key={cat.slug}
+                                  href={`/danh-muc/${cat.slug}`}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-900 rounded"
+                                >
+                                  {cat.name}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-brand-50 hover:text-brand-900"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </div>
               ))}
             </div>
           </div>

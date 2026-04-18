@@ -111,10 +111,20 @@ export async function getHomepageData() {
   const { createServerSupabase } = await import('./supabase')
   const supabase = await createServerSupabase()
 
-  // Lấy categories có SP (query products_count qua group by đơn giản)
+  // Categories nổi bật: chọn 8 danh mục chính
+  const FEATURED_SLUGS = [
+    'ghe-xoay-van-phong',
+    'ghe-da-giam-doc',
+    'ghe-cong-thai-hoc',
+    'ban-lam-viec-chan-sat',
+    'ban-hop-van-phong-chan-sat',
+    'ban-nang-ha-thong-minh',
+    'tu-ho-so-cao',
+    'sofa-van-phong',
+  ]
+
   const [categoriesRes, featuredRes, newestRes] = await Promise.all([
-    supabase.from('categories').select('*').limit(12),
-    // Random 8 SP có giá > 0 (thay cho bestseller nếu chưa có flag)
+    supabase.from('categories').select('*').in('slug', FEATURED_SLUGS),
     supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('created_at', { ascending: false }).limit(8),
     supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('price', { ascending: false }).limit(8),
   ])
@@ -122,17 +132,39 @@ export async function getHomepageData() {
   const featured = (featuredRes.data || []).map(mapProduct)
   const newest = (newestRes.data || []).map(mapProduct)
 
-  // Thêm mock image cho categories nếu chưa có
+  // Category image fallback + product counts
   const categoryImageFallback: Record<string, string> = {
-    'ghe-van-phong': 'https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?w=600&q=80',
-    'ban-lam-viec': 'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?w=600&q=80',
+    'ghe-xoay-van-phong': 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=600&q=80',
+    'ghe-da-giam-doc': 'https://images.unsplash.com/photo-1541558869434-2840d308329a?w=600&q=80',
+    'ghe-cong-thai-hoc': 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=600&q=80',
+    'ban-lam-viec-chan-sat': 'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?w=600&q=80',
+    'ban-hop-van-phong-chan-sat': 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&q=80',
+    'ban-nang-ha-thong-minh': 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80',
+    'tu-ho-so-cao': 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80',
     'sofa-van-phong': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80',
   }
-  const categoriesWithImage = (categoriesRes.data || []).map((c: any) => ({
-    ...c,
-    image: c.image || categoryImageFallback[c.slug] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
-    product_count: 0,  // TODO: count qua separate query
-  }))
+
+  // Get product counts for categories
+  const categoryIds = (categoriesRes.data || []).map((c: any) => c.id)
+  const countPromises = categoryIds.map((id: string) =>
+    supabase.from('products').select('id', { count: 'exact' }).eq('category_id', id).eq('status', 'active')
+  )
+  const countResults = await Promise.all(countPromises)
+  const counts = countResults.map((r: any) => r.count || 0)
+
+  // Giữ thứ tự theo FEATURED_SLUGS
+  const categoriesWithImage = FEATURED_SLUGS
+    .map(slug => {
+      const idx = (categoriesRes.data || []).findIndex((c: any) => c.slug === slug)
+      if (idx === -1) return null
+      const c = categoriesRes.data![idx]
+      return {
+        ...c,
+        image: c.image || categoryImageFallback[c.slug] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
+        product_count: counts[idx] || 0,
+      }
+    })
+    .filter(Boolean)
 
   return {
     categories: categoriesWithImage.length ? categoriesWithImage : MOCK_CATEGORIES,

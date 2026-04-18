@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { ArrowRight, Shield, Truck, RefreshCw, Award, Sparkles, MessageSquare } from 'lucide-react'
 import { ProductCard } from '@/components/product/ProductCard'
 import { getHomepageData } from '@/lib/queries'
+import { NAV_MENU } from '@/lib/nav-menu'
 
 export default async function HomePage() {
   const { featured, bestsellers, newest, categories } = await getHomepageData()
@@ -109,6 +110,55 @@ export default async function HomePage() {
                 )}
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ TẤT CẢ DANH MỤC (mega list) ============ */}
+      <section className="py-16 bg-gradient-to-b from-white to-brand-50">
+        <div className="container-custom">
+          <div className="text-center mb-10">
+            <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">95 danh mục</span>
+            <h2 className="font-display text-4xl font-bold text-brand-950 mt-2 mb-3">
+              Toàn bộ danh mục sản phẩm
+            </h2>
+            <p className="text-gray-600">Khám phá từng dòng sản phẩm OFINA</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {NAV_MENU.filter(m => m.mega).map((group) => (
+              <div key={group.label} className="bg-white rounded-2xl shadow-sm hover:shadow-lg p-6 transition-shadow">
+                <h3 className="font-display font-bold text-xl text-brand-900 mb-4 pb-2 border-b-2 border-accent-500 inline-block">
+                  <Link href={group.href} className="hover:underline">{group.label}</Link>
+                </h3>
+                <div className="space-y-4">
+                  {group.mega!.columns.map((col) => (
+                    <div key={col.heading}>
+                      <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                        {col.heading}
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {col.items.slice(0, 6).map((cat) => (
+                          <Link
+                            key={cat.slug}
+                            href={`/danh-muc/${cat.slug}`}
+                            className="text-xs px-2.5 py-1 bg-gray-100 hover:bg-brand-900 hover:text-white rounded-full text-gray-700 transition-colors"
+                          >
+                            {cat.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link href="/san-pham" className="btn-primary text-lg">
+              Xem tất cả 2,400+ sản phẩm →
+            </Link>
           </div>
         </div>
       </section>

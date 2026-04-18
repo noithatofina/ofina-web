@@ -262,6 +262,6 @@ export const NAV_MENU: MenuItem[] = [
   },
 
   // ============ Links đơn ============
-  { label: 'Bàn nâng hạ', href: '/danh-muc/ban-nang-ha-thong-minh' },
+  { label: 'Nâng hạ', href: '/danh-muc/ban-nang-ha-thong-minh' },
   { label: 'Blog', href: '/blog' },
 ]

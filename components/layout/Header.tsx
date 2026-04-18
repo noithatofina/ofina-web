@@ -78,7 +78,7 @@ export function Header() {
                 <Link
                   href={item.href}
                   className={cn(
-                    "px-4 py-6 text-gray-700 font-semibold text-[15px] transition-colors inline-flex items-center gap-1 whitespace-nowrap relative",
+                    "px-4 py-6 text-gray-800 font-bold text-sm tracking-wider uppercase transition-colors inline-flex items-center gap-1.5 whitespace-nowrap relative",
                     "hover:text-brand-900",
                     openMega === item.label && "text-brand-900"
                   )}
@@ -134,9 +134,9 @@ export function Header() {
             {/* CTA nổi bật */}
             <Link
               href="/khuyen-mai"
-              className="ml-2 px-3 py-1.5 bg-sale text-white text-sm font-bold rounded-full hover:bg-red-700 transition-colors"
+              className="ml-3 px-4 py-2 bg-sale text-white text-sm font-bold uppercase tracking-wider rounded-full hover:bg-red-700 transition-colors whitespace-nowrap"
             >
-              🔥 Sale
+              🔥 SALE
             </Link>
           </nav>
 

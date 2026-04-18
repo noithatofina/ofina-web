@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight, Minus, Plus, ShoppingCart, Heart, Shield, Truck, RefreshCw, Phone, MessageCircle, Award } from 'lucide-react'
+import { ChevronRight, Shield, Truck, RefreshCw, Phone, MessageCircle, Award } from 'lucide-react'
 import { getProductBySlug } from '@/lib/queries'
 import { formatPrice, calcDiscountPercent, CONTACT } from '@/lib/utils'
-import { ProductImage } from '@/components/product/ProductImage'
 import { ProductGallery } from '@/components/product/ProductGallery'
+import { ProductActions } from '@/components/product/ProductActions'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -136,29 +136,16 @@ export default async function ProductPage({ params }: Props) {
             )}
           </div>
 
-          {/* Quantity */}
-          <div className="mb-5">
-            <div className="font-semibold mb-2">Số lượng:</div>
-            <div className="inline-flex items-center gap-3 border-2 rounded-lg">
-              <button className="p-3 hover:bg-gray-100"><Minus className="w-4 h-4" /></button>
-              <span className="w-12 text-center font-semibold">1</span>
-              <button className="p-3 hover:bg-gray-100"><Plus className="w-4 h-4" /></button>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            <button className="btn-primary py-4 text-base">
-              <ShoppingCart className="w-5 h-5 mr-2" /> Thêm vào giỏ
-            </button>
-            <button className="btn-accent py-4 text-base">
-              Mua ngay →
-            </button>
-          </div>
-
-          <button className="w-full flex items-center justify-center gap-2 py-3 border rounded-lg hover:bg-gray-50 mb-6">
-            <Heart className="w-4 h-4" /> Thêm vào yêu thích
-          </button>
+          <ProductActions product={{
+            id: product.id,
+            slug: product.slug,
+            name: product.name,
+            ofina_sku: product.ofina_sku,
+            price,
+            compare_price: compare,
+            is_price_hidden: product.is_price_hidden,
+            primary_image: mainImage,
+          }} />
 
           {/* Trust signals */}
           <div className="bg-white border rounded-xl p-4 space-y-3">

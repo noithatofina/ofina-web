@@ -3,6 +3,8 @@ import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { FloatingActions } from '@/components/layout/FloatingActions'
+import { CartProvider } from '@/lib/cart'
+import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   title: {
@@ -47,10 +49,13 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <FloatingActions />
+        <CartProvider>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <FloatingActions />
+          <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
+        </CartProvider>
       </body>
     </html>
   )

@@ -1,9 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useState, useEffect, FormEvent } from 'react'
 import { Search, ShoppingCart, Phone, Menu, X, ChevronDown } from 'lucide-react'
 import { CONTACT, cn } from '@/lib/utils'
+import { useCart } from '@/lib/cart'
 
 const NAV_CATEGORIES = [
   {
@@ -25,25 +27,25 @@ const NAV_CATEGORIES = [
       { label: 'Bàn nhân viên', href: '/danh-muc/ban-nhan-vien' },
       { label: 'Bàn giám đốc', href: '/danh-muc/ban-giam-doc' },
       { label: 'Bàn lãnh đạo', href: '/danh-muc/ban-lanh-dao' },
-      { label: 'Bàn họp', href: '/danh-muc/ban-hop' },
-      { label: 'Bàn nâng hạ', href: '/danh-muc/ban-nang-ha' },
-      { label: 'Cụm bàn làm việc', href: '/danh-muc/cum-ban-lam-viec' },
+      { label: 'Bàn họp', href: '/danh-muc/ban-hop-van-phong' },
+      { label: 'Bàn nâng hạ', href: '/danh-muc/ban-nang-ha-thong-minh' },
+      { label: 'Cụm bàn làm việc', href: '/danh-muc/cum-ban-lam-viec-4-nguoi' },
     ]
   },
   {
     label: 'Tủ & Kệ',
-    href: '/danh-muc/tu-ke',
+    href: '/danh-muc/tu-van-phong',
     children: [
-      { label: 'Tủ tài liệu', href: '/danh-muc/tu-tai-lieu' },
-      { label: 'Tủ locker', href: '/danh-muc/tu-locker' },
+      { label: 'Tủ tài liệu gỗ', href: '/danh-muc/tu-tai-lieu-go' },
+      { label: 'Tủ tài liệu sắt', href: '/danh-muc/tu-tai-lieu-sat' },
+      { label: 'Tủ locker', href: '/danh-muc/tu-locker-go' },
       { label: 'Tủ giám đốc', href: '/danh-muc/tu-giam-doc' },
       { label: 'Kệ trang trí', href: '/danh-muc/ke-trang-tri' },
-      { label: 'Giá kệ sắt', href: '/danh-muc/gia-ke-sat' },
     ]
   },
   {
     label: 'Sofa văn phòng',
-    href: '/danh-muc/sofa',
+    href: '/danh-muc/sofa-van-phong',
     children: [
       { label: 'Sofa đơn', href: '/danh-muc/sofa-don' },
       { label: 'Sofa đôi', href: '/danh-muc/sofa-doi' },
@@ -56,15 +58,29 @@ const NAV_CATEGORIES = [
 ]
 
 export function Header() {
+  const router = useRouter()
+  const { count } = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  function handleSearch(e: FormEvent) {
+    e.preventDefault()
+    const q = searchQuery.trim()
+    if (q) {
+      router.push(`/tim-kiem?q=${encodeURIComponent(q)}`)
+      setSearchOpen(false)
+      setSearchQuery('')
+    }
+  }
 
   return (
     <>
@@ -88,7 +104,6 @@ export function Header() {
         scrolled && "shadow-lg"
       )}>
         <div className="container-custom flex items-center justify-between py-4">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 bg-brand-900 rounded-lg flex items-center justify-center font-display font-bold text-white text-xl group-hover:bg-brand-800 transition-colors">
               O
@@ -134,12 +149,20 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Tìm kiếm">
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Tìm kiếm"
+            >
               <Search className="w-5 h-5" />
             </button>
             <Link href="/gio-hang" className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative" aria-label="Giỏ hàng">
               <ShoppingCart className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-accent-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+              {count > 0 && (
+                <span className="absolute -top-1 -right-1 bg-accent-500 text-white text-xs min-w-[20px] h-5 px-1 rounded-full flex items-center justify-center font-bold">
+                  {count}
+                </span>
+              )}
             </Link>
             <a href={`tel:${CONTACT.hotline}`} className="hidden md:inline-flex btn-primary text-sm">
               <Phone className="w-4 h-4 mr-1" /> Gọi ngay
@@ -153,6 +176,28 @@ export function Header() {
             </button>
           </div>
         </div>
+
+        {/* Search overlay */}
+        {searchOpen && (
+          <div className="border-t bg-white animate-slide-up">
+            <div className="container-custom py-4">
+              <form onSubmit={handleSearch} className="flex gap-2 max-w-3xl mx-auto">
+                <input
+                  type="text"
+                  autoFocus
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Tìm kiếm sản phẩm... (vd: ghế xoay, bàn họp)"
+                  className="flex-1 px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900"
+                />
+                <button type="submit" className="btn-primary">Tìm kiếm</button>
+                <button type="button" onClick={() => setSearchOpen(false)} className="px-4 py-2 hover:bg-gray-100 rounded-lg">
+                  <X className="w-5 h-5" />
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* Mobile menu */}
         {mobileOpen && (

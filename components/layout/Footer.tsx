@@ -1,8 +1,41 @@
+'use client'
+
 import Link from 'next/link'
+import { FormEvent, useState } from 'react'
 import { Facebook, Mail, MapPin, Phone, Youtube } from 'lucide-react'
+import toast from 'react-hot-toast'
 import { CONTACT } from '@/lib/utils'
 
 export function Footer() {
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function handleNewsletter(e: FormEvent) {
+    e.preventDefault()
+    if (!email) return
+    setLoading(true)
+    try {
+      const res = await fetch('/api/contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Newsletter subscriber',
+          phone: '0000000000',
+          email,
+          source: 'newsletter',
+          subject: 'Đăng ký nhận tin',
+        }),
+      })
+      if (res.ok) {
+        toast.success('Đã đăng ký nhận tin từ OFINA! 🎉')
+        setEmail('')
+      } else toast.error('Có lỗi, vui lòng thử lại')
+    } catch {
+      toast.error('Lỗi kết nối')
+    } finally {
+      setLoading(false)
+    }
+  }
   return (
     <footer className="bg-brand-950 text-gray-300 mt-20">
       <div className="container-custom py-16 grid md:grid-cols-4 gap-8">
@@ -79,14 +112,21 @@ export function Footer() {
           </ul>
           <div className="mt-6">
             <h4 className="text-white font-semibold mb-2">Nhận ưu đãi</h4>
-            <form className="flex gap-2">
+            <form onSubmit={handleNewsletter} className="flex gap-2">
               <input
                 type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email của bạn"
                 className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:border-accent-400"
               />
-              <button type="submit" className="px-4 py-2 bg-accent-500 rounded-lg text-white font-semibold text-sm hover:bg-accent-600">
-                Đăng ký
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-4 py-2 bg-accent-500 rounded-lg text-white font-semibold text-sm hover:bg-accent-600 disabled:opacity-50"
+              >
+                {loading ? '...' : 'Đăng ký'}
               </button>
             </form>
           </div>

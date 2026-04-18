@@ -152,6 +152,42 @@ export async function getProductBySlug(slug: string) {
   return mapProduct(data)
 }
 
+export async function getAllProducts(opts: { limit?: number; offset?: number } = {}) {
+  const { limit = 24, offset = 0 } = opts
+  if (!USE_SUPABASE) return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
+  const { createServerSupabase } = await import('./supabase')
+  const supabase = await createServerSupabase()
+  const { data, count } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT, { count: 'exact' })
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1)
+  return { products: (data || []).map(mapProduct), total: count || 0 }
+}
+
+export async function searchProducts(
+  query: string,
+  opts: { limit?: number; offset?: number } = {}
+) {
+  const { limit = 24, offset = 0 } = opts
+  if (!USE_SUPABASE || !query) {
+    return { products: [], total: 0 }
+  }
+  const { createServerSupabase } = await import('./supabase')
+  const supabase = await createServerSupabase()
+
+  // Search bằng ilike trên name + ofina_sku (đơn giản hơn full-text search)
+  const { data, count } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT, { count: 'exact' })
+    .eq('status', 'active')
+    .or(`name.ilike.%${query}%,ofina_sku.ilike.%${query}%,govi_sku.ilike.%${query}%`)
+    .range(offset, offset + limit - 1)
+
+  return { products: (data || []).map(mapProduct), total: count || 0 }
+}
+
 export async function getCategoryInfo(slug: string) {
   if (!USE_SUPABASE) {
     return MOCK_CATEGORIES.find(c => c.slug === slug) || null
@@ -164,9 +200,9 @@ export async function getCategoryInfo(slug: string) {
 
 export async function getProductsByCategory(
   categorySlug: string,
-  opts: { limit?: number; offset?: number; sort?: string } = {}
+  opts: { limit?: number; offset?: number; sort?: string; minPrice?: number; maxPrice?: number } = {}
 ) {
-  const { limit = 24, offset = 0, sort = 'newest' } = opts
+  const { limit = 24, offset = 0, sort = 'newest', minPrice, maxPrice } = opts
 
   if (!USE_SUPABASE) {
     return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
@@ -182,6 +218,10 @@ export async function getProductsByCategory(
     .select(PRODUCT_SELECT, { count: 'exact' })
     .eq('category_id', category.id)
     .eq('status', 'active')
+
+  // Price filter
+  if (minPrice !== undefined && minPrice > 0) q = q.gte('price', minPrice)
+  if (maxPrice !== undefined && maxPrice > 0) q = q.lte('price', maxPrice)
 
   // Sort
   if (sort === 'price-asc') q = q.order('price', { ascending: true }).gt('price', 0)

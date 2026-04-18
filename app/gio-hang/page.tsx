@@ -5,49 +5,16 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Tag } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
-
-// Mock cart state (sẽ dùng Zustand/Context sau khi tích hợp DB)
-const MOCK_CART = [
-  {
-    id: '1',
-    slug: 'ghe-xoay-van-phong-ofn-gxv-0001',
-    name: 'Ghế xoay văn phòng công thái học GL117',
-    sku: 'OFN-GXV-0001',
-    price: 2800000,
-    compare: 3500000,
-    image: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=200&q=80',
-    quantity: 2,
-    color: 'Đen',
-  },
-  {
-    id: '2',
-    slug: 'ban-lam-viec-chan-sat-ofn-blvs-0001',
-    name: 'Bàn làm việc chân sắt mặt gỗ 1m4',
-    sku: 'OFN-BLVS-0001',
-    price: 1890000,
-    compare: 2100000,
-    image: 'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?w=200&q=80',
-    quantity: 1,
-    color: 'Gỗ sáng',
-  },
-]
+import { useCart } from '@/lib/cart'
 
 export default function CartPage() {
-  const [cart, setCart] = useState(MOCK_CART)
+  const { items, updateQuantity, removeItem, subtotal } = useCart()
   const [coupon, setCoupon] = useState('')
 
-  const updateQty = (id: string, delta: number) => {
-    setCart(cart.map(item =>
-      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
-    ))
-  }
-  const removeItem = (id: string) => setCart(cart.filter(i => i.id !== id))
-
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const shipping = subtotal > 500000 ? 0 : 50000
+  const shipping = subtotal > 500_000 ? 0 : 50_000
   const total = subtotal + shipping
 
-  if (cart.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="container-custom py-20 text-center">
         <ShoppingBag className="w-24 h-24 mx-auto text-gray-300 mb-6" />
@@ -61,16 +28,18 @@ export default function CartPage() {
   return (
     <div className="container-custom py-8">
       <h1 className="font-display text-4xl font-bold text-brand-950 mb-8">
-        Giỏ hàng ({cart.length} sản phẩm)
+        Giỏ hàng ({items.length} sản phẩm)
       </h1>
 
       <div className="grid lg:grid-cols-[1fr_400px] gap-8">
         {/* Items */}
         <div className="space-y-4">
-          {cart.map((item) => (
+          {items.map((item) => (
             <div key={item.id} className="card p-4 md:p-6 flex gap-4">
               <div className="relative w-24 md:w-32 aspect-square bg-gray-50 rounded-lg overflow-hidden flex-shrink-0">
-                <Image src={item.image} alt={item.name} fill className="object-cover" />
+                {item.image && (
+                  <Image src={item.image} alt={item.name} fill className="object-cover" />
+                )}
               </div>
               <div className="flex-1">
                 <div className="flex justify-between gap-2 mb-1">
@@ -86,15 +55,23 @@ export default function CartPage() {
                   </button>
                 </div>
                 <div className="text-sm text-gray-500 mb-3">
-                  Mã: {item.sku} · Màu: {item.color}
+                  Mã: {item.sku}
                 </div>
                 <div className="flex justify-between items-center flex-wrap gap-3">
                   <div className="inline-flex items-center gap-2 border-2 rounded-lg">
-                    <button onClick={() => updateQty(item.id, -1)} className="p-2 hover:bg-gray-100">
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      className="p-2 hover:bg-gray-100"
+                      aria-label="Giảm"
+                    >
                       <Minus className="w-4 h-4" />
                     </button>
                     <span className="w-10 text-center font-semibold">{item.quantity}</span>
-                    <button onClick={() => updateQty(item.id, 1)} className="p-2 hover:bg-gray-100">
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      className="p-2 hover:bg-gray-100"
+                      aria-label="Tăng"
+                    >
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
@@ -102,9 +79,9 @@ export default function CartPage() {
                     <div className="text-lg font-bold text-brand-900">
                       {formatPrice(item.price * item.quantity)}
                     </div>
-                    {item.compare > item.price && (
+                    {item.compare_price && item.compare_price > item.price && (
                       <div className="text-sm text-gray-400 line-through">
-                        {formatPrice(item.compare * item.quantity)}
+                        {formatPrice(item.compare_price * item.quantity)}
                       </div>
                     )}
                   </div>
@@ -119,7 +96,6 @@ export default function CartPage() {
           <div className="card p-6">
             <h3 className="font-bold text-lg mb-4">Tổng kết đơn hàng</h3>
 
-            {/* Coupon */}
             <div className="mb-6 pb-6 border-b">
               <label className="font-semibold block mb-2 flex items-center gap-2">
                 <Tag className="w-4 h-4" /> Mã giảm giá
@@ -136,7 +112,6 @@ export default function CartPage() {
               </div>
             </div>
 
-            {/* Breakdown */}
             <div className="space-y-2 mb-4">
               <div className="flex justify-between">
                 <span className="text-gray-600">Tạm tính</span>
@@ -148,7 +123,7 @@ export default function CartPage() {
               </div>
               {shipping > 0 && (
                 <div className="text-xs text-green-600 bg-green-50 p-2 rounded">
-                  💡 Mua thêm {formatPrice(500000 - subtotal)} để được miễn phí giao hàng
+                  💡 Mua thêm {formatPrice(500_000 - subtotal)} để được miễn phí giao hàng
                 </div>
               )}
             </div>
@@ -171,7 +146,6 @@ export default function CartPage() {
               </Link>
             </div>
 
-            {/* Trust */}
             <div className="mt-6 pt-6 border-t text-sm space-y-2 text-gray-600">
               <p>✓ Giao hàng nhanh 2–3 ngày</p>
               <p>✓ Bảo hành chính hãng 2 năm</p>

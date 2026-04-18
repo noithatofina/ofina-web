@@ -1,44 +1,96 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { CheckCircle, CreditCard, Wallet, Building2, Smartphone, ArrowLeft } from 'lucide-react'
+import toast from 'react-hot-toast'
 import { formatPrice } from '@/lib/utils'
-
-const MOCK_ITEMS = [
-  { name: 'Ghế xoay văn phòng GL117', qty: 2, price: 2800000 },
-  { name: 'Bàn làm việc chân sắt 1m4', qty: 1, price: 1890000 },
-]
+import { useCart } from '@/lib/cart'
 
 const PAYMENTS = [
   { id: 'cod', label: 'Thanh toán khi nhận hàng (COD)', icon: Wallet, desc: 'Thanh toán tiền mặt khi giao hàng' },
-  { id: 'bank', label: 'Chuyển khoản ngân hàng', icon: Building2, desc: 'Mã giảm 2% khi CK trước' },
+  { id: 'bank', label: 'Chuyển khoản ngân hàng', icon: Building2, desc: 'Chuyển khoản qua tài khoản OFINA' },
   { id: 'momo', label: 'Ví MoMo', icon: Smartphone, desc: 'Thanh toán qua ứng dụng MoMo' },
   { id: 'vnpay', label: 'Thẻ ATM / Visa / Master', icon: CreditCard, desc: 'Thanh toán qua VNPay' },
 ]
 
-export default function CheckoutPage() {
-  const [payment, setPayment] = useState('cod')
-  const [submitted, setSubmitted] = useState(false)
+const CITIES = ['TP. Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng', 'Cần Thơ', 'Hải Phòng', 'Bình Dương', 'Đồng Nai', 'Khánh Hòa', 'Lâm Đồng', 'Khác']
 
-  const subtotal = MOCK_ITEMS.reduce((s, i) => s + i.price * i.qty, 0)
-  const shipping = subtotal > 500000 ? 0 : 50000
+export default function CheckoutPage() {
+  const router = useRouter()
+  const { items, subtotal, clearCart } = useCart()
+  const [payment, setPayment] = useState('cod')
+  const [submitting, setSubmitting] = useState(false)
+  const [result, setResult] = useState<{ order_number: string } | null>(null)
+
+  // Redirect if cart empty (after mount to avoid hydration mismatch)
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => {
+    if (mounted && items.length === 0 && !result) {
+      router.push('/gio-hang')
+    }
+  }, [mounted, items, result, router])
+
+  const shipping = subtotal > 500_000 ? 0 : 50_000
   const total = subtotal + shipping
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSubmitted(true)
+    setSubmitting(true)
+
+    const formData = new FormData(e.currentTarget)
+
+    const orderData = {
+      customer_name: formData.get('name') as string,
+      customer_phone: formData.get('phone') as string,
+      customer_email: formData.get('email') as string,
+      address_line: formData.get('address') as string,
+      city: formData.get('city') as string,
+      district: formData.get('district') as string || undefined,
+      ward: formData.get('ward') as string || undefined,
+      note: formData.get('note') as string,
+      payment_method: payment,
+      items: items.map(i => ({
+        id: i.id,
+        sku: i.sku,
+        name: i.name,
+        price: i.price,
+        quantity: i.quantity,
+      })),
+      subtotal,
+      shipping_fee: shipping,
+      discount: 0,
+    }
+
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Lỗi đặt hàng')
+
+      setResult({ order_number: data.order_number })
+      clearCart()
+      toast.success('Đặt hàng thành công!')
+    } catch (err: any) {
+      toast.error(err.message || 'Có lỗi xảy ra, vui lòng thử lại')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
-  if (submitted) {
+  if (result) {
     return (
       <div className="container-custom py-20 text-center max-w-lg mx-auto">
         <CheckCircle className="w-24 h-24 mx-auto text-green-500 mb-6" />
         <h1 className="text-3xl font-bold text-brand-950 mb-3">Đặt hàng thành công!</h1>
         <p className="text-gray-600 mb-2">Cảm ơn bạn đã mua sắm tại OFINA</p>
         <p className="text-gray-600 mb-8">
-          Mã đơn hàng: <strong className="text-brand-900">OFINA-{Date.now().toString().slice(-6)}</strong>
+          Mã đơn hàng: <strong className="text-brand-900">{result.order_number}</strong>
         </p>
         <p className="mb-8 text-gray-700">
           Chúng tôi sẽ liên hệ xác nhận đơn hàng trong vòng 30 phút qua số điện thoại bạn đã cung cấp.
@@ -51,6 +103,10 @@ export default function CheckoutPage() {
     )
   }
 
+  if (!mounted || items.length === 0) {
+    return <div className="container-custom py-20 text-center text-gray-500">Đang tải giỏ hàng...</div>
+  }
+
   return (
     <div className="container-custom py-8">
       <Link href="/gio-hang" className="inline-flex items-center gap-2 text-brand-900 hover:underline mb-6">
@@ -61,49 +117,42 @@ export default function CheckoutPage() {
 
       <form onSubmit={handleSubmit} className="grid lg:grid-cols-[1fr_400px] gap-8">
         <div className="space-y-6">
-          {/* Thông tin khách hàng */}
           <div className="card p-6">
             <h3 className="font-bold text-xl mb-5">Thông tin giao hàng</h3>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
                 <label className="block text-sm font-semibold mb-1.5">Họ và tên *</label>
-                <input type="text" required className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
+                <input name="name" type="text" required className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-1.5">Số điện thoại *</label>
-                <input type="tel" required className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
+                <input name="phone" type="tel" required pattern="[0-9]{10,11}" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-1.5">Email</label>
-                <input type="email" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
+                <input name="email" type="email" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-semibold mb-1.5">Địa chỉ *</label>
-                <input type="text" required placeholder="Số nhà, tên đường" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
+                <input name="address" type="text" required placeholder="Số nhà, tên đường" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-1.5">Tỉnh/Thành phố *</label>
-                <select required className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900">
-                  <option>TP. Hồ Chí Minh</option>
-                  <option>Hà Nội</option>
-                  <option>Đà Nẵng</option>
-                  <option>Khác...</option>
+                <select name="city" required defaultValue="TP. Hồ Chí Minh" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900">
+                  {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-1.5">Quận/Huyện *</label>
-                <select required className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900">
-                  <option>Chọn quận/huyện</option>
-                </select>
+                <label className="block text-sm font-semibold mb-1.5">Quận/Huyện</label>
+                <input name="district" type="text" placeholder="VD: Quận 1" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-semibold mb-1.5">Ghi chú (không bắt buộc)</label>
-                <textarea className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900 min-h-[80px]" placeholder="Ví dụ: giao vào giờ hành chính, gọi trước khi đến..." />
+                <textarea name="note" className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-900 min-h-[80px]" placeholder="Giao vào giờ hành chính, gọi trước..." />
               </div>
             </div>
           </div>
 
-          {/* Phương thức thanh toán */}
           <div className="card p-6">
             <h3 className="font-bold text-xl mb-5">Phương thức thanh toán</h3>
             <div className="space-y-3">
@@ -143,16 +192,15 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        {/* Order summary */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="card p-6">
-            <h3 className="font-bold text-lg mb-4">Đơn hàng ({MOCK_ITEMS.length})</h3>
+            <h3 className="font-bold text-lg mb-4">Đơn hàng ({items.length})</h3>
 
             <div className="space-y-3 mb-4 max-h-[300px] overflow-y-auto">
-              {MOCK_ITEMS.map((item, idx) => (
-                <div key={idx} className="flex justify-between gap-2 text-sm">
-                  <span className="line-clamp-2">{item.name} <span className="text-gray-500">×{item.qty}</span></span>
-                  <span className="font-semibold flex-shrink-0">{formatPrice(item.price * item.qty)}</span>
+              {items.map((item) => (
+                <div key={item.id} className="flex justify-between gap-2 text-sm">
+                  <span className="line-clamp-2">{item.name} <span className="text-gray-500">×{item.quantity}</span></span>
+                  <span className="font-semibold flex-shrink-0">{formatPrice(item.price * item.quantity)}</span>
                 </div>
               ))}
             </div>
@@ -173,8 +221,12 @@ export default function CheckoutPage() {
               <span className="font-bold text-2xl text-brand-900">{formatPrice(total)}</span>
             </div>
 
-            <button type="submit" className="btn-accent w-full py-4 text-lg mt-6">
-              Đặt hàng ngay
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-accent w-full py-4 text-lg mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {submitting ? 'Đang xử lý...' : 'Đặt hàng ngay'}
             </button>
 
             <p className="text-xs text-gray-500 mt-3 text-center">

@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
+import { CategoryFilters } from '@/components/product/CategoryFilters'
 import { getProductsByCategory, getCategoryInfo } from '@/lib/queries'
-import { ChevronRight, SlidersHorizontal } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -30,10 +31,15 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const cat = await getCategoryInfo(slug)
   if (!cat) return notFound()
 
+  const minPrice = parseInt(sp.min || '0', 10) || undefined
+  const maxPrice = parseInt(sp.max || '0', 10) || undefined
+
   const { products, total } = await getProductsByCategory(slug, {
     limit: PER_PAGE,
     offset: (currentPage - 1) * PER_PAGE,
     sort,
+    minPrice,
+    maxPrice,
   })
 
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE))
@@ -63,50 +69,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       <div className="grid lg:grid-cols-[280px_1fr] gap-8">
         {/* Sidebar Filters */}
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-          <div className="card p-6">
-            <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-              <SlidersHorizontal className="w-5 h-5" /> Bộ lọc
-            </h3>
-
-            <div className="mb-6 pb-6 border-b">
-              <h4 className="font-semibold mb-3">Khoảng giá</h4>
-              <div className="space-y-2 text-sm">
-                {[
-                  'Dưới 1 triệu', '1 - 3 triệu', '3 - 5 triệu',
-                  '5 - 10 triệu', 'Trên 10 triệu',
-                ].map((label) => (
-                  <label key={label} className="flex items-center gap-2 cursor-pointer hover:text-brand-900">
-                    <input type="checkbox" className="rounded" />
-                    <span>{label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="mb-6 pb-6 border-b">
-              <h4 className="font-semibold mb-3">Thương hiệu</h4>
-              <div className="space-y-2 text-sm">
-                {['OFINA', 'Fami', 'Hòa Phát', 'Xuân Hòa', 'Navi'].map((brand) => (
-                  <label key={brand} className="flex items-center gap-2 cursor-pointer hover:text-brand-900">
-                    <input type="checkbox" className="rounded" />
-                    <span>{brand}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-3">Chất liệu</h4>
-              <div className="space-y-2 text-sm">
-                {['Da PU', 'Da thật', 'Lưới', 'Gỗ MDF', 'Gỗ công nghiệp', 'Sắt/Thép'].map((m) => (
-                  <label key={m} className="flex items-center gap-2 cursor-pointer hover:text-brand-900">
-                    <input type="checkbox" className="rounded" />
-                    <span>{m}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
+          <CategoryFilters />
         </aside>
 
         {/* Products */}

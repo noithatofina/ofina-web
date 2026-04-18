@@ -55,8 +55,8 @@ export function Header() {
         "sticky top-0 z-50 bg-white transition-shadow",
         scrolled && "shadow-lg"
       )}>
-        <div className="container-custom flex items-center justify-between py-4">
-          <Link href="/" className="flex items-center gap-2 group">
+        <div className="container-custom flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 group py-4">
             <div className="w-10 h-10 bg-brand-900 rounded-lg flex items-center justify-center font-display font-bold text-white text-xl group-hover:bg-brand-800 transition-colors">
               O
             </div>
@@ -67,7 +67,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0">
             {NAV_MENU.map((item) => (
               <div
                 key={item.label}
@@ -77,25 +77,39 @@ export function Header() {
               >
                 <Link
                   href={item.href}
-                  className="px-3 py-2 text-gray-700 hover:text-brand-900 font-medium transition-colors inline-flex items-center gap-1"
+                  className={cn(
+                    "px-4 py-6 text-gray-700 font-semibold text-[15px] transition-colors inline-flex items-center gap-1 whitespace-nowrap relative",
+                    "hover:text-brand-900",
+                    openMega === item.label && "text-brand-900"
+                  )}
                 >
                   {item.label}
-                  {item.mega && <ChevronDown className="w-4 h-4" />}
+                  {item.mega && (
+                    <ChevronDown className={cn(
+                      "w-3.5 h-3.5 transition-transform",
+                      openMega === item.label && "rotate-180"
+                    )} />
+                  )}
+                  {/* Underline animation */}
+                  <span className={cn(
+                    "absolute bottom-4 left-4 right-4 h-0.5 bg-brand-900 transition-transform origin-left",
+                    openMega === item.label ? "scale-x-100" : "scale-x-0"
+                  )} />
                 </Link>
                 {item.mega && openMega === item.label && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-xl border border-gray-100 animate-fade-in mt-1 overflow-hidden">
+                  <div className="absolute top-full left-0 bg-white shadow-2xl rounded-xl border border-gray-100 animate-fade-in overflow-hidden">
                     <div className="p-6 grid gap-6" style={{ gridTemplateColumns: `repeat(${item.mega.columns.length}, minmax(200px, 1fr))`, minWidth: `${item.mega.columns.length * 220}px` }}>
                       {item.mega.columns.map((col) => (
                         <div key={col.heading}>
-                          <h4 className="font-bold text-brand-900 text-sm uppercase tracking-wider mb-3 border-b border-gray-100 pb-2">
+                          <h4 className="font-bold text-brand-900 text-xs uppercase tracking-wider mb-3 border-b border-gray-100 pb-2">
                             {col.heading}
                           </h4>
-                          <ul className="space-y-1.5">
+                          <ul className="space-y-1">
                             {col.items.map((cat) => (
                               <li key={cat.slug}>
                                 <Link
                                   href={`/danh-muc/${cat.slug}`}
-                                  className="block text-sm text-gray-700 hover:text-brand-900 hover:translate-x-1 transition-all py-1"
+                                  className="block text-sm text-gray-700 hover:text-brand-900 hover:bg-brand-50 rounded transition-colors py-1.5 px-2"
                                 >
                                   {cat.name}
                                 </Link>
@@ -110,17 +124,24 @@ export function Header() {
                         href={item.href}
                         className="text-sm font-semibold text-brand-900 hover:underline"
                       >
-                        Xem tất cả {item.label.toLowerCase()} →
+                        Xem tất cả →
                       </Link>
                     </div>
                   </div>
                 )}
               </div>
             ))}
+            {/* CTA nổi bật */}
+            <Link
+              href="/khuyen-mai"
+              className="ml-2 px-3 py-1.5 bg-sale text-white text-sm font-bold rounded-full hover:bg-red-700 transition-colors"
+            >
+              🔥 Sale
+            </Link>
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 py-4">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"

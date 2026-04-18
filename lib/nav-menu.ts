@@ -25,7 +25,7 @@ export type MenuItem = {
 export const NAV_MENU: MenuItem[] = [
   // ============ GHẾ VĂN PHÒNG ============
   {
-    label: 'Ghế văn phòng',
+    label: 'Ghế',
     href: '/danh-muc/ghe-van-phong',
     mega: {
       title: 'Ghế văn phòng',
@@ -76,7 +76,7 @@ export const NAV_MENU: MenuItem[] = [
 
   // ============ BÀN LÀM VIỆC ============
   {
-    label: 'Bàn làm việc',
+    label: 'Bàn',
     href: '/danh-muc/ban-lam-viec',
     mega: {
       title: 'Bàn làm việc & Bàn họp',
@@ -180,7 +180,7 @@ export const NAV_MENU: MenuItem[] = [
 
   // ============ SOFA / GHẾ THƯ GIÃN ============
   {
-    label: 'Sofa & Thư giãn',
+    label: 'Sofa',
     href: '/danh-muc/sofa-van-phong',
     mega: {
       title: 'Sofa & Ghế thư giãn',
@@ -213,7 +213,7 @@ export const NAV_MENU: MenuItem[] = [
 
   // ============ CAFE / BAR / HỘI TRƯỜNG ============
   {
-    label: 'Cafe & Hội trường',
+    label: 'Cafe & Bar',
     href: '/danh-muc/ghe-cafe',
     mega: {
       title: 'Ghế Cafe, Bar & Hội trường',
@@ -262,6 +262,6 @@ export const NAV_MENU: MenuItem[] = [
   },
 
   // ============ Links đơn ============
+  { label: 'Bàn nâng hạ', href: '/danh-muc/ban-nang-ha-thong-minh' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Về OFINA', href: '/gioi-thieu' },
 ]

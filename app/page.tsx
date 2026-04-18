@@ -182,6 +182,45 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ============ SẢN PHẨM MỚI 2026 ============ */}
+      <section className="py-16 bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800 text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-400/20 rounded-full blur-3xl" />
+
+        <div className="container-custom relative z-10">
+          <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent-500/20 text-accent-400 rounded-full text-xs font-bold uppercase tracking-wider mb-3 border border-accent-500/30">
+                <Sparkles className="w-3 h-3" /> New Collection 2026
+              </div>
+              <h2 className="font-display text-4xl md:text-5xl font-bold">
+                Sản Phẩm Mới <span className="text-accent-400">2026</span>
+              </h2>
+              <p className="text-gray-300 mt-2">Thiết kế hiện đại nhất, cập nhật liên tục</p>
+            </div>
+            <Link
+              href="/san-pham-moi-2026"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-accent-500 text-white font-bold rounded-lg hover:bg-accent-600 transition-colors"
+            >
+              Xem tất cả <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {(newest || []).slice(0, 8).map((p: any) => (
+              <div key={p.id} className="relative">
+                <div className="absolute -top-2 -right-2 z-20">
+                  <div className="bg-gradient-to-br from-accent-500 to-accent-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
+                    NEW
+                  </div>
+                </div>
+                <ProductCard product={p} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ============ SẢN PHẨM BÁN CHẠY ============ */}
       <section className="py-20">
         <div className="container-custom">

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect, FormEvent } from 'react'
-import { Search, ShoppingCart, Phone, Menu, X, ChevronDown } from 'lucide-react'
+import { Search, ShoppingCart, Phone, Menu, X, ChevronDown, Sparkles } from 'lucide-react'
 import { CONTACT, cn } from '@/lib/utils'
 import { useCart } from '@/lib/cart'
 import { NAV_MENU } from '@/lib/nav-menu'
@@ -78,11 +78,14 @@ export function Header() {
                 <Link
                   href={item.href}
                   className={cn(
-                    "px-4 py-6 text-gray-800 font-bold text-sm tracking-wider uppercase transition-colors inline-flex items-center gap-1.5 whitespace-nowrap relative",
-                    "hover:text-brand-900",
-                    openMega === item.label && "text-brand-900"
+                    "px-4 py-6 font-bold text-sm tracking-wider uppercase transition-colors inline-flex items-center gap-1.5 whitespace-nowrap relative",
+                    item.label === 'MỚI 2026'
+                      ? "text-accent-600 hover:text-accent-700"
+                      : "text-gray-800 hover:text-brand-900",
+                    openMega === item.label && (item.label === 'MỚI 2026' ? "text-accent-700" : "text-brand-900")
                   )}
                 >
+                  {item.label === 'MỚI 2026' && <Sparkles className="w-4 h-4 inline animate-pulse" />}
                   {item.label}
                   {item.mega && (
                     <ChevronDown className={cn(
@@ -92,7 +95,8 @@ export function Header() {
                   )}
                   {/* Underline animation */}
                   <span className={cn(
-                    "absolute bottom-4 left-4 right-4 h-0.5 bg-brand-900 transition-transform origin-left",
+                    "absolute bottom-4 left-4 right-4 h-0.5 transition-transform origin-left",
+                    item.label === 'MỚI 2026' ? "bg-accent-500" : "bg-brand-900",
                     openMega === item.label ? "scale-x-100" : "scale-x-0"
                   )} />
                 </Link>

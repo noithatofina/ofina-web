@@ -184,6 +184,25 @@ export async function getProductBySlug(slug: string) {
   return mapProduct(data)
 }
 
+export async function getNewProducts(opts: { limit?: number; offset?: number } = {}) {
+  const { limit = 24, offset = 0 } = opts
+  if (!USE_SUPABASE) return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
+  const { createServerSupabase } = await import('./supabase')
+  const supabase = await createServerSupabase()
+
+  // SP mới: sort theo created_at DESC, ưu tiên SP có giá và còn hàng
+  const { data, count } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT, { count: 'exact' })
+    .eq('status', 'active')
+    .gt('price', 0)
+    .eq('in_stock', true)
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1)
+
+  return { products: (data || []).map(mapProduct), total: count || 0 }
+}
+
 export async function getAllProducts(opts: { limit?: number; offset?: number } = {}) {
   const { limit = 24, offset = 0 } = opts
   if (!USE_SUPABASE) return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }

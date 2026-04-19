@@ -97,52 +97,6 @@ export default async function NewProductsPage() {
         </div>
       </section>
 
-      {/* ============ INTRO BLOG-STYLE ============ */}
-      <section className="py-12 bg-brand-50 border-b">
-        <div className="container-custom max-w-4xl">
-          <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="flex-shrink-0 w-12 h-12 bg-accent-500 rounded-full flex items-center justify-center">
-                <Star className="w-6 h-6 text-white fill-white" />
-              </div>
-              <div>
-                <div className="text-sm text-accent-600 font-semibold uppercase tracking-wider mb-1">Góc nội thất OFINA</div>
-                <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-950">
-                  Xu hướng nội thất văn phòng 2026 — OFINA mang về gì?
-                </h2>
-              </div>
-            </div>
-
-            <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-              <p>
-                Bước vào năm <strong>2026</strong>, nội thất văn phòng đang chứng kiến sự thay đổi mạnh mẽ với 3 xu hướng chủ đạo:
-                <strong> Công thái học (Ergonomic) toàn diện</strong>, <strong>Smart Office</strong> tích hợp công nghệ,
-                và <strong>Biophilic Design</strong> — thiết kế gần gũi thiên nhiên.
-              </p>
-              <p>
-                OFINA tự hào là đơn vị tiên phong cập nhật những mẫu sản phẩm mới nhất từ các thương hiệu nội thất hàng đầu thế giới.
-                Mỗi tuần, chúng tôi bổ sung <strong>hàng chục mẫu ghế, bàn, tủ, sofa mới</strong> vào bộ sưu tập — đảm bảo khách
-                hàng OFINA luôn có lựa chọn hiện đại, thời thượng và chất lượng nhất.
-              </p>
-              <p>
-                <strong>🆕 Cập nhật mới nhất:</strong> Bộ sưu tập ghế công thái học CAT với da Silicon chống xước,
-                dòng bàn nâng hạ 2 motor thế hệ 3 điều khiển bằng app, và sofa văn phòng phong cách Nhật Bản tối giản.
-                Tất cả đều đã có mặt tại OFINA với giá tốt nhất thị trường.
-              </p>
-            </div>
-
-            <div className="mt-6 pt-6 border-t flex items-center justify-between text-sm">
-              <div className="text-gray-500">
-                📅 Cập nhật: <strong>Hàng tuần</strong> · ✍️ OFINA Editorial Team
-              </div>
-              <Link href="/blog" className="text-brand-900 font-semibold hover:underline">
-                Xem thêm blog →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ============ GROUPED SECTIONS ============ */}
       {groupsData.map((group, idx) => (
         <section
@@ -187,6 +141,52 @@ export default async function NewProductsPage() {
           </div>
         </section>
       ))}
+
+      {/* ============ INTRO BLOG-STYLE (đẩy xuống sau danh mục) ============ */}
+      <section className="py-12 bg-gray-50 border-y">
+        <div className="container-custom max-w-4xl">
+          <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
+            <div className="flex items-start gap-4 mb-6">
+              <div className="flex-shrink-0 w-12 h-12 bg-brand-900 rounded-full flex items-center justify-center">
+                <Star className="w-6 h-6 text-white fill-white" />
+              </div>
+              <div>
+                <div className="text-sm text-gray-500 font-semibold uppercase tracking-wider mb-1">Góc nội thất OFINA</div>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                  Xu hướng nội thất văn phòng 2026 — OFINA mang về gì?
+                </h2>
+              </div>
+            </div>
+
+            <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+              <p>
+                Bước vào năm <strong>2026</strong>, nội thất văn phòng đang chứng kiến sự thay đổi mạnh mẽ với 3 xu hướng chủ đạo:
+                <strong> Công thái học (Ergonomic) toàn diện</strong>, <strong>Smart Office</strong> tích hợp công nghệ,
+                và <strong>Biophilic Design</strong> — thiết kế gần gũi thiên nhiên.
+              </p>
+              <p>
+                OFINA tự hào là đơn vị tiên phong cập nhật những mẫu sản phẩm mới nhất từ các thương hiệu nội thất hàng đầu thế giới.
+                Mỗi tuần, chúng tôi bổ sung <strong>hàng chục mẫu ghế, bàn, tủ, sofa mới</strong> vào bộ sưu tập — đảm bảo khách
+                hàng OFINA luôn có lựa chọn hiện đại, thời thượng và chất lượng nhất.
+              </p>
+              <p>
+                <strong>🆕 Cập nhật mới nhất:</strong> Bộ sưu tập ghế công thái học CAT với da Silicon chống xước,
+                dòng bàn nâng hạ 2 motor thế hệ 3 điều khiển bằng app, và sofa văn phòng phong cách Nhật Bản tối giản.
+                Tất cả đều đã có mặt tại OFINA với giá tốt nhất thị trường.
+              </p>
+            </div>
+
+            <div className="mt-6 pt-6 border-t flex items-center justify-between text-sm">
+              <div className="text-gray-500">
+                📅 Cập nhật: <strong>Hàng tuần</strong> · ✍️ OFINA Editorial Team
+              </div>
+              <Link href="/blog" className="text-brand-900 font-semibold hover:underline">
+                Xem thêm blog →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ============ CTA CUỐI ============ */}
       <section className="bg-gradient-to-r from-brand-900 to-brand-800 text-white py-16">

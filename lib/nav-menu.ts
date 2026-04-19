@@ -26,7 +26,7 @@ export const NAV_MENU: MenuItem[] = [
   // ============ GHẾ VĂN PHÒNG ============
   {
     label: 'Ghế',
-    href: '/danh-muc/ghe-van-phong',
+    href: '/nhom/ghe',
     mega: {
       title: 'Ghế văn phòng',
       columns: [
@@ -77,7 +77,7 @@ export const NAV_MENU: MenuItem[] = [
   // ============ BÀN LÀM VIỆC ============
   {
     label: 'Bàn',
-    href: '/danh-muc/ban-lam-viec-chan-sat',
+    href: '/nhom/ban',
     mega: {
       title: 'Bàn làm việc & Bàn họp',
       columns: [
@@ -130,7 +130,7 @@ export const NAV_MENU: MenuItem[] = [
   // ============ TỦ & KỆ ============
   {
     label: 'Tủ & Kệ',
-    href: '/danh-muc/tu-ho-so-cao',
+    href: '/nhom/tu-ke',
     mega: {
       title: 'Tủ hồ sơ & Kệ văn phòng',
       columns: [
@@ -181,7 +181,7 @@ export const NAV_MENU: MenuItem[] = [
   // ============ SOFA / GHẾ THƯ GIÃN ============
   {
     label: 'Sofa',
-    href: '/danh-muc/sofa-van-phong',
+    href: '/nhom/sofa',
     mega: {
       title: 'Sofa & Ghế thư giãn',
       columns: [
@@ -214,7 +214,7 @@ export const NAV_MENU: MenuItem[] = [
   // ============ CAFE / BAR / HỘI TRƯỜNG ============
   {
     label: 'Cafe & Bar',
-    href: '/danh-muc/ghe-cafe',
+    href: '/nhom/cafe-bar',
     mega: {
       title: 'Ghế Cafe, Bar & Hội trường',
       columns: [

@@ -302,6 +302,42 @@ export async function getCategoryInfo(slug: string) {
   return data
 }
 
+export async function getProductsBySubcategories(
+  categorySlugs: string[],
+  opts: { limit?: number; offset?: number; sort?: string; minPrice?: number; maxPrice?: number } = {}
+) {
+  const { limit = 24, offset = 0, sort = 'newest', minPrice, maxPrice } = opts
+
+  if (!USE_SUPABASE || categorySlugs.length === 0) {
+    return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
+  }
+  const { createServerSupabase } = await import('./supabase')
+  const supabase = await createServerSupabase()
+
+  const { data: cats } = await supabase.from('categories').select('id').in('slug', categorySlugs)
+  if (!cats || cats.length === 0) return { products: [], total: 0 }
+  const catIds = cats.map((c: any) => c.id)
+
+  let q = supabase
+    .from('products')
+    .select(PRODUCT_SELECT, { count: 'exact' })
+    .in('category_id', catIds)
+    .eq('status', 'active')
+
+  if (minPrice !== undefined && minPrice > 0) q = q.gte('price', minPrice)
+  if (maxPrice !== undefined && maxPrice > 0) q = q.lte('price', maxPrice)
+
+  if (sort === 'price-asc') q = q.order('price', { ascending: true }).gt('price', 0)
+  else if (sort === 'price-desc') q = q.order('price', { ascending: false })
+  else if (sort === 'name') q = q.order('name', { ascending: true })
+  else q = q.order('created_at', { ascending: false })
+
+  q = q.range(offset, offset + limit - 1)
+
+  const { data, count } = await q
+  return { products: (data || []).map(mapProduct), total: count || 0 }
+}
+
 export async function getProductsByCategory(
   categorySlug: string,
   opts: { limit?: number; offset?: number; sort?: string; minPrice?: number; maxPrice?: number } = {}

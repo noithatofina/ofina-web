@@ -56,13 +56,13 @@ export function Header() {
         scrolled && "shadow-lg"
       )}>
         <div className="container-custom flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group py-4">
-            <div className="w-10 h-10 bg-brand-900 rounded-lg flex items-center justify-center font-display font-bold text-white text-xl group-hover:bg-brand-800 transition-colors">
+          <Link href="/" className="flex items-center gap-2.5 group py-4">
+            <div className="w-14 h-14 bg-brand-900 rounded-xl flex items-center justify-center font-bold text-white text-3xl group-hover:bg-brand-800 transition-colors">
               O
             </div>
-            <div>
-              <div className="font-display font-bold text-2xl text-brand-900 leading-none">OFINA</div>
-              <div className="text-xs text-gray-500">Nội thất văn phòng</div>
+            <div className="flex flex-col justify-center">
+              <div className="font-bold text-2xl text-brand-900 leading-tight">OFINA</div>
+              <div className="text-xs text-gray-500 leading-tight">Nội thất văn phòng</div>
             </div>
           </Link>
 
@@ -161,8 +161,13 @@ export function Header() {
                 </span>
               )}
             </Link>
-            <a href={`tel:${CONTACT.hotline}`} className="hidden md:inline-flex btn-primary text-sm">
-              <Phone className="w-4 h-4 mr-1" /> Gọi ngay
+            <a
+              href={`tel:${CONTACT.hotline}`}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-brand-900"
+              aria-label={`Gọi ngay ${CONTACT.hotline}`}
+              title={`Gọi ${CONTACT.hotline}`}
+            >
+              <Phone className="w-5 h-5" />
             </a>
             <button
               className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"

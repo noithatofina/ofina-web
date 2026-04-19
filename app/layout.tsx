@@ -6,32 +6,108 @@ import { FloatingActions } from '@/components/layout/FloatingActions'
 import { CartProvider } from '@/lib/cart'
 import { Toaster } from 'react-hot-toast'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
+const HOTLINE = '0325669996'
+
 export const metadata: Metadata = {
   title: {
-    default: 'OFINA — Nội Thất Văn Phòng Việt Nam | Chuẩn Quốc Tế, Giá Hợp Lý',
+    default: 'OFINA — Nội Thất Văn Phòng Cao Cấp | Ghế, Bàn, Tủ Chính Hãng',
     template: '%s | OFINA'
   },
-  description: 'OFINA cung cấp nội thất văn phòng cao cấp: ghế văn phòng, bàn làm việc, tủ hồ sơ, sofa văn phòng. Miễn phí giao HCM, bảo hành 2 năm, giá tốt nhất thị trường.',
-  keywords: ['nội thất văn phòng', 'ghế văn phòng', 'bàn làm việc', 'tủ hồ sơ', 'sofa văn phòng', 'OFINA'],
+  description: 'OFINA cung cấp 2,400+ sản phẩm nội thất văn phòng chính hãng: ghế công thái học, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
+  keywords: ['nội thất văn phòng', 'ghế văn phòng', 'ghế công thái học', 'bàn làm việc', 'tủ hồ sơ', 'sofa văn phòng', 'nội thất văn phòng giá rẻ', 'OFINA'],
   authors: [{ name: 'OFINA' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'),
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
-    url: 'https://ofina.vn',
+    url: SITE_URL,
     siteName: 'OFINA',
-    title: 'OFINA — Nội Thất Văn Phòng Việt Nam',
-    description: 'Nội thất văn phòng chuẩn quốc tế, giá hợp lý cho người Việt.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
+    title: 'OFINA — Nội Thất Văn Phòng Cao Cấp Cho Doanh Nghiệp Việt',
+    description: '2,400+ sản phẩm nội thất văn phòng chính hãng — bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'OFINA Nội thất văn phòng' }],
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@ofina_vn',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
 }
+
+const ORGANIZATION_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'OFINA',
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
+  description: 'Nội thất văn phòng cao cấp, chính hãng — ghế, bàn, tủ, sofa cho doanh nghiệp Việt Nam.',
+  contactPoint: [{
+    '@type': 'ContactPoint',
+    telephone: `+84${HOTLINE.slice(1)}`,
+    contactType: 'customer service',
+    areaServed: 'VN',
+    availableLanguage: ['Vietnamese'],
+  }],
+  sameAs: [
+    'https://facebook.com/ofina.vn',
+    'https://zalo.me/0325669996',
+  ],
+}
+
+const WEBSITE_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'OFINA',
+  url: SITE_URL,
+  inLanguage: 'vi-VN',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/tim-kiem?q={search_term_string}` },
+    'query-input': 'required name=search_term_string',
+  },
+}
+
+const LOCAL_BUSINESS_LD = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FurnitureStore',
+    name: 'OFINA — Trụ sở Hà Nội',
+    image: `${SITE_URL}/showroom-hn.jpg`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '135 đường K2',
+      addressLocality: 'Phường Phú Đô',
+      addressRegion: 'Hà Nội',
+      addressCountry: 'VN',
+    },
+    telephone: `+84${HOTLINE.slice(1)}`,
+    url: `${SITE_URL}/showroom`,
+    openingHours: 'Mo-Su 08:00-18:00',
+    priceRange: '$$',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FurnitureStore',
+    name: 'OFINA — Chi nhánh TP.HCM',
+    image: `${SITE_URL}/showroom-hcm.jpg`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Tầng 2, số 36 Lương Định Của',
+      addressLocality: 'Quận 2',
+      addressRegion: 'TP.HCM',
+      addressCountry: 'VN',
+    },
+    telephone: `+84${HOTLINE.slice(1)}`,
+    url: `${SITE_URL}/showroom`,
+    openingHours: 'Mo-Su 08:00-18:00',
+    priceRange: '$$',
+  },
+]
 
 export default function RootLayout({
   children,
@@ -49,6 +125,11 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_LD) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_LD) }} />
+        {LOCAL_BUSINESS_LD.map((b, i) => (
+          <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
+        ))}
         <CartProvider>
           <Header />
           <main className="min-h-screen">{children}</main>

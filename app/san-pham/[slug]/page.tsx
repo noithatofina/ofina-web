@@ -290,7 +290,7 @@ export default async function ProductPage({ params }: Props) {
         {/* Highlights big */}
         {highlights.length > 0 && (
           <section className="bg-gradient-to-br from-brand-50 to-accent-50/30 rounded-2xl p-6 md:p-8 mb-10">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-950 mb-5">
+            <h2 className="text-xl md:text-2xl font-bold text-brand-950 mb-5">
               Điểm nổi bật
             </h2>
             <HighlightsList highlights={highlights} />
@@ -299,7 +299,7 @@ export default async function ProductPage({ params }: Props) {
 
         {/* Mô tả */}
         <section id="mo-ta" className="bg-white rounded-2xl border p-6 md:p-10 mb-10 scroll-mt-32">
-          <h2 className="font-display text-2xl md:text-3xl font-bold mb-6 text-brand-950">Mô tả chi tiết</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-6 text-brand-950">Mô tả chi tiết</h2>
           {bodyHtml ? (
             <div className="max-w-none" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
           ) : (
@@ -310,14 +310,14 @@ export default async function ProductPage({ params }: Props) {
         {/* Specs */}
         {Object.keys(specs).length > 0 && (
           <section id="thong-so" className="bg-white rounded-2xl border p-6 md:p-10 mb-10 scroll-mt-32">
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-6 text-brand-950">Thông số kỹ thuật</h2>
+            <h2 className="text-xl md:text-2xl font-bold mb-6 text-brand-950">Thông số kỹ thuật</h2>
             <SpecsTable specs={specs} />
           </section>
         )}
 
         {/* Bảo hành & Vận chuyển */}
         <section id="bao-hanh" className="bg-white rounded-2xl border p-6 md:p-10 mb-10 scroll-mt-32">
-          <h2 className="font-display text-2xl md:text-3xl font-bold mb-6 text-brand-950">Bảo hành & Vận chuyển</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-6 text-brand-950">Bảo hành & Vận chuyển</h2>
           <div className="grid md:grid-cols-2 gap-6 text-gray-700">
             <div>
               <h3 className="font-bold text-brand-900 mb-2 flex items-center gap-2"><Shield className="w-5 h-5" /> Chính sách bảo hành</h3>
@@ -343,7 +343,7 @@ export default async function ProductPage({ params }: Props) {
         {/* FAQ */}
         {faq.length > 0 && (
           <section id="cau-hoi" className="mb-10 scroll-mt-32">
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-6 text-brand-950">Câu hỏi thường gặp</h2>
+            <h2 className="text-xl md:text-2xl font-bold mb-6 text-brand-950">Câu hỏi thường gặp</h2>
             <FaqAccordion faq={faq} />
           </section>
         )}
@@ -352,7 +352,7 @@ export default async function ProductPage({ params }: Props) {
         {related.length > 0 && (
           <section id="san-pham-lien-quan" className="mb-10 scroll-mt-32">
             <div className="flex items-end justify-between mb-6 flex-wrap gap-3">
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-950">
+              <h2 className="text-xl md:text-2xl font-bold text-brand-950">
                 Sản phẩm liên quan
               </h2>
               {category && (

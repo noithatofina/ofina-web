@@ -32,8 +32,8 @@ export function parseDescription(raw: string | null | undefined): ParsedDescript
 
 function markdownToHtml(md: string): string {
   let html = md
-  html = html.replace(/^### (.+)$/gm, '<h3 class="font-bold text-xl mt-8 mb-3 text-gray-900">$1</h3>')
-  html = html.replace(/^## (.+)$/gm, '<h2 class="font-display font-bold text-2xl md:text-3xl mt-10 mb-4 text-gray-900">$1</h2>')
+  html = html.replace(/^### (.+)$/gm, '<h3 class="font-bold text-base md:text-lg mt-6 mb-2 text-gray-900">$1</h3>')
+  html = html.replace(/^## (.+)$/gm, '<h2 class="font-bold text-lg md:text-xl mt-8 mb-3 text-gray-900">$1</h2>')
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>')
   html = html.replace(/^---$/gm, '<hr class="my-8 border-t border-gray-200" />')
   html = html.replace(/^> (.+)$/gm, '<blockquote class="border-l-4 border-gray-300 bg-gray-50 px-5 py-4 my-6 italic text-gray-800">$1</blockquote>')

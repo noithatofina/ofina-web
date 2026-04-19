@@ -116,10 +116,10 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ============ HERO 2026 — Editorial Bento + Depth ============ */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-stone-50 via-white to-blue-50/30">
+      <section className="relative overflow-hidden bg-gradient-to-br from-stone-200 via-stone-100 to-blue-100/40">
         {/* Aurora background blobs */}
-        <div className="absolute -top-40 -right-20 w-[600px] h-[600px] bg-blue-200/25 rounded-full blur-3xl" aria-hidden="true" />
-        <div className="absolute top-1/2 -left-32 w-[500px] h-[500px] bg-amber-100/30 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute -top-40 -right-20 w-[600px] h-[600px] bg-blue-300/30 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute top-1/2 -left-32 w-[500px] h-[500px] bg-amber-200/40 rounded-full blur-3xl" aria-hidden="true" />
 
         <div className="container-custom relative z-10 py-12 md:py-16 lg:py-20">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -138,14 +138,11 @@ export default async function HomePage() {
                 <span className="text-sm text-gray-600">Giảm đến <strong className="text-gray-900">20%</strong> cho đơn đầu tiên</span>
               </div>
 
-              {/* Editorial display heading with highlighter */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight text-gray-900 mb-6">
+              {/* Editorial display heading */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-6">
                 Nội Thất<br/>
                 Văn Phòng<br/>
-                <span className="relative inline-block">
-                  <span className="relative z-10">Cao Cấp.</span>
-                  <span className="absolute bottom-1.5 md:bottom-2.5 left-0 right-0 h-3 md:h-4 bg-brand-200/70 -z-0" aria-hidden="true" />
-                </span>
+                Cao Cấp.
               </h1>
 
               <p className="text-base md:text-lg text-gray-600 max-w-xl mb-8 leading-relaxed">

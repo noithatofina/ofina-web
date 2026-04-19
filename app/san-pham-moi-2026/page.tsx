@@ -3,13 +3,18 @@ import { ProductCard } from '@/components/product/ProductCard'
 import { getNewProductsByCategory, getNewProducts } from '@/lib/queries'
 import { Sparkles, TrendingUp, ArrowRight, Award, Zap, Star } from 'lucide-react'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
+
 export const metadata = {
-  title: 'Sản phẩm mới 2026 | OFINA - Nội Thất Văn Phòng Việt Nam',
-  description: 'List sản phẩm nội thất văn phòng mới nhất 2026 — ghế, bàn, tủ, sofa mới về tại OFINA. Thiết kế hiện đại, xu hướng toàn cầu, cập nhật liên tục.',
+  title: { absolute: 'Sản phẩm mới 2026 — Bộ sưu tập nội thất | OFINA' },
+  description: 'Khám phá bộ sưu tập nội thất văn phòng mới 2026 tại OFINA: ghế ergonomic, bàn nâng hạ, tủ thông minh, sofa cao cấp. Cập nhật mỗi tuần, bảo hành 24 tháng.',
   keywords: ['sản phẩm mới 2026', 'nội thất 2026', 'ghế mới', 'bàn mới', 'sofa mới', 'OFINA'],
+  alternates: { canonical: '/san-pham-moi-2026' },
   openGraph: {
-    title: 'Sản phẩm mới 2026 | OFINA',
+    title: 'Sản phẩm mới 2026 — Bộ sưu tập nội thất | OFINA',
     description: 'Bộ sưu tập nội thất văn phòng mới nhất 2026 — cập nhật liên tục mỗi tuần',
+    url: `${SITE_URL}/san-pham-moi-2026`,
+    images: [{ url: `${SITE_URL}/logo.png`, width: 800, height: 800, alt: 'OFINA Sản phẩm mới 2026' }],
   },
 }
 

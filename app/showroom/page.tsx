@@ -3,8 +3,9 @@ import { MapPin, Phone, Clock, Car } from 'lucide-react'
 import { CONTACT } from '@/lib/utils'
 
 export const metadata = {
-  title: 'Showroom OFINA | Nội Thất Văn Phòng',
-  description: 'Ghé showroom OFINA để trải nghiệm trực tiếp sản phẩm, nhận tư vấn miễn phí.',
+  title: { absolute: 'Showroom OFINA — Hà Nội & TP.HCM | Nội Thất Văn Phòng' },
+  description: 'Ghé 2 showroom OFINA tại 135 K2 Phú Đô (Hà Nội) và 36 Lương Định Của Q2 (TP.HCM) để trải nghiệm trực tiếp 2,400+ sản phẩm nội thất văn phòng. Mở 8h-18h hàng ngày.',
+  alternates: { canonical: '/showroom' },
 }
 
 export default function ShowroomPage() {

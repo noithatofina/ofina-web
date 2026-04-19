@@ -14,9 +14,18 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const cat = await getCategoryInfo(slug)
   const name = cat?.name || slug.replace(/-/g, ' ')
+  const title = `${name} — chính hãng, giá tốt | OFINA`
+  const description = `${name} tại OFINA — đa dạng mẫu, giá cạnh tranh, bảo hành 24 tháng. Miễn phí giao Hà Nội & TP.HCM, lắp đặt tận nơi, trả góp 0%. Hotline 0325669996.`
   return {
-    title: `${name} - Giá Tốt, Chính Hãng | OFINA`,
-    description: `Mua ${name} tại OFINA.vn — giá tốt, bảo hành 2 năm, miễn phí giao HCM, đa dạng mẫu mã.`
+    title: { absolute: title }, // bypass layout template
+    description,
+    alternates: { canonical: `/danh-muc/${slug}` },
+    openGraph: {
+      type: 'website',
+      title,
+      description,
+      url: `https://ofina-web-9c7z.vercel.app/danh-muc/${slug}`,
+    },
   }
 }
 

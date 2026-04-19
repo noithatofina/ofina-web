@@ -13,13 +13,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.ver
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'OFINA — Nội Thất Văn Phòng Cao Cấp | Ghế, Bàn, Tủ Chính Hãng Giá Tốt',
-  description: 'OFINA — đơn vị phân phối nội thất văn phòng chính hãng tại Việt Nam. 2,400+ mẫu ghế công thái học, bàn làm việc, tủ hồ sơ, sofa văn phòng. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
+  title: { absolute: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng' },
+  description: 'OFINA — 2,400+ sản phẩm nội thất văn phòng chính hãng: ghế ergonomic, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao HN/HCM, trả góp 0%.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'OFINA — Nội Thất Văn Phòng Cao Cấp Cho Doanh Nghiệp Việt',
-    description: 'Khám phá 2,400+ sản phẩm nội thất văn phòng tại OFINA — bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
+    title: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng',
+    description: '2,400+ sản phẩm nội thất văn phòng — bảo hành 24 tháng, miễn phí giao HN/HCM.',
     url: SITE_URL,
+    images: [{ url: `${SITE_URL}/logo.png`, width: 800, height: 800, alt: 'OFINA logo' }],
   },
 }
 

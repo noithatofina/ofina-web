@@ -13,32 +13,32 @@ interface Props {
 const GROUPS = {
   'ghe': {
     title: 'Tất cả Ghế Văn Phòng',
-    seoTitle: 'Ghế văn phòng — Ghế xoay, da giám đốc, công thái học, chân quỳ | OFINA',
-    description: 'Bộ sưu tập ghế văn phòng đầy đủ tại OFINA: ghế xoay, ghế da giám đốc, ghế công thái học, ghế chân quỳ, ghế training. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
+    seoTitle: 'Ghế văn phòng — xoay, da giám đốc, ergonomic | OFINA',
+    description: 'Bộ sưu tập ghế văn phòng đầy đủ tại OFINA: ghế xoay, da giám đốc, công thái học, chân quỳ. Bảo hành 24 tháng, miễn phí giao HN/HCM, trả góp 0%.',
     matchLabel: 'Ghế',
   },
   'ban': {
     title: 'Tất cả Bàn Văn Phòng',
-    seoTitle: 'Bàn văn phòng — Bàn làm việc, bàn họp, cụm bàn, bàn nâng hạ | OFINA',
-    description: 'Bộ sưu tập bàn văn phòng đầy đủ tại OFINA: bàn làm việc chân sắt/gỗ, bàn giám đốc, cụm bàn, bàn họp, bàn nâng hạ thông minh. Bảo hành 24 tháng.',
+    seoTitle: 'Bàn văn phòng — làm việc, họp, nâng hạ | OFINA',
+    description: 'Bộ sưu tập bàn văn phòng tại OFINA: bàn làm việc chân sắt/gỗ, bàn giám đốc, cụm bàn 2-8 người, bàn họp, bàn nâng hạ thông minh. Bảo hành 24 tháng.',
     matchLabel: 'Bàn',
   },
   'tu-ke': {
     title: 'Tất cả Tủ & Kệ',
-    seoTitle: 'Tủ & Kệ văn phòng — Tủ hồ sơ, locker, giá kệ | OFINA',
-    description: 'Tủ hồ sơ, tủ locker, kệ trang trí, giá kệ sắt — giải pháp lưu trữ tối ưu cho văn phòng. Chất liệu cao cấp, chống ẩm, bảo hành 24 tháng.',
+    seoTitle: 'Tủ & Kệ văn phòng — hồ sơ, locker, giá kệ | OFINA',
+    description: 'Tủ hồ sơ, tủ locker, kệ trang trí, giá kệ sắt — giải pháp lưu trữ tối ưu cho văn phòng. Chất liệu chống ẩm, khoá an toàn, bảo hành 24 tháng tại OFINA.',
     matchLabel: 'Tủ & Kệ',
   },
   'sofa': {
     title: 'Tất cả Sofa & Ghế Thư Giãn',
-    seoTitle: 'Sofa văn phòng & Ghế thư giãn — Đa dạng mẫu | OFINA',
-    description: 'Sofa văn phòng, sofa đơn/đôi/góc, ghế thư giãn, ghế armchair — nâng tầm không gian tiếp khách doanh nghiệp.',
+    seoTitle: 'Sofa văn phòng & Ghế thư giãn cao cấp | OFINA',
+    description: 'Sofa văn phòng, sofa đơn/đôi/góc, ghế thư giãn, armchair — nâng tầm không gian tiếp khách doanh nghiệp. Bảo hành 24 tháng, giao miễn phí HN/HCM.',
     matchLabel: 'Sofa',
   },
   'cafe-bar': {
     title: 'Tất cả Cafe & Bar',
     seoTitle: 'Bàn ghế cafe, ghế bar, hội trường | OFINA',
-    description: 'Bàn ghế cafe, ghế bar, ghế hội trường, ghế phòng chờ, bàn họp gỗ — giải pháp đa dạng cho không gian thương mại.',
+    description: 'Bàn ghế cafe, ghế bar, ghế hội trường, phòng chờ, bàn họp gỗ — giải pháp đa dạng cho không gian thương mại tại OFINA. Bảo hành 24 tháng, giao toàn quốc.',
     matchLabel: 'Cafe & Bar',
   },
 } as const
@@ -52,11 +52,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const { group } = await params
   const cfg = GROUPS[group as GroupKey]
-  if (!cfg) return { title: 'Không tìm thấy nhóm sản phẩm | OFINA' }
+  if (!cfg) return { title: { absolute: 'Không tìm thấy nhóm sản phẩm | OFINA' } }
   return {
-    title: cfg.seoTitle,
+    title: { absolute: cfg.seoTitle }, // bypass layout template
     description: cfg.description,
     alternates: { canonical: `/nhom/${group}` },
+    openGraph: {
+      type: 'website',
+      title: cfg.seoTitle,
+      description: cfg.description,
+      url: `${SITE_URL}/nhom/${group}`,
+    },
   }
 }
 

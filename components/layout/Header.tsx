@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect, FormEvent } from 'react'
 import { Search, ShoppingCart, Phone, Menu, X, ChevronDown, Sparkles } from 'lucide-react'
@@ -57,8 +58,15 @@ export function Header() {
       )}>
         <div className="container-custom flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group py-4">
-            <div className="w-14 h-14 bg-brand-900 rounded-xl flex items-center justify-center font-bold text-white text-3xl group-hover:bg-brand-800 transition-colors">
-              O
+            <div className="w-14 h-14 bg-brand-900 rounded-xl flex items-center justify-center group-hover:bg-brand-800 transition-colors p-2">
+              <Image
+                src="/logo.png"
+                alt="OFINA logo"
+                width={56}
+                height={56}
+                priority
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="flex flex-col justify-center">
               <div className="font-bold text-2xl text-brand-900 leading-tight">OFINA</div>

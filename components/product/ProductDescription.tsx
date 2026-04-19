@@ -32,18 +32,18 @@ export function parseDescription(raw: string | null | undefined): ParsedDescript
 
 function markdownToHtml(md: string): string {
   let html = md
-  html = html.replace(/^### (.+)$/gm, '<h3 class="font-bold text-xl mt-8 mb-3 text-brand-900">$1</h3>')
-  html = html.replace(/^## (.+)$/gm, '<h2 class="font-display font-bold text-2xl md:text-3xl mt-10 mb-4 text-brand-950">$1</h2>')
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  html = html.replace(/^### (.+)$/gm, '<h3 class="font-bold text-xl mt-8 mb-3 text-gray-900">$1</h3>')
+  html = html.replace(/^## (.+)$/gm, '<h2 class="font-display font-bold text-2xl md:text-3xl mt-10 mb-4 text-gray-900">$1</h2>')
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>')
   html = html.replace(/^---$/gm, '<hr class="my-8 border-t border-gray-200" />')
-  html = html.replace(/^> (.+)$/gm, '<blockquote class="border-l-4 border-accent-500 bg-accent-50 px-5 py-4 my-6 italic text-brand-950">$1</blockquote>')
-  html = html.replace(/^- (.+)$/gm, '<li class="mb-2 text-gray-700">$1</li>')
-  html = html.replace(/(<li class="mb-2 text-gray-700">[\s\S]*?<\/li>\s*)+/g, (m) => `<ul class="list-disc list-outside space-y-1 my-4 ml-6">${m}</ul>`)
+  html = html.replace(/^> (.+)$/gm, '<blockquote class="border-l-4 border-gray-300 bg-gray-50 px-5 py-4 my-6 italic text-gray-800">$1</blockquote>')
+  html = html.replace(/^- (.+)$/gm, '<li class="mb-2 text-gray-800">$1</li>')
+  html = html.replace(/(<li class="mb-2 text-gray-800">[\s\S]*?<\/li>\s*)+/g, (m) => `<ul class="list-disc list-outside space-y-1 my-4 ml-6">${m}</ul>`)
   html = html.split('\n\n').map(p => {
     p = p.trim()
     if (!p) return ''
     if (p.startsWith('<h') || p.startsWith('<ul') || p.startsWith('<hr') || p.startsWith('<blockquote')) return p
-    return `<p class="mb-4 leading-relaxed text-gray-700">${p.replace(/\n/g, '<br/>')}</p>`
+    return `<p class="mb-4 leading-relaxed text-gray-800">${p.replace(/\n/g, '<br/>')}</p>`
   }).join('\n')
   return html
 }

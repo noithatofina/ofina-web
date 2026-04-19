@@ -15,50 +15,54 @@ export default function ShowroomPage() {
         <p className="text-xl text-gray-600">Trải nghiệm trực tiếp, nhận tư vấn miễn phí từ chuyên gia</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 mb-12">
-        <div className="card p-8 space-y-4">
-          <h2 className="font-bold text-2xl mb-4">Thông tin showroom</h2>
-          <div className="flex gap-3">
-            <MapPin className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
-            <div>
-              <div className="font-semibold">Địa chỉ</div>
-              <div className="text-gray-600">{CONTACT.address}</div>
+      <div className="space-y-12 mb-12">
+        {CONTACT.branches.map((branch) => (
+          <div key={branch.address} className="grid md:grid-cols-2 gap-8">
+            <div className="card p-8 space-y-4">
+              <h2 className="font-bold text-2xl mb-4">{branch.name}</h2>
+              <div className="flex gap-3">
+                <MapPin className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
+                <div>
+                  <div className="font-semibold">Địa chỉ</div>
+                  <div className="text-gray-600">{branch.address}</div>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Phone className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
+                <div>
+                  <div className="font-semibold">Hotline</div>
+                  <a href={`tel:${CONTACT.hotline}`} className="text-gray-600 hover:text-brand-900">{CONTACT.hotline}</a>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Clock className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
+                <div>
+                  <div className="font-semibold">Giờ mở cửa</div>
+                  <div className="text-gray-600">Thứ 2 - Chủ nhật: 8:00 – 18:00</div>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Car className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
+                <div>
+                  <div className="font-semibold">Bãi đỗ xe</div>
+                  <div className="text-gray-600">Miễn phí đỗ xe máy, ô tô</div>
+                </div>
+              </div>
+              <div className="pt-4">
+                <Link href="/tu-van" className="btn-primary">Đặt lịch thăm showroom</Link>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-3">
-            <Phone className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
-            <div>
-              <div className="font-semibold">Hotline</div>
-              <a href={`tel:${CONTACT.hotline}`} className="text-gray-600 hover:text-brand-900">{CONTACT.hotline}</a>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <Clock className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
-            <div>
-              <div className="font-semibold">Giờ mở cửa</div>
-              <div className="text-gray-600">Thứ 2 - Chủ nhật: 8:00 – 18:00</div>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <Car className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
-            <div>
-              <div className="font-semibold">Bãi đỗ xe</div>
-              <div className="text-gray-600">Miễn phí đỗ xe máy, ô tô</div>
-            </div>
-          </div>
-          <div className="pt-4">
-            <Link href="/tu-van" className="btn-primary">Đặt lịch thăm showroom</Link>
-          </div>
-        </div>
 
-        <div className="card overflow-hidden">
-          <iframe
-            src="https://maps.google.com/maps?q=Nguy%E1%BB%85n%20V%C4%83n%20A%20Qu%E1%BA%ADn%201%20TP%20HCM&t=&z=15&ie=UTF8&iwloc=&output=embed"
-            className="w-full h-[400px] border-0"
-            loading="lazy"
-            title="OFINA Showroom Map"
-          />
-        </div>
+            <div className="card overflow-hidden">
+              <iframe
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(branch.mapsQuery)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                className="w-full h-[400px] border-0"
+                loading="lazy"
+                title={`Bản đồ ${branch.name}`}
+              />
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="bg-brand-900 text-white rounded-2xl p-8 md:p-12 text-center">

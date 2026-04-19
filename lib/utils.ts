@@ -36,10 +36,24 @@ export function slugify(text: string): string {
     .replace(/-+/g, '-')
 }
 
+export const BRANCHES = [
+  {
+    name: 'Trụ sở Hà Nội',
+    address: '135 đường K2, Phường Phú Đô, Hà Nội',
+    mapsQuery: '135 K2 Phú Đô Hà Nội',
+  },
+  {
+    name: 'Chi nhánh TP.HCM',
+    address: 'Tầng 2, số 36 Lương Định Của, Quận 2, TP.HCM',
+    mapsQuery: '36 Lương Định Của Quận 2 TP HCM',
+  },
+] as const
+
 export const CONTACT = {
-  hotline: process.env.NEXT_PUBLIC_HOTLINE || '0909.xxx.xxx',
+  hotline: process.env.NEXT_PUBLIC_HOTLINE || '0325669996',
   email: process.env.NEXT_PUBLIC_EMAIL || 'contact@ofina.vn',
-  address: process.env.NEXT_PUBLIC_ADDRESS || '123 Nguyễn Văn A, Q.1, TP.HCM',
-  zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL || '#',
+  address: BRANCHES[0].address,
+  branches: BRANCHES,
+  zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL || 'https://zalo.me/0325669996',
   facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL || '#',
 }

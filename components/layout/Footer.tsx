@@ -103,13 +103,18 @@ export function Footer() {
         <div>
           <h3 className="text-white font-bold text-lg mb-4">Liên hệ</h3>
           <ul className="space-y-3 text-sm">
-            <li className="flex items-start gap-2">
-              <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-accent-400" />
-              <span>{CONTACT.address}</span>
-            </li>
+            {CONTACT.branches.map((b) => (
+              <li key={b.address} className="flex items-start gap-2">
+                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-accent-400" />
+                <span>
+                  <span className="block font-semibold text-white">{b.name}</span>
+                  <span className="block">{b.address}</span>
+                </span>
+              </li>
+            ))}
             <li className="flex items-center gap-2">
               <Phone className="w-5 h-5 text-accent-400" />
-              <a href={`tel:${CONTACT.hotline}`} className="hover:text-accent-400">{CONTACT.hotline}</a>
+              <a href={`tel:${CONTACT.hotline}`} className="hover:text-accent-400">Hotline: {CONTACT.hotline}</a>
             </li>
             <li className="flex items-center gap-2">
               <Mail className="w-5 h-5 text-accent-400" />

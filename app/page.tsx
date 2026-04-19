@@ -4,6 +4,7 @@ import { ArrowRight, Shield, Truck, RefreshCw, Award, Sparkles, MessageSquare } 
 import { ProductCard } from '@/components/product/ProductCard'
 import { getHomepageData } from '@/lib/queries'
 import { NAV_MENU } from '@/lib/nav-menu'
+import { CONTACT } from '@/lib/utils'
 
 export default async function HomePage() {
   const { featured, bestsellers, newest, categories } = await getHomepageData()
@@ -355,9 +356,17 @@ export default async function HomePage() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
             <h3 className="font-display text-3xl font-bold mb-3">Showroom OFINA</h3>
             <p className="text-gray-300 mb-6">Ghé showroom để trải nghiệm trực tiếp sản phẩm, nhận tư vấn chi tiết từ chuyên gia</p>
-            <p className="mb-4 flex items-center gap-2 text-accent-400">
-              📍 123 Nguyễn Văn A, Quận 1, TP.HCM
-            </p>
+            <ul className="mb-4 space-y-2 text-accent-400">
+              {CONTACT.branches.map((b) => (
+                <li key={b.address} className="flex items-start gap-2">
+                  <span>📍</span>
+                  <span>
+                    <span className="block font-semibold">{b.name}</span>
+                    <span className="block text-sm text-gray-200">{b.address}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
             <Link href="/showroom" className="btn-accent">Xem đường đi →</Link>
           </div>
           <div className="bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl p-8">

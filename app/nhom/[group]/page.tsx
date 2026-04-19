@@ -45,6 +45,8 @@ const GROUPS = {
 
 type GroupKey = keyof typeof GROUPS
 
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   return Object.keys(GROUPS).map((group) => ({ group }))
 }

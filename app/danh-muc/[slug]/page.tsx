@@ -10,6 +10,8 @@ interface Props {
   searchParams: Promise<{ sort?: string; page?: string; min?: string; max?: string }>
 }
 
+export const revalidate = 3600
+
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const cat = await getCategoryInfo(slug)

@@ -86,8 +86,8 @@ export function ProductTabs({ tabs }: Props) {
           .map(
             (t) => `
           #${groupName}-${t.id}:checked ~ div .tab-label-${t.id} {
-            color: #1877f2;
-            border-color: #1877f2;
+            color: #1A5FBF;
+            border-color: #1A5FBF;
           }
           #${groupName}-${t.id}:checked ~ .tab-panel-${t.id} {
             display: block !important;

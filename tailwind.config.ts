@@ -8,31 +8,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // 3-color system: 1 xanh (#1877F2) + 1 đen (#111827) + grayscale
+        // 3-color system: 1 xanh trầm (#1A5FBF) + 1 đen (#111827) + grayscale
         brand: {
-          50: '#EBF3FE',
-          100: '#D7E7FE',
-          200: '#1877F2',
-          300: '#1877F2',
-          400: '#1877F2',
-          500: '#1877F2',
-          600: '#1668D5',  // hover (subtle -5% lightness)
-          700: '#1668D5',
-          800: '#1668D5',
-          900: '#1877F2',  // PRIMARY blue
-          950: '#111827',  // ĐEN ĐẬM (replaces navy for dark bg/text)
+          50: '#EAF1F9',
+          100: '#D2E0F1',
+          200: '#1A5FBF',
+          300: '#1A5FBF',
+          400: '#1A5FBF',
+          500: '#1A5FBF',
+          600: '#154DA0',  // hover
+          700: '#154DA0',
+          800: '#154DA0',
+          900: '#1A5FBF',  // PRIMARY blue (trầm hơn FB)
+          950: '#111827',  // ĐEN ĐẬM
         },
         accent: {
-          50: '#EBF3FE',
-          100: '#D7E7FE',
-          200: '#1877F2',
-          300: '#1877F2',
-          400: '#1877F2',
-          500: '#1877F2',  // unified to blue (no more yellow)
-          600: '#1877F2',
-          700: '#1877F2',
-          800: '#1877F2',
-          900: '#1877F2',
+          50: '#EAF1F9',
+          100: '#D2E0F1',
+          200: '#1A5FBF',
+          300: '#1A5FBF',
+          400: '#1A5FBF',
+          500: '#1A5FBF',
+          600: '#1A5FBF',
+          700: '#1A5FBF',
+          800: '#1A5FBF',
+          900: '#1A5FBF',
         },
         sale: {
           DEFAULT: '#DC2626',

@@ -1,22 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  /* Facebook-blue palette — primary tone is #1877F2 (FB canonical) */
+  /* Quy chuẩn 3-màu: 1 xanh nhạt (Facebook blue) + đen đậm + đen nhạt
+     - Toàn bộ scale brand-200..900 unified về #1877F2 (1 màu xanh duy nhất)
+     - brand-50/100 = xanh tint nhạt cho soft background
+     - brand-700/800 = same blue nhưng -5% lightness cho hover (nhìn vẫn 1 màu)
+     - brand-950 = ĐEN (#111827) thay cho navy — dùng cho dark sections / footer
+     - accent-* unified về #1877F2 (bỏ vàng/cam)
+  */
   --color-brand-50: #EBF3FE;
   --color-brand-100: #D7E7FE;
-  --color-brand-200: #AECFFC;
-  --color-brand-300: #7EB1FA;
-  --color-brand-400: #4F95F8;
+  --color-brand-200: #1877F2;
+  --color-brand-300: #1877F2;
+  --color-brand-400: #1877F2;
   --color-brand-500: #1877F2;
-  --color-brand-600: #1568D5;
-  --color-brand-700: #1356B0;
-  --color-brand-800: #154FA0;
+  --color-brand-600: #1668D5;
+  --color-brand-700: #1668D5;
+  --color-brand-800: #1668D5;
   --color-brand-900: #1877F2;
-  --color-brand-950: #0E4794;
+  --color-brand-950: #111827;
 
-  --color-accent-400: #FBBF24;
-  --color-accent-500: #F59E0B;
-  --color-accent-600: #D97706;
+  --color-accent-50: #EBF3FE;
+  --color-accent-100: #D7E7FE;
+  --color-accent-200: #1877F2;
+  --color-accent-300: #1877F2;
+  --color-accent-400: #1877F2;
+  --color-accent-500: #1877F2;
+  --color-accent-600: #1877F2;
+  --color-accent-700: #1877F2;
 
   --color-sale: #DC2626;
 

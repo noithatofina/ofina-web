@@ -8,31 +8,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // OFINA Brand Colors — Facebook-blue palette (#1877F2 canonical)
+        // 3-color system: 1 xanh (#1877F2) + 1 đen (#111827) + grayscale
         brand: {
           50: '#EBF3FE',
           100: '#D7E7FE',
-          200: '#AECFFC',
-          300: '#7EB1FA',
-          400: '#4F95F8',
+          200: '#1877F2',
+          300: '#1877F2',
+          400: '#1877F2',
           500: '#1877F2',
-          600: '#1568D5',
-          700: '#1356B0',
-          800: '#154FA0',
-          900: '#1877F2',  // PRIMARY — Facebook blue
-          950: '#0E4794',  // Deep navy (footer / hero gradient depth)
+          600: '#1668D5',  // hover (subtle -5% lightness)
+          700: '#1668D5',
+          800: '#1668D5',
+          900: '#1877F2',  // PRIMARY blue
+          950: '#111827',  // ĐEN ĐẬM (replaces navy for dark bg/text)
         },
         accent: {
-          50: '#FFFBEB',
-          100: '#FEF3C7',
-          200: '#FDE68A',
-          300: '#FCD34D',
-          400: '#FBBF24',
-          500: '#F59E0B',  // CTA vàng đồng
-          600: '#D97706',
-          700: '#B45309',
-          800: '#92400E',
-          900: '#78350F',
+          50: '#EBF3FE',
+          100: '#D7E7FE',
+          200: '#1877F2',
+          300: '#1877F2',
+          400: '#1877F2',
+          500: '#1877F2',  // unified to blue (no more yellow)
+          600: '#1877F2',
+          700: '#1877F2',
+          800: '#1877F2',
+          900: '#1877F2',
         },
         sale: {
           DEFAULT: '#DC2626',

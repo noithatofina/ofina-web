@@ -158,12 +158,12 @@ export default async function ProductPage({ params }: Props) {
           <div>
             {/* SKU + brand */}
             <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 flex-wrap">
-              {product.ofina_sku && <span>Mã SP: <strong className="text-brand-900">{product.ofina_sku}</strong></span>}
-              {product.brand && <><span>·</span><span>Thương hiệu: <strong>{product.brand}</strong></span></>}
+              {product.ofina_sku && <span>Mã SP: <strong className="text-gray-900">{product.ofina_sku}</strong></span>}
+              {product.brand && <><span>·</span><span>Thương hiệu: <strong className="text-gray-900">{product.brand}</strong></span></>}
               {category && <><span>·</span><Link href={`/danh-muc/${category.slug}`} className="hover:text-brand-900">{category.name}</Link></>}
             </div>
 
-            <h1 className="font-display text-3xl md:text-4xl font-bold text-brand-950 mb-3 leading-tight">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 leading-snug">
               {product.name}
             </h1>
 
@@ -193,13 +193,13 @@ export default async function ProductPage({ params }: Props) {
             </div>
 
             {/* Price */}
-            <div className="bg-gradient-to-br from-brand-50 to-accent-50/30 rounded-2xl p-5 mb-6 border border-brand-100">
+            <div className="bg-gray-50 rounded-2xl p-5 mb-6 border border-gray-200">
               {product.is_price_hidden || !price ? (
-                <div className="text-2xl font-bold text-brand-900">Liên hệ báo giá</div>
+                <div className="text-2xl font-bold text-gray-900">Liên hệ báo giá</div>
               ) : (
                 <>
                   <div className="flex items-baseline gap-3 flex-wrap">
-                    <span className="text-4xl font-bold text-brand-900">{formatPrice(price)}</span>
+                    <span className="text-4xl font-bold text-gray-900">{formatPrice(price)}</span>
                     {hasDiscount && (
                       <>
                         <span className="text-lg text-gray-400 line-through">{formatPrice(compare)}</span>
@@ -216,8 +216,8 @@ export default async function ProductPage({ params }: Props) {
                     </p>
                   )}
                   <p className="text-sm text-gray-700 mt-3 flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-accent-500" />
-                    Trả góp chỉ <strong className="text-brand-900">{formatPrice(Math.ceil(price / 12))}</strong>/tháng (0% lãi suất)
+                    <Sparkles className="w-4 h-4 text-gray-500" />
+                    Trả góp chỉ <strong className="text-gray-900">{formatPrice(Math.ceil(price / 12))}</strong>/tháng (0% lãi suất)
                   </p>
                 </>
               )}

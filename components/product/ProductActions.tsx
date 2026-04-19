@@ -103,7 +103,7 @@ export function ProductActions({ product }: Props) {
         <button onClick={handleAddToCart} className="btn-primary py-4 text-base">
           <ShoppingCart className="w-5 h-5 mr-2" /> Thêm vào giỏ
         </button>
-        <button onClick={handleBuyNow} className="btn-accent py-4 text-base">
+        <button onClick={handleBuyNow} className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl text-base">
           Mua ngay →
         </button>
       </div>

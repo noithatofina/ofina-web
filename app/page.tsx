@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Shield, Truck, RefreshCw, Sparkles, MessageSquare, BadgeCheck, Headphones, MapPin, CreditCard, Star } from 'lucide-react'
@@ -12,7 +13,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.ver
 
 export const revalidate = 3600
 
-export const metadata = {
+export const metadata: Metadata = {
   title: { absolute: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng' },
   description: 'OFINA — 2,400+ sản phẩm nội thất văn phòng chính hãng: ghế ergonomic, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao HN/HCM, trả góp 0%.',
   alternates: { canonical: '/' },

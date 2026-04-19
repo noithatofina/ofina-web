@@ -28,6 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: `https://ofina-web-9c7z.vercel.app/danh-muc/${slug}`,
+      images: [{
+        url: cat?.image || 'https://ofina-web-9c7z.vercel.app/logo.png',
+        width: 800,
+        height: 800,
+        alt: name,
+      }],
     },
   }
 }

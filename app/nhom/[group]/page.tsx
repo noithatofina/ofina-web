@@ -67,6 +67,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: cfg.seoTitle,
       description: cfg.description,
       url: `${SITE_URL}/nhom/${group}`,
+      images: [{
+        url: `${SITE_URL}/logo.png`,
+        width: 800,
+        height: 800,
+        alt: cfg.title,
+      }],
     },
   }
 }

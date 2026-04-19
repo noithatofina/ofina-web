@@ -41,7 +41,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
-        display: ['Playfair Display', 'serif'],
+        display: ['Be Vietnam Pro', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display': ['clamp(3rem, 8vw, 5rem)', { lineHeight: '1.1' }],

@@ -31,8 +31,9 @@
 
   --color-sale: #DC2626;
 
+  /* Single font system: Be Vietnam Pro cho mọi text (native Vietnamese support) */
   --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
-  --font-display: "Playfair Display", serif;
+  --font-display: "Be Vietnam Pro", system-ui, sans-serif;
 }
 
 @layer base {

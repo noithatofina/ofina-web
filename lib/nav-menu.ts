@@ -77,7 +77,7 @@ export const NAV_MENU: MenuItem[] = [
   // ============ BÀN LÀM VIỆC ============
   {
     label: 'Bàn',
-    href: '/danh-muc/ban-lam-viec',
+    href: '/danh-muc/ban-lam-viec-chan-sat',
     mega: {
       title: 'Bàn làm việc & Bàn họp',
       columns: [
@@ -130,7 +130,7 @@ export const NAV_MENU: MenuItem[] = [
   // ============ TỦ & KỆ ============
   {
     label: 'Tủ & Kệ',
-    href: '/danh-muc/tu-van-phong',
+    href: '/danh-muc/tu-ho-so-cao',
     mega: {
       title: 'Tủ hồ sơ & Kệ văn phòng',
       columns: [

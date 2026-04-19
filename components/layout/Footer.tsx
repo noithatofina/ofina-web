@@ -19,8 +19,6 @@ export function Footer() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: 'Newsletter subscriber',
-          phone: '0000000000',
           email,
           source: 'newsletter',
           subject: 'Đăng ký nhận tin',

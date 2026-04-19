@@ -11,12 +11,25 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { name, phone, email, subject, message, source, product_id } = body
 
-    if (!name || !phone) {
-      return NextResponse.json({ error: 'Thiếu họ tên hoặc số điện thoại' }, { status: 400 })
+    const isNewsletter = source === 'newsletter'
+    if (isNewsletter) {
+      if (!email) {
+        return NextResponse.json({ error: 'Thiếu email' }, { status: 400 })
+      }
+    } else {
+      if (!name || !phone) {
+        return NextResponse.json({ error: 'Thiếu họ tên hoặc số điện thoại' }, { status: 400 })
+      }
     }
 
     const { error } = await supabase.from('contacts').insert({
-      name, phone, email, subject, message, source, product_id,
+      name: name || (isNewsletter ? 'Newsletter subscriber' : ''),
+      phone: phone || '',
+      email,
+      subject,
+      message,
+      source,
+      product_id,
     })
 
     if (error) {
@@ -27,7 +40,8 @@ export async function POST(req: NextRequest) {
     // Telegram notify
     if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
       const msg = `📬 YÊU CẦU LIÊN HỆ MỚI\n\n` +
-        `👤 ${name}\n📞 ${phone}\n` +
+        (name ? `👤 ${name}\n` : '') +
+        (phone ? `📞 ${phone}\n` : '') +
         (email ? `📧 ${email}\n` : '') +
         `📝 Nguồn: ${source || 'general'}\n` +
         (message ? `\n💬 ${message}` : '')

@@ -87,13 +87,17 @@ const COLLECTIONS = [
 export default async function HomePage() {
   const { newest, categories } = await getHomepageData()
 
-  const [ergonomicChairs, executiveDesks, executiveChairs] = await Promise.all([
+  const [ergonomicChairs, executiveDesks, executiveChairs, featured2026] = await Promise.all([
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
     getNewProductsByCategory(['ban-lanh-dao', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
     getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
+    getNewProductsByCategory(
+      ['ghe-xoay-van-phong', 'ghe-da-giam-doc', 'ghe-cong-thai-hoc', 'ghe-xoay-luoi', 'ban-nang-ha-thong-minh', 'ban-lanh-dao'],
+      1
+    ),
   ])
 
-  const featuredHeroProduct = (newest || [])[0]
+  const featuredHeroProduct = featured2026[0] || (newest || [])[0]
 
   const faqSchema = {
     '@context': 'https://schema.org',

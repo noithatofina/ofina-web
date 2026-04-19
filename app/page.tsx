@@ -271,20 +271,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Bottom marquee strip */}
-        <div className="relative bg-gray-900 text-white py-3 overflow-hidden border-t border-gray-800">
-          <div className="flex animate-marquee whitespace-nowrap gap-12">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="flex items-center gap-12 text-sm font-medium">
-                <span className="flex items-center gap-2"><span>🔥</span>Giảm đến 20% sản phẩm Mới 2026</span>
-                <span className="flex items-center gap-2"><span>🚚</span>Miễn phí giao hàng nội thành Hà Nội & HCM</span>
-                <span className="flex items-center gap-2"><span>🛡️</span>Bảo hành chính hãng 24 tháng</span>
-                <span className="flex items-center gap-2"><span>💳</span>Trả góp 0% qua thẻ tín dụng</span>
-                <span className="flex items-center gap-2"><span>📞</span>Hotline 0325669996 — 24/7</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* ============ STICKY CATEGORY NAV ============ */}

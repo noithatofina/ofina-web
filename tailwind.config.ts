@@ -8,19 +8,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // OFINA Brand Colors
+        // OFINA Brand Colors — Facebook-blue palette (#1877F2 canonical)
         brand: {
-          50: '#EFF6FF',
-          100: '#DBEAFE',
-          200: '#BFDBFE',
-          300: '#93C5FD',
-          400: '#60A5FA',
-          500: '#3B82F6',
-          600: '#2563EB',
-          700: '#1D4ED8',
-          800: '#1E40AF',
-          900: '#1E3A8A',  // Primary navy
-          950: '#172554',
+          50: '#EBF3FE',
+          100: '#D7E7FE',
+          200: '#AECFFC',
+          300: '#7EB1FA',
+          400: '#4F95F8',
+          500: '#1877F2',
+          600: '#1568D5',
+          700: '#1356B0',
+          800: '#154FA0',
+          900: '#1877F2',  // PRIMARY — Facebook blue
+          950: '#0E4794',  // Deep navy (footer / hero gradient depth)
         },
         accent: {
           50: '#FFFBEB',

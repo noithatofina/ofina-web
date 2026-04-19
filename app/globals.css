@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-50: #EFF6FF;
-  --color-brand-100: #DBEAFE;
-  --color-brand-500: #3B82F6;
-  --color-brand-600: #2563EB;
-  --color-brand-700: #1D4ED8;
-  --color-brand-800: #1E40AF;
-  --color-brand-900: #1E3A8A;
-  --color-brand-950: #172554;
+  /* Facebook-blue palette — primary tone is #1877F2 (FB canonical) */
+  --color-brand-50: #EBF3FE;
+  --color-brand-100: #D7E7FE;
+  --color-brand-200: #AECFFC;
+  --color-brand-300: #7EB1FA;
+  --color-brand-400: #4F95F8;
+  --color-brand-500: #1877F2;
+  --color-brand-600: #1568D5;
+  --color-brand-700: #1356B0;
+  --color-brand-800: #154FA0;
+  --color-brand-900: #1877F2;
+  --color-brand-950: #0E4794;
 
   --color-accent-400: #FBBF24;
   --color-accent-500: #F59E0B;

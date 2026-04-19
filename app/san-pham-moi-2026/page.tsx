@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
 import { getNewProductsByCategory, getNewProducts } from '@/lib/queries'
@@ -5,7 +6,7 @@ import { Sparkles, TrendingUp, ArrowRight, Award, Zap, Star } from 'lucide-react
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: { absolute: 'Sản phẩm mới 2026 — Bộ sưu tập nội thất | OFINA' },
   description: 'Khám phá bộ sưu tập nội thất văn phòng mới 2026 tại OFINA: ghế ergonomic, bàn nâng hạ, tủ thông minh, sofa cao cấp. Cập nhật mỗi tuần, bảo hành 24 tháng.',
   keywords: ['sản phẩm mới 2026', 'nội thất 2026', 'ghế mới', 'bàn mới', 'sofa mới', 'OFINA'],

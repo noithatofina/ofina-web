@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronRight, Shield, Truck, RefreshCw, Phone, MessageCircle, Award, BadgeCheck, Sparkles } from 'lucide-react'
@@ -20,7 +21,7 @@ interface Props {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const product = await getProductBySlug(slug)
   if (!product) return {}

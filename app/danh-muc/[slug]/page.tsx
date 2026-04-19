@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
@@ -12,7 +13,7 @@ interface Props {
 
 export const revalidate = 3600
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const cat = await getCategoryInfo(slug)
   const name = cat?.name || slug.replace(/-/g, ' ')

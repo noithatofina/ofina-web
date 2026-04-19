@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
@@ -51,7 +52,7 @@ export async function generateStaticParams() {
   return Object.keys(GROUPS).map((group) => ({ group }))
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { group } = await params
   const cfg = GROUPS[group as GroupKey]
   if (!cfg) return { title: { absolute: 'Không tìm thấy nhóm sản phẩm | OFINA' } }

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Shield, Truck, RefreshCw, Sparkles, MessageSquare, BadgeCheck, Headphones, MapPin, CreditCard, Star } from 'lucide-react'
 import { ProductCard } from '@/components/product/ProductCard'
-import { getHomepageData } from '@/lib/queries'
+import { getHomepageData, getNewProductsByCategory } from '@/lib/queries'
 import { NAV_MENU } from '@/lib/nav-menu'
 import { CONTACT, formatPrice } from '@/lib/utils'
 import { CategoryStickyNav } from '@/components/home/CategoryStickyNav'
@@ -85,7 +85,14 @@ const COLLECTIONS = [
 ]
 
 export default async function HomePage() {
-  const { bestsellers, newest, categories } = await getHomepageData()
+  const { newest, categories } = await getHomepageData()
+
+  const [ergonomicChairs, executiveDesks, executiveChairs] = await Promise.all([
+    getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
+    getNewProductsByCategory(['ban-lanh-dao', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
+    getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
+  ])
+
   const featuredHeroProduct = (newest || [])[0]
 
   const faqSchema = {
@@ -263,19 +270,34 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="text-center mb-8">
             <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Sản phẩm OFINA</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2">
-              Khám phá bộ sưu tập
+            <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2 mb-3">
+              Bộ sưu tập nổi bật
             </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Ghế công thái học · Bàn làm việc giám đốc · Sản phẩm 2026 — chọn đúng nhu cầu của doanh nghiệp bạn
+            </p>
           </div>
 
           <ProductTabs
             tabs={[
               {
-                id: 'bestseller',
-                label: 'Bán chạy',
-                badge: 'Hot',
-                cta: { label: 'Xem tất cả bán chạy', href: '/san-pham?sort=bestseller' },
-                products: bestsellers || [],
+                id: 'ergonomic',
+                label: 'Ghế công thái học',
+                badge: 'Top',
+                cta: { label: 'Xem tất cả ghế công thái học', href: '/danh-muc/ghe-cong-thai-hoc' },
+                products: ergonomicChairs || [],
+              },
+              {
+                id: 'exec-desk',
+                label: 'Bàn giám đốc',
+                cta: { label: 'Xem tất cả bàn giám đốc', href: '/danh-muc/ban-lanh-dao' },
+                products: executiveDesks || [],
+              },
+              {
+                id: 'exec-chair',
+                label: 'Ghế giám đốc',
+                cta: { label: 'Xem tất cả ghế giám đốc', href: '/danh-muc/ghe-da-giam-doc' },
+                products: executiveChairs || [],
               },
               {
                 id: 'new',
@@ -283,14 +305,6 @@ export default async function HomePage() {
                 badge: 'New',
                 cta: { label: 'Xem bộ sưu tập 2026', href: '/san-pham-moi-2026' },
                 products: newest || [],
-              },
-              {
-                id: 'sale',
-                label: 'Khuyến mãi',
-                badge: '-20%',
-                cta: { label: 'Xem tất cả khuyến mãi', href: '/khuyen-mai' },
-                products: (newest || []).filter((p: any) => p.compare_price && p.compare_price > p.price).slice(0, 8),
-                emptyText: 'Đợi đợt khuyến mãi tiếp theo — đăng ký newsletter ở footer để nhận thông báo!',
               },
             ]}
           />

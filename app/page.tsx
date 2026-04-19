@@ -115,88 +115,177 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ============ HERO — minimal premium (white bg, editorial) ============ */}
-      <section className="relative overflow-hidden bg-white border-b">
-        {/* Subtle decorative shape */}
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-brand-50 rounded-full blur-3xl opacity-60" aria-hidden="true" />
+      {/* ============ HERO 2026 — Editorial Bento + Depth ============ */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-stone-50 via-white to-blue-50/30">
+        {/* Aurora background blobs */}
+        <div className="absolute -top-40 -right-20 w-[600px] h-[600px] bg-blue-200/25 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute top-1/2 -left-32 w-[500px] h-[500px] bg-amber-100/30 rounded-full blur-3xl" aria-hidden="true" />
 
-        <div className="container-custom relative z-10 py-14 md:py-20 lg:py-24">
-          <div className="grid lg:grid-cols-[1.2fr_0.9fr] gap-10 lg:gap-16 items-center">
-            {/* Left: editorial copy */}
-            <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold mb-5">
-                <span className="w-1.5 h-1.5 bg-brand-900 rounded-full" /> Khai trương 2026 — Giảm đến 20%
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-5 text-gray-900 tracking-tight">
-                Nội Thất Văn Phòng<br/>
+        <div className="container-custom relative z-10 py-12 md:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+            {/* LEFT: Editorial copy (col 1-7) */}
+            <div className="lg:col-span-7">
+              {/* Live pulse tagline */}
+              <div className="flex items-center gap-3 mb-6 flex-wrap">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900 text-white rounded-full text-xs font-bold uppercase tracking-wider">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+                  </span>
+                  Khai trương 2026
+                </span>
+                <span className="text-sm text-gray-600">Giảm đến <strong className="text-gray-900">20%</strong> cho đơn đầu tiên</span>
+              </div>
+
+              {/* Editorial display heading with highlighter */}
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight text-gray-900 mb-6">
+                Nội Thất<br/>
+                Văn Phòng<br/>
                 <span className="relative inline-block">
-                  Cao Cấp
-                  <span className="absolute left-0 right-0 -bottom-1.5 h-1 bg-brand-900 rounded-full" aria-hidden="true" />
+                  <span className="relative z-10">Cao Cấp.</span>
+                  <span className="absolute bottom-1.5 md:bottom-2.5 left-0 right-0 h-3 md:h-4 bg-brand-200/70 -z-0" aria-hidden="true" />
                 </span>
               </h1>
-              <p className="text-base md:text-lg text-gray-600 mb-7 max-w-xl leading-relaxed">
-                2,400+ ghế công thái học · bàn làm việc · tủ hồ sơ · sofa cao cấp.
-                Bảo hành 24 tháng · Miễn phí giao Hà Nội & HCM.
+
+              <p className="text-base md:text-lg text-gray-600 max-w-xl mb-8 leading-relaxed">
+                2,400+ sản phẩm tuyển chọn từ thương hiệu uy tín. Bảo hành 24 tháng · Miễn phí giao Hà Nội & HCM · Trả góp 0%.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <Link href="/san-pham-moi-2026" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-colors text-base md:text-lg">
-                  Khám phá sản phẩm <ArrowRight className="w-5 h-5" />
+
+              {/* CTA pill with floating arrow circle */}
+              <div className="flex flex-wrap items-center gap-4 mb-10">
+                <Link
+                  href="/san-pham-moi-2026"
+                  className="group inline-flex items-center gap-3 pl-7 pr-3 py-3 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-800 transition-all shadow-2xl shadow-gray-900/20"
+                >
+                  Khám phá sản phẩm
+                  <span className="w-9 h-9 bg-white text-gray-900 rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
                 </Link>
-                <Link href="/tu-van" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg border-2 border-gray-900 text-gray-900 font-semibold hover:bg-gray-900 hover:text-white transition-colors text-base md:text-lg">
-                  Tư vấn miễn phí
+                <Link href="/tu-van" className="text-gray-900 font-semibold underline underline-offset-4 decoration-2 hover:text-brand-900 transition-colors">
+                  Tư vấn miễn phí →
                 </Link>
               </div>
-              <div className="flex items-center gap-5 mt-8 text-sm">
-                <div className="flex items-center gap-1 text-amber-500">
-                  {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
+
+              {/* Inline stats row with avatar stack */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-4 pt-6 border-t border-gray-200">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex -space-x-2">
+                    {['#1A5FBF', '#F59E0B', '#10B981', '#6366F1'].map((c, i) => (
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white shadow-sm" style={{ background: c }} aria-hidden="true" />
+                    ))}
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900 text-sm leading-tight">1,234+</div>
+                    <div className="text-xs text-gray-500 leading-tight">khách hài lòng</div>
+                  </div>
                 </div>
-                <span className="text-gray-600"><strong className="text-gray-900">4.8/5</strong> từ 1,234+ khách hàng</span>
+                <div className="h-8 w-px bg-gray-200" aria-hidden="true" />
+                <div>
+                  <div className="flex items-center gap-1 text-amber-500">
+                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
+                    <span className="text-gray-900 font-bold ml-1 text-sm">4.8</span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-0.5">điểm trung bình</div>
+                </div>
+                <div className="h-8 w-px bg-gray-200" aria-hidden="true" />
+                <div>
+                  <div className="font-bold text-gray-900 text-sm leading-tight">95</div>
+                  <div className="text-xs text-gray-500 leading-tight">danh mục SP</div>
+                </div>
               </div>
             </div>
 
-            {/* Right: featured product (clean photo, no white card on white) */}
-            <div className="relative">
+            {/* RIGHT: Featured product with depth + floating cards (col 8-12) */}
+            <div className="lg:col-span-5">
               {featuredHeroProduct ? (
-                <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
-                  <div className="aspect-[4/5] rounded-3xl bg-gray-50 overflow-hidden relative">
-                    {featuredHeroProduct.primary_image ? (
-                      <Image
-                        src={featuredHeroProduct.primary_image}
-                        alt={featuredHeroProduct.name}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 40vw"
-                        className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                        priority
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">No image</div>
-                    )}
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1.5 rounded-full bg-gray-900 text-white text-xs font-bold uppercase tracking-wider">
-                        Mới 2026
-                      </span>
-                    </div>
-                  </div>
-                  {/* Product info BELOW image (editorial style) */}
-                  <div className="mt-5 flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      <h2 className="font-semibold text-base md:text-lg text-gray-900 mb-1 line-clamp-1">{featuredHeroProduct.name}</h2>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-xl font-bold text-gray-900">{formatPrice(featuredHeroProduct.price)}</span>
+                <div className="relative">
+                  <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
+                    <div className="aspect-[4/5] rounded-[2rem] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden relative shadow-2xl shadow-gray-900/15 ring-1 ring-gray-900/5">
+                      {featuredHeroProduct.primary_image && (
+                        <Image
+                          src={featuredHeroProduct.primary_image}
+                          alt={featuredHeroProduct.name}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 40vw"
+                          className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                          priority
+                        />
+                      )}
+
+                      {/* Top badges */}
+                      <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
+                        <span className="px-3 py-1.5 rounded-full bg-gray-900/95 backdrop-blur text-white text-[11px] font-bold uppercase tracking-wider shadow-lg">
+                          Mới 2026
+                        </span>
                         {featuredHeroProduct.compare_price && featuredHeroProduct.compare_price > featuredHeroProduct.price && (
-                          <span className="text-sm text-gray-400 line-through">{formatPrice(featuredHeroProduct.compare_price)}</span>
+                          <span className="px-3 py-1.5 rounded-full bg-red-500 text-white text-[11px] font-bold shadow-lg">
+                            -{Math.round(((featuredHeroProduct.compare_price - featuredHeroProduct.price) / featuredHeroProduct.compare_price) * 100)}%
+                          </span>
                         )}
                       </div>
+
+                      {/* Bottom info overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/85 via-black/40 to-transparent text-white">
+                        <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 mb-1.5">Featured Product</div>
+                        <h2 className="font-bold text-base md:text-lg mb-2 line-clamp-1">{featuredHeroProduct.name}</h2>
+                        <div className="flex items-baseline justify-between gap-3">
+                          <div>
+                            <div className="text-2xl font-bold leading-tight">{formatPrice(featuredHeroProduct.price)}</div>
+                            {featuredHeroProduct.compare_price && featuredHeroProduct.compare_price > featuredHeroProduct.price && (
+                              <div className="text-xs line-through opacity-60">{formatPrice(featuredHeroProduct.compare_price)}</div>
+                            )}
+                          </div>
+                          <span className="text-sm font-semibold inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all bg-white/15 backdrop-blur px-3 py-1.5 rounded-full">
+                            Xem ngay <ArrowRight className="w-4 h-4" />
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="flex-shrink-0 mt-1 text-sm font-semibold text-gray-900 inline-flex items-center gap-1 group-hover:gap-2 transition-all border-b-2 border-gray-900 pb-0.5">
-                      Xem chi tiết <ArrowRight className="w-4 h-4" />
-                    </span>
+                  </Link>
+
+                  {/* Floating trust card 1 — top-right offset */}
+                  <div className="absolute -top-4 -right-3 md:-right-6 bg-white rounded-2xl shadow-2xl shadow-gray-900/10 p-3 flex items-center gap-2.5 border border-gray-100 rotate-[3deg]" aria-hidden="true">
+                    <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700">
+                      <Truck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xs text-gray-900 leading-tight">Giao 1-2 ngày</div>
+                      <div className="text-[10px] text-gray-500 leading-tight mt-0.5">Miễn phí HN/HCM</div>
+                    </div>
                   </div>
-                </Link>
+
+                  {/* Floating trust card 2 — bottom-left offset */}
+                  <div className="absolute -bottom-3 -left-3 md:-left-6 bg-white rounded-2xl shadow-2xl shadow-gray-900/10 p-3 flex items-center gap-2.5 border border-gray-100 rotate-[-3deg]" aria-hidden="true">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-brand-900">
+                      <Shield className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xs text-gray-900 leading-tight">Bảo hành 24 tháng</div>
+                      <div className="text-[10px] text-gray-500 leading-tight mt-0.5">1 đổi 1 nếu lỗi</div>
+                    </div>
+                  </div>
+                </div>
               ) : (
-                <div className="bg-gray-50 rounded-3xl aspect-[4/5]" aria-hidden="true" />
+                <div className="bg-gray-50 rounded-[2rem] aspect-[4/5]" aria-hidden="true" />
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Bottom marquee strip */}
+        <div className="relative bg-gray-900 text-white py-3 overflow-hidden border-t border-gray-800">
+          <div className="flex animate-marquee whitespace-nowrap gap-12">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex items-center gap-12 text-sm font-medium">
+                <span className="flex items-center gap-2"><span>🔥</span>Giảm đến 20% sản phẩm Mới 2026</span>
+                <span className="flex items-center gap-2"><span>🚚</span>Miễn phí giao hàng nội thành Hà Nội & HCM</span>
+                <span className="flex items-center gap-2"><span>🛡️</span>Bảo hành chính hãng 24 tháng</span>
+                <span className="flex items-center gap-2"><span>💳</span>Trả góp 0% qua thẻ tín dụng</span>
+                <span className="flex items-center gap-2"><span>📞</span>Hotline 0325669996 — 24/7</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

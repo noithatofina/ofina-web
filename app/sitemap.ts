@@ -39,22 +39,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { createServerSupabase } = await import('@/lib/supabase')
   const supabase = await createServerSupabase()
 
-  const [catsRes, prodsRes] = await Promise.all([
-    supabase.from('categories').select('slug, updated_at'),
-    supabase
-      .from('products')
-      .select('slug, updated_at')
-      .eq('status', 'active'),
-  ])
+  const PAGE_SIZE = 1000
+  async function fetchAll(table: 'categories' | 'products') {
+    const all: Array<{ slug: string; updated_at: string | null }> = []
+    let offset = 0
+    while (true) {
+      let q = supabase.from(table).select('slug, updated_at').range(offset, offset + PAGE_SIZE - 1)
+      if (table === 'products') q = q.eq('status', 'active')
+      const { data, error } = await q
+      if (error || !data) break
+      all.push(...data)
+      if (data.length < PAGE_SIZE) break
+      offset += PAGE_SIZE
+    }
+    return all
+  }
 
-  const categoryEntries: MetadataRoute.Sitemap = (catsRes.data || []).map((c: any) => ({
+  const [cats, prods] = await Promise.all([fetchAll('categories'), fetchAll('products')])
+
+  const categoryEntries: MetadataRoute.Sitemap = cats.map((c) => ({
     url: `${SITE_URL}/danh-muc/${c.slug}`,
     lastModified: c.updated_at ? new Date(c.updated_at) : now,
     changeFrequency: 'weekly',
     priority: 0.8,
   }))
 
-  const productEntries: MetadataRoute.Sitemap = (prodsRes.data || []).map((p: any) => ({
+  const productEntries: MetadataRoute.Sitemap = prods.map((p) => ({
     url: `${SITE_URL}/san-pham/${p.slug}`,
     lastModified: p.updated_at ? new Date(p.updated_at) : now,
     changeFrequency: 'weekly',

@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props) {
   const url = `${SITE_URL}/san-pham/${product.slug}`
   const image = product.primary_image || product.images?.[0]
   return {
-    title,
+    title: { absolute: title }, // bypass layout template "%s | OFINA"
     description,
     keywords: product.seo_keywords,
     alternates: { canonical: url },

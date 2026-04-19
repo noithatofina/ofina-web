@@ -10,6 +10,8 @@ import { ProductTabs } from '@/components/home/ProductTabs'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
 
+export const revalidate = 3600
+
 export const metadata = {
   title: 'OFINA — Nội Thất Văn Phòng Cao Cấp | Ghế, Bàn, Tủ Chính Hãng Giá Tốt',
   description: 'OFINA — đơn vị phân phối nội thất văn phòng chính hãng tại Việt Nam. 2,400+ mẫu ghế công thái học, bàn làm việc, tủ hồ sơ, sofa văn phòng. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',

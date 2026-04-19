@@ -68,21 +68,21 @@ const COLLECTIONS = [
     title: 'Setup văn phòng nhỏ',
     subtitle: 'Bàn ghế làm việc cho team < 10 người',
     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
-    gradient: 'from-blue-600/80 to-brand-900/90',
+    gradient: 'from-gray-900/80 via-gray-900/30 to-transparent',
   },
   {
     slug: 'ghe-da-giam-doc',
     title: 'Phòng giám đốc cao cấp',
     subtitle: 'Ghế da, bàn làm việc, tủ hồ sơ sang trọng',
     image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80',
-    gradient: 'from-amber-700/70 to-brand-950/90',
+    gradient: 'from-gray-900/80 via-gray-900/30 to-transparent',
   },
   {
     slug: 'ghe-cafe',
     title: 'Cafe & nhà hàng',
     subtitle: 'Bàn ghế cafe, ghế bar, sofa quầy lễ tân',
     image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',
-    gradient: 'from-emerald-700/70 to-brand-900/90',
+    gradient: 'from-gray-900/80 via-gray-900/30 to-transparent',
   },
 ]
 
@@ -115,94 +115,87 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ============ HERO BENTO ============ */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-950">
-        <div
-          className="absolute inset-0 opacity-20 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80')" }}
-          role="presentation"
-          aria-hidden="true"
-        />
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-accent-500/20 rounded-full blur-3xl" aria-hidden="true" />
+      {/* ============ HERO — minimal premium (white bg, editorial) ============ */}
+      <section className="relative overflow-hidden bg-white border-b">
+        {/* Subtle decorative shape */}
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-brand-50 rounded-full blur-3xl opacity-60" aria-hidden="true" />
 
-        <div className="container-custom relative z-10 py-12 md:py-20">
-          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center">
-            {/* Left: copy + CTA */}
-            <div className="text-white">
-              <span className="inline-block px-4 py-1.5 bg-accent-500/20 text-accent-400 rounded-full text-sm font-semibold mb-4 border border-accent-500/30">
-                ✨ Khai trương 2026 — Giảm đến 20%
+        <div className="container-custom relative z-10 py-14 md:py-20 lg:py-24">
+          <div className="grid lg:grid-cols-[1.2fr_0.9fr] gap-10 lg:gap-16 items-center">
+            {/* Left: editorial copy */}
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold mb-5">
+                <span className="w-1.5 h-1.5 bg-brand-900 rounded-full" /> Khai trương 2026 — Giảm đến 20%
               </span>
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-5">
-                Nội Thất<br/>Văn Phòng<br/>
-                <span className="text-accent-400">Cao Cấp</span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-5 text-gray-900 tracking-tight">
+                Nội Thất Văn Phòng<br/>
+                <span className="relative inline-block">
+                  Cao Cấp
+                  <span className="absolute left-0 right-0 -bottom-1.5 h-1 bg-brand-900 rounded-full" aria-hidden="true" />
+                </span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-200 mb-7 max-w-xl leading-relaxed">
+              <p className="text-base md:text-lg text-gray-600 mb-7 max-w-xl leading-relaxed">
                 2,400+ ghế công thái học · bàn làm việc · tủ hồ sơ · sofa cao cấp.
                 Bảo hành 24 tháng · Miễn phí giao Hà Nội & HCM.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/san-pham-moi-2026" className="btn-accent text-base md:text-lg px-7 py-3.5">
-                  Khám phá sản phẩm <ArrowRight className="ml-2 w-5 h-5" />
+                <Link href="/san-pham-moi-2026" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-colors text-base md:text-lg">
+                  Khám phá sản phẩm <ArrowRight className="w-5 h-5" />
                 </Link>
-                <Link href="/tu-van" className="btn-ghost text-base md:text-lg px-7 py-3.5 !border-white !text-white hover:!bg-white hover:!text-brand-900">
+                <Link href="/tu-van" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg border-2 border-gray-900 text-gray-900 font-semibold hover:bg-gray-900 hover:text-white transition-colors text-base md:text-lg">
                   Tư vấn miễn phí
                 </Link>
               </div>
               <div className="flex items-center gap-5 mt-8 text-sm">
-                <div className="flex items-center gap-1 text-accent-400">
+                <div className="flex items-center gap-1 text-amber-500">
                   {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
                 </div>
-                <span className="text-gray-300"><strong className="text-white">4.8/5</strong> từ 1,234+ khách hàng</span>
+                <span className="text-gray-600"><strong className="text-gray-900">4.8/5</strong> từ 1,234+ khách hàng</span>
               </div>
             </div>
 
-            {/* Right: featured product card (bento) */}
+            {/* Right: featured product (clean photo, no white card on white) */}
             <div className="relative">
               {featuredHeroProduct ? (
                 <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
-                  <div className="bg-white/95 backdrop-blur rounded-3xl p-5 md:p-6 shadow-2xl hover:shadow-3xl transition-all hover:-translate-y-1">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="px-2.5 py-1 rounded-full bg-accent-500 text-white text-xs font-bold uppercase tracking-wider">Mới 2026</span>
-                      <span className="text-xs text-gray-500">Featured</span>
+                  <div className="aspect-[4/5] rounded-3xl bg-gray-50 overflow-hidden relative">
+                    {featuredHeroProduct.primary_image ? (
+                      <Image
+                        src={featuredHeroProduct.primary_image}
+                        alt={featuredHeroProduct.name}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 40vw"
+                        className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                        priority
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">No image</div>
+                    )}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1.5 rounded-full bg-gray-900 text-white text-xs font-bold uppercase tracking-wider">
+                        Mới 2026
+                      </span>
                     </div>
-                    <div className="aspect-square rounded-2xl bg-gradient-to-br from-brand-50 to-gray-100 overflow-hidden mb-4 relative">
-                      {featuredHeroProduct.primary_image ? (
-                        <Image
-                          src={featuredHeroProduct.primary_image}
-                          alt={featuredHeroProduct.name}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 40vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          priority
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">No image</div>
-                      )}
-                    </div>
-                    <div>
-                      <h2 className="font-bold text-base md:text-lg text-brand-950 mb-1 line-clamp-2">{featuredHeroProduct.name}</h2>
-                      <div className="flex items-baseline gap-2 mt-2">
-                        <span className="text-2xl font-bold text-brand-900">{formatPrice(featuredHeroProduct.price)}</span>
+                  </div>
+                  {/* Product info BELOW image (editorial style) */}
+                  <div className="mt-5 flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <h2 className="font-semibold text-base md:text-lg text-gray-900 mb-1 line-clamp-1">{featuredHeroProduct.name}</h2>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-xl font-bold text-gray-900">{formatPrice(featuredHeroProduct.price)}</span>
                         {featuredHeroProduct.compare_price && featuredHeroProduct.compare_price > featuredHeroProduct.price && (
                           <span className="text-sm text-gray-400 line-through">{formatPrice(featuredHeroProduct.compare_price)}</span>
                         )}
                       </div>
-                      <div className="mt-3 flex items-center justify-between text-sm">
-                        <span className="text-green-700 font-semibold flex items-center gap-1">
-                          <BadgeCheck className="w-4 h-4" /> Còn hàng
-                        </span>
-                        <span className="text-brand-900 font-semibold group-hover:translate-x-1 transition-transform">Xem chi tiết →</span>
-                      </div>
                     </div>
+                    <span className="flex-shrink-0 mt-1 text-sm font-semibold text-gray-900 inline-flex items-center gap-1 group-hover:gap-2 transition-all border-b-2 border-gray-900 pb-0.5">
+                      Xem chi tiết <ArrowRight className="w-4 h-4" />
+                    </span>
                   </div>
                 </Link>
               ) : (
-                <div className="bg-white/10 rounded-3xl h-96" aria-hidden="true" />
+                <div className="bg-gray-50 rounded-3xl aspect-[4/5]" aria-hidden="true" />
               )}
-              {/* Floating mini-card behind */}
-              <div className="absolute -bottom-4 -left-4 bg-accent-500 text-white px-4 py-3 rounded-2xl shadow-xl text-sm font-bold rotate-[-3deg] hidden md:block" aria-hidden="true">
-                🚚 Giao 1-2 ngày<br/><span className="font-normal text-xs opacity-90">Miễn phí HN & HCM</span>
-              </div>
             </div>
           </div>
         </div>
@@ -212,7 +205,7 @@ export default async function HomePage() {
       <CategoryStickyNav categories={categories || []} />
 
       {/* ============ TRUST BAR (compact) ============ */}
-      <section aria-label="Cam kết của OFINA" className="bg-brand-50 border-b">
+      <section aria-label="Cam kết của OFINA" className="bg-gray-50 border-b">
         <div className="container-custom py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { icon: Truck, title: 'Miễn phí giao HN/HCM', desc: 'Đơn từ 500k' },
@@ -272,7 +265,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============ TABBED PRODUCT SHOWCASE ============ */}
-      <section className="py-14 bg-gradient-to-b from-white to-brand-50/50">
+      <section className="py-14 bg-gray-50/40">
         <div className="container-custom">
           <div className="text-center mb-8">
             <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Sản phẩm OFINA</span>
@@ -362,23 +355,23 @@ export default async function HomePage() {
       </section>
 
       {/* ============ STATS COUNTER ============ */}
-      <section aria-label="Thống kê OFINA" className="py-12 bg-gradient-to-r from-brand-900 to-brand-800 text-white">
+      <section aria-label="Thống kê OFINA" className="py-12 bg-gray-900 text-white">
         <div className="container-custom grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {STATS.map((s) => (
             <div key={s.label}>
-              <div className="font-display text-4xl md:text-5xl font-bold text-accent-400">{s.value}</div>
-              <div className="text-sm md:text-base text-gray-300 mt-1">{s.label}</div>
+              <div className="text-4xl md:text-5xl font-bold text-white">{s.value}</div>
+              <div className="text-sm md:text-base text-gray-400 mt-1">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ============ VÌ SAO CHỌN OFINA ============ */}
-      <section className="py-16">
+      <section className="py-16 bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-10">
-            <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Cam kết OFINA</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2 mb-3">
+            <span className="text-gray-500 font-semibold text-sm uppercase tracking-wider">Cam kết OFINA</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-3">
               Vì sao 1,200+ doanh nghiệp chọn OFINA?
             </h2>
             <p className="text-gray-600">Cam kết chất lượng — dịch vụ tận tâm — giá tốt nhất thị trường</p>
@@ -386,11 +379,11 @@ export default async function HomePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {WHY_CHOOSE.map((r) => (
-              <div key={r.title} className="bg-white border border-gray-100 rounded-2xl p-5 hover:border-brand-900 hover:shadow-lg transition-all">
-                <div className="w-11 h-11 rounded-xl bg-brand-900 text-white flex items-center justify-center mb-3">
+              <div key={r.title} className="bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-900 hover:shadow-lg transition-all">
+                <div className="w-11 h-11 rounded-xl bg-gray-900 text-white flex items-center justify-center mb-3">
                   <r.icon className="w-5 h-5" aria-hidden="true" />
                 </div>
-                <h3 className="font-bold text-base text-brand-950 mb-1">{r.title}</h3>
+                <h3 className="font-bold text-base text-gray-900 mb-1">{r.title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{r.desc}</p>
               </div>
             ))}
@@ -399,26 +392,26 @@ export default async function HomePage() {
       </section>
 
       {/* ============ QUIZ AI (slim banner) ============ */}
-      <section className="py-12 bg-gradient-to-br from-brand-900 to-brand-800 text-white">
+      <section className="py-12 bg-gray-900 text-white">
         <div className="container-custom flex flex-col md:flex-row items-center gap-6 justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-5 h-5 text-accent-400" />
-              <span className="text-sm font-bold uppercase tracking-wider text-accent-400">Trợ lý AI</span>
+              <Sparkles className="w-5 h-5 text-white" />
+              <span className="text-sm font-bold uppercase tracking-wider text-gray-400">Trợ lý AI</span>
             </div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-1">
+            <h2 className="text-2xl md:text-3xl font-bold mb-1">
               Tìm sản phẩm hoàn hảo trong 30 giây
             </h2>
-            <p className="text-gray-300 text-sm md:text-base">AI gợi ý sản phẩm phù hợp nhu cầu, không gian và ngân sách của bạn</p>
+            <p className="text-gray-400 text-sm md:text-base">AI gợi ý sản phẩm phù hợp nhu cầu, không gian và ngân sách của bạn</p>
           </div>
-          <Link href="/quiz" className="btn-accent text-base md:text-lg whitespace-nowrap">
-            Bắt đầu quiz <ArrowRight className="ml-2 w-4 h-4" />
+          <Link href="/quiz" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-white text-gray-900 font-semibold hover:bg-gray-100 transition-colors text-base md:text-lg whitespace-nowrap">
+            Bắt đầu quiz <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>
 
       {/* ============ B2B + SHOWROOM ============ */}
-      <section className="py-16 bg-brand-950 text-white">
+      <section className="py-16 bg-gray-900 text-white">
         <div className="container-custom grid md:grid-cols-2 gap-6">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-7">
             <div className="flex items-center gap-2 text-accent-400 mb-3">
@@ -480,10 +473,10 @@ export default async function HomePage() {
       </section>
 
       {/* ============ FAQ HOMEPAGE ============ */}
-      <section className="py-16 bg-brand-50">
+      <section className="py-16 bg-gray-50">
         <div className="container-custom max-w-4xl">
           <div className="text-center mb-8">
-            <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">FAQ</span>
+            <span className="text-gray-500 font-semibold text-sm uppercase tracking-wider">FAQ</span>
             <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2 mb-3">
               Câu hỏi thường gặp
             </h2>
@@ -510,7 +503,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============ TẤT CẢ DANH MỤC (mega list) ============ */}
-      <section className="py-14 bg-white border-t">
+      <section className="py-14 bg-gray-50 border-t">
         <div className="container-custom">
           <div className="text-center mb-8">
             <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">95 danh mục</span>
@@ -521,7 +514,7 @@ export default async function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {NAV_MENU.filter(m => m.mega).map((group) => (
-              <div key={group.label} className="bg-brand-50/50 rounded-2xl p-5 hover:bg-brand-50 transition-colors">
+              <div key={group.label} className="bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
                 <h3 className="font-display font-bold text-lg text-brand-900 mb-3 pb-2 border-b-2 border-accent-500 inline-block">
                   <Link href={group.href} className="hover:underline">{group.label}</Link>
                 </h3>

@@ -11,7 +11,7 @@ const HOTLINE = '0325669996'
 
 export const metadata: Metadata = {
   title: {
-    default: 'OFINA — Nội Thất Văn Phòng Cao Cấp | Ghế, Bàn, Tủ Chính Hãng',
+    default: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng',
     template: '%s | OFINA'
   },
   description: 'OFINA cung cấp 2,400+ sản phẩm nội thất văn phòng chính hãng: ghế công thái học, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',

@@ -116,10 +116,11 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ============ HERO 2026 — Editorial Bento + Depth ============ */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-stone-200 via-stone-100 to-blue-100/40">
-        {/* Aurora background blobs */}
-        <div className="absolute -top-40 -right-20 w-[600px] h-[600px] bg-blue-300/30 rounded-full blur-3xl" aria-hidden="true" />
-        <div className="absolute top-1/2 -left-32 w-[500px] h-[500px] bg-amber-200/40 rounded-full blur-3xl" aria-hidden="true" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-100 via-blue-50 to-white">
+        {/* Aurora background blobs — đậm hơn + lan rộng */}
+        <div className="absolute -top-32 -right-32 w-[800px] h-[800px] bg-blue-400/50 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute top-1/3 -left-48 w-[700px] h-[700px] bg-blue-300/40 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-200/40 rounded-full blur-3xl" aria-hidden="true" />
 
         <div className="container-custom relative z-10 py-12 md:py-16 lg:py-20">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">

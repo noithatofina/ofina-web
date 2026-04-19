@@ -11,6 +11,8 @@ interface Props {
   searchParams: Promise<{ sort?: string; page?: string; min?: string; max?: string }>
 }
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
+
 const GROUPS = {
   'ghe': {
     title: 'Tất cả Ghế Văn Phòng',

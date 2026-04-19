@@ -116,11 +116,22 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ============ HERO 2026 — Editorial Bento + Depth ============ */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-100 via-blue-50 to-white">
-        {/* Aurora background blobs — đậm hơn + lan rộng */}
-        <div className="absolute -top-32 -right-32 w-[800px] h-[800px] bg-blue-400/50 rounded-full blur-3xl" aria-hidden="true" />
-        <div className="absolute top-1/3 -left-48 w-[700px] h-[700px] bg-blue-300/40 rounded-full blur-3xl" aria-hidden="true" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-200/40 rounded-full blur-3xl" aria-hidden="true" />
+      <section className="relative overflow-hidden">
+        {/* Layer 1: Background 3D meeting room photo */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=85')" }}
+          role="presentation"
+          aria-hidden="true"
+        />
+
+        {/* Layer 2: Blue gradient overlay (semi-transparent so photo peeks through) */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-100/90 via-blue-50/85 to-white/80" aria-hidden="true" />
+
+        {/* Layer 3: Aurora blue blobs */}
+        <div className="absolute -top-32 -right-32 w-[800px] h-[800px] bg-blue-400/40 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute top-1/3 -left-48 w-[700px] h-[700px] bg-blue-300/30 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-200/30 rounded-full blur-3xl" aria-hidden="true" />
 
         <div className="container-custom relative z-10 py-12 md:py-16 lg:py-20">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">

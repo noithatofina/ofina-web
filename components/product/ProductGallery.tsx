@@ -55,15 +55,18 @@ export function ProductGallery({ images, productName }: Props) {
         )}
       </div>
 
-      {/* Thumbnails */}
+      {/* Thumbnails — single row horizontal scroll */}
       {imgs.length > 1 && (
-        <div className="grid grid-cols-5 gap-2">
-          {imgs.slice(0, 10).map((img, i) => (
+        <div
+          className="flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory scroll-px-2 scrollbar-thin"
+          style={{ scrollbarWidth: 'thin' }}
+        >
+          {imgs.map((img, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
               className={cn(
-                'aspect-square bg-gray-50 rounded-lg overflow-hidden border-2 transition-colors relative',
+                'flex-shrink-0 w-[18%] sm:w-[15%] md:w-20 lg:w-[18%] aspect-square bg-gray-50 rounded-lg overflow-hidden border-2 transition-colors relative snap-start',
                 active === i ? 'border-brand-900' : 'border-transparent hover:border-gray-300'
               )}
               aria-label={`Xem ảnh ${i + 1}`}

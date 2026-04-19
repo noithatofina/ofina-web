@@ -34,7 +34,7 @@ export default async function HomePage() {
               Chuẩn quốc tế · Giá hợp lý · 2,400+ sản phẩm cao cấp từ các thương hiệu uy tín
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/san-pham" className="btn-accent text-lg px-8 py-4">
+              <Link href="/san-pham-moi-2026" className="btn-accent text-lg px-8 py-4">
                 Khám phá sản phẩm <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <Link href="/tu-van" className="btn-ghost text-lg px-8 py-4 !border-white !text-white hover:!bg-white hover:!text-brand-900">

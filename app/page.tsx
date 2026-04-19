@@ -28,7 +28,7 @@ export default async function HomePage() {
               ✨ Mùa khai trương — Giảm đến 20%
             </span>
             <h1 className="font-display text-5xl md:text-7xl font-bold leading-tight mb-6">
-              Nội Thất<br/>Văn Phòng Việt Nam
+              Nội Thất<br/>Văn Phòng
             </h1>
             <p className="text-xl text-gray-200 mb-8 leading-relaxed">
               Chuẩn quốc tế · Giá hợp lý · 2,400+ sản phẩm cao cấp từ các thương hiệu uy tín

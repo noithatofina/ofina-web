@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { sendNotifyEmail, contactEmailHtml } from '@/lib/email'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -37,21 +38,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    // Telegram notify
-    if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-      const msg = `📬 YÊU CẦU LIÊN HỆ MỚI\n\n` +
-        (name ? `👤 ${name}\n` : '') +
-        (phone ? `📞 ${phone}\n` : '') +
-        (email ? `📧 ${email}\n` : '') +
-        `📝 Nguồn: ${source || 'general'}\n` +
-        (message ? `\n💬 ${message}` : '')
-      try {
-        await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text: msg }),
-        })
-      } catch {}
+    // Skip notifications for newsletter subscribe (nhiều, không cần alert)
+    if (!isNewsletter) {
+      // Telegram notify
+      if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
+        const msg = `📬 YÊU CẦU LIÊN HỆ MỚI\n\n` +
+          (name ? `👤 ${name}\n` : '') +
+          (phone ? `📞 ${phone}\n` : '') +
+          (email ? `📧 ${email}\n` : '') +
+          `📝 Nguồn: ${source || 'general'}\n` +
+          (message ? `\n💬 ${message}` : '')
+        try {
+          await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text: msg }),
+          })
+        } catch {}
+      }
+
+      // Email notify
+      await sendNotifyEmail(
+        `[OFINA] Liên hệ mới từ ${name || email || 'khách'}`,
+        contactEmailHtml({ name, phone, email, subject, message, source, product_id }),
+      )
     }
 
     return NextResponse.json({ success: true })

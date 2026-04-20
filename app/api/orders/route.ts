@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { sendNotifyEmail, orderEmailHtml } from '@/lib/email'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -82,9 +83,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: itemsError.message }, { status: 500 })
     }
 
-    // Send Telegram notification if configured
+    // Telegram notify
     if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-      const msg = `🛒 ĐỞN HÀNG MỚI #${orderNumber}\n\n` +
+      const msg = `🛒 ĐƠN HÀNG MỚI #${orderNumber}\n\n` +
         `👤 ${customer_name}\n📞 ${customer_phone}\n📍 ${address_line}, ${city}\n\n` +
         `💰 Tổng: ${total.toLocaleString('vi-VN')}đ\n💳 ${payment_method}\n\n` +
         items.map((i: any) => `- ${i.name} ×${i.quantity}`).join('\n')
@@ -96,6 +97,29 @@ export async function POST(req: NextRequest) {
         })
       } catch {}
     }
+
+    // Email notify
+    await sendNotifyEmail(
+      `[OFINA] Đơn hàng mới #${orderNumber} — ${total.toLocaleString('vi-VN')}đ`,
+      orderEmailHtml({
+        order_number: orderNumber,
+        customer_name,
+        customer_phone,
+        customer_email,
+        address_line,
+        ward,
+        district,
+        city,
+        note,
+        payment_method,
+        items,
+        subtotal: subtotal || 0,
+        shipping_fee: shipping_fee || 0,
+        discount: discount || 0,
+        total,
+        coupon_code,
+      }),
+    )
 
     return NextResponse.json({
       success: true,

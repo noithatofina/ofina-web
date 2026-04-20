@@ -4,7 +4,7 @@ import { ProductCard } from '@/components/product/ProductCard'
 import { getNewProductsByCategory, getNewProducts } from '@/lib/queries'
 import { Sparkles, TrendingUp, ArrowRight, Award, Zap, Star } from 'lucide-react'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
 export const metadata: Metadata = {
   title: { absolute: 'Sản phẩm mới 2026 — Bộ sưu tập nội thất | OFINA' },

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
 export default function robots(): MetadataRoute.Robots {
   return {

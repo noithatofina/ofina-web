@@ -9,7 +9,7 @@ import { CONTACT, formatPrice } from '@/lib/utils'
 import { CategoryStickyNav } from '@/components/home/CategoryStickyNav'
 import { ProductTabs } from '@/components/home/ProductTabs'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina-web-9c7z.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
 export const revalidate = 3600
 

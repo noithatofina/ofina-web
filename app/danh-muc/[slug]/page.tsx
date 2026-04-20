@@ -27,9 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       title,
       description,
-      url: `https://ofina-web-9c7z.vercel.app/danh-muc/${slug}`,
+      url: `https://ofina.vn/danh-muc/${slug}`,
       images: [{
-        url: cat?.image || 'https://ofina-web-9c7z.vercel.app/logo.png',
+        url: cat?.image || 'https://ofina.vn/logo.png',
         width: 800,
         height: 800,
         alt: name,

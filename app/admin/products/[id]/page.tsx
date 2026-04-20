@@ -8,10 +8,13 @@ export const dynamic = 'force-dynamic'
 
 export default async function EditProductPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ created?: string }>
 }) {
   const { id } = await params
+  const { created } = await searchParams
   const admin = createAdminClient()
 
   const { data: product } = await admin
@@ -40,6 +43,12 @@ export default async function EditProductPage({
           ← Danh sách sản phẩm
         </Link>
       </div>
+
+      {created && (
+        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">
+          ✅ Đã tạo sản phẩm ở trạng thái <b>Draft</b>. Hoàn thiện mô tả + upload ảnh rồi đổi trạng thái sang <b>Active</b> để hiển thị trên site.
+        </div>
+      )}
 
       <h1 className="text-2xl font-bold mb-1">{product.name}</h1>
       <div className="text-sm text-neutral-500 mb-6">

@@ -33,6 +33,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           >
             Sản phẩm
           </Link>
+          <Link
+            href="/admin/blog"
+            className="block px-3 py-2 rounded hover:bg-neutral-800 text-sm"
+          >
+            Bài viết blog
+          </Link>
         </nav>
         <form action={logoutAction} className="p-4 border-t border-neutral-800">
           <button

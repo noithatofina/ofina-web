@@ -53,7 +53,6 @@ export default async function EditProductPage({
       <h1 className="text-2xl font-bold mb-1">{product.name}</h1>
       <div className="text-sm text-neutral-500 mb-6">
         <span className="font-mono">{product.ofina_sku}</span>
-        {product.govi_sku && <span className="ml-3 font-mono">Govi: {product.govi_sku}</span>}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6">

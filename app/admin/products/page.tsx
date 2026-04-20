@@ -22,12 +22,12 @@ export default async function AdminProductsPage({
   const admin = createAdminClient()
   let query = admin
     .from('products')
-    .select('id,ofina_sku,govi_sku,name,price,status,is_featured,is_bestseller,is_new,is_sale,in_stock,updated_at,product_images(url,is_primary)', { count: 'exact' })
+    .select('id,ofina_sku,name,price,status,is_featured,is_bestseller,is_new,is_sale,in_stock,updated_at,product_images(url,is_primary)', { count: 'exact' })
     .order('updated_at', { ascending: false })
     .range(from, to)
 
   if (q) {
-    query = query.or(`name.ilike.%${q}%,ofina_sku.ilike.%${q}%,govi_sku.ilike.%${q}%`)
+    query = query.or(`name.ilike.%${q}%,ofina_sku.ilike.%${q}%`)
   }
   if (status) {
     query = query.eq('status', status)
@@ -53,7 +53,7 @@ export default async function AdminProductsPage({
         <input
           name="q"
           defaultValue={q}
-          placeholder="Tìm theo tên / SKU OFINA / SKU Govi..."
+          placeholder="Tìm theo tên / SKU OFINA..."
           className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg"
         />
         <select
@@ -84,7 +84,6 @@ export default async function AdminProductsPage({
               <th className="text-left px-3 py-2 w-16">Ảnh</th>
               <th className="text-left px-3 py-2">Tên</th>
               <th className="text-left px-3 py-2">SKU OFINA</th>
-              <th className="text-left px-3 py-2">SKU Govi</th>
               <th className="text-right px-3 py-2">Giá</th>
               <th className="text-center px-3 py-2">Status</th>
               <th className="text-center px-3 py-2">Flags</th>
@@ -109,7 +108,6 @@ export default async function AdminProductsPage({
                     {!p.in_stock && <span className="ml-2 text-xs text-red-600">Hết hàng</span>}
                   </td>
                   <td className="px-3 py-2 text-neutral-600 font-mono text-xs">{p.ofina_sku}</td>
-                  <td className="px-3 py-2 text-neutral-600 font-mono text-xs">{p.govi_sku}</td>
                   <td className="px-3 py-2 text-right font-medium">{(p.price || 0).toLocaleString('vi-VN')}đ</td>
                   <td className="px-3 py-2 text-center">
                     <span className={`inline-block px-2 py-0.5 rounded text-xs ${
@@ -131,7 +129,7 @@ export default async function AdminProductsPage({
             })}
             {(!products || products.length === 0) && (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-neutral-500">
+                <td colSpan={6} className="p-8 text-center text-neutral-500">
                   Không có sản phẩm nào.
                 </td>
               </tr>

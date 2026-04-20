@@ -57,29 +57,19 @@ export default async function NewProductPage({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              SKU OFINA <span className="text-red-600">*</span>
-            </label>
-            <input
-              name="ofina_sku"
-              required
-              placeholder="VD: OFN-GXV-0123"
-              className="w-full px-3 py-2 border border-neutral-300 rounded-lg font-mono uppercase"
-            />
-            <p className="text-xs text-neutral-500 mt-1">
-              Format: OFN-[loại]-[số]. Ví dụ OFN-GXV-0123.
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">SKU Govi (nếu có)</label>
-            <input
-              name="govi_sku"
-              placeholder="VD: V08B-BL"
-              className="w-full px-3 py-2 border border-neutral-300 rounded-lg font-mono"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            SKU OFINA <span className="text-red-600">*</span>
+          </label>
+          <input
+            name="ofina_sku"
+            required
+            placeholder="VD: OFN-GXV-0123"
+            className="w-full px-3 py-2 border border-neutral-300 rounded-lg font-mono uppercase"
+          />
+          <p className="text-xs text-neutral-500 mt-1">
+            Format: OFN-[loại]-[số]. Ví dụ OFN-GXV-0123 (ghế xoay), OFN-BLV-0045 (bàn làm việc).
+          </p>
         </div>
 
         <div>

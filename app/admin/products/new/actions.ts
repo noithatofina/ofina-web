@@ -20,7 +20,6 @@ export async function createProductAction(formData: FormData) {
 
   const name = String(formData.get('name') || '').trim()
   const ofina_sku = String(formData.get('ofina_sku') || '').trim().toUpperCase()
-  const govi_sku = String(formData.get('govi_sku') || '').trim() || null
   const priceRaw = String(formData.get('price') || '0').replace(/[^\d]/g, '')
   const price = parseInt(priceRaw, 10) || 0
   const category_id = String(formData.get('category_id') || '').trim() || null
@@ -48,7 +47,6 @@ export async function createProductAction(formData: FormData) {
     .insert({
       name,
       ofina_sku,
-      govi_sku,
       slug,
       price,
       category_id,

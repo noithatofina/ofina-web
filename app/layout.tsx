@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
-import { FloatingActions } from '@/components/layout/FloatingActions'
+import { ShopChrome } from '@/components/layout/ShopChrome'
 import { CartProvider } from '@/lib/cart'
 import { Toaster } from 'react-hot-toast'
 
@@ -131,10 +129,7 @@ export default function RootLayout({
           <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
         ))}
         <CartProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <FloatingActions />
+          <ShopChrome>{children}</ShopChrome>
           <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         </CartProvider>
       </body>

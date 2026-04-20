@@ -1,8 +1,9 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createServerSupabase } from '@/lib/supabase'
 import { loginAction } from './actions'
 
-export const metadata = { title: 'Đăng nhập quản trị · OFINA' }
+export const metadata: Metadata = { title: 'Đăng nhập quản trị · OFINA' }
 
 export default async function AdminLoginPage({
   searchParams,

@@ -1,10 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { createServerSupabase } from '@/lib/supabase'
 import { isStaffEmail } from '@/lib/supabase-admin'
 import { logoutAction } from './login/actions'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'OFINA Admin',
   robots: { index: false, follow: false },
 }
@@ -13,15 +13,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const supabase = await createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Login page handles its own layout
-  // Middleware already protects /admin/* — this is defense in depth
-  if (!user && typeof window === 'undefined') {
-    // Let the login page render without the shell
-  }
-
-  const isLoginPage = false // can't easily detect here; use group layout if needed
-
-  // If no user, just render children (login page)
+  // If no user (e.g. on /admin/login) — render children without shell.
+  // Middleware already guards authenticated admin routes.
   if (!user || !isStaffEmail(user.email)) {
     return <>{children}</>
   }

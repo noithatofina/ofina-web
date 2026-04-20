@@ -100,6 +100,11 @@
 }
 
 /* Blog content — render HTML from CMS */
+/* Force font + clean inline styles from pasted ChatGPT/Word content */
+.blog-content, .blog-content * {
+  font-family: "Be Vietnam Pro", system-ui, -apple-system, sans-serif !important;
+  background-color: transparent !important;
+}
 .blog-content { color: #374151; font-size: 1.0625rem; line-height: 1.75; }
 .blog-content h2 { font-size: 1.75rem; font-weight: 700; color: #111827; margin: 2rem 0 1rem; line-height: 1.3; }
 .blog-content h3 { font-size: 1.375rem; font-weight: 700; color: #111827; margin: 1.75rem 0 0.75rem; line-height: 1.3; }

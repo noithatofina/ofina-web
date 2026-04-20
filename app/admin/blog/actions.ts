@@ -14,11 +14,36 @@ async function assertStaff() {
   }
 }
 
+function sanitizeHtml(raw: string): string {
+  if (!raw) return raw
+  return raw
+    // Xoá inline style="..." attribute (font, color, margin từ ChatGPT/Word)
+    .replace(/\s*style\s*=\s*"[^"]*"/gi, '')
+    .replace(/\s*style\s*=\s*'[^']*'/gi, '')
+    // Xoá class="..." (tránh Tailwind class ngẫu nhiên đè style)
+    .replace(/\s*class\s*=\s*"[^"]*"/gi, '')
+    .replace(/\s*class\s*=\s*'[^']*'/gi, '')
+    // Xoá <font>, <span> thẻ không cần (giữ nội dung)
+    .replace(/<\/?font[^>]*>/gi, '')
+    .replace(/<span[^>]*>/gi, '')
+    .replace(/<\/span>/gi, '')
+    // Xoá ID có dạng "docs-internal-guid-..." từ Google Docs
+    .replace(/\s*id\s*=\s*"docs-internal-[^"]*"/gi, '')
+    // Xoá data-* attribute
+    .replace(/\s*data-[\w-]+\s*=\s*"[^"]*"/gi, '')
+    // Normalize smart quotes về thường
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    // Xoá non-breaking space đầu/cuối dòng
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\u00a0/g, ' ')
+}
+
 function parsePostData(formData: FormData) {
   const title = String(formData.get('title') || '').trim()
   const slugInput = String(formData.get('slug') || '').trim()
   const excerpt = String(formData.get('excerpt') || '').trim() || null
-  const content = String(formData.get('content') || '').trim()
+  const content = sanitizeHtml(String(formData.get('content') || '').trim())
   const cover_image = String(formData.get('cover_image') || '').trim() || null
   const category = String(formData.get('category') || '').trim() || null
   const tagsRaw = String(formData.get('tags') || '').trim()

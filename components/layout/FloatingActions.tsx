@@ -4,8 +4,11 @@ import { useState, useEffect } from 'react'
 import { MessageCircle, Phone, ArrowUp, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { CONTACT } from '@/lib/utils'
+import type { ContactInfo } from '@/lib/shop-chrome-context'
 
-export function FloatingActions() {
+export function FloatingActions({ contact }: { contact?: ContactInfo } = {}) {
+  const hotline = contact?.hotline || CONTACT.hotline
+  const zaloUrl = contact?.zalo_url || CONTACT.zaloUrl
   const [showTop, setShowTop] = useState(false)
   const [chatOpen, setChatOpen] = useState(false)
   const [msg, setMsg] = useState('')
@@ -44,7 +47,7 @@ export function FloatingActions() {
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
         {/* Zalo */}
         <a
-          href={CONTACT.zaloUrl}
+          href={zaloUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="w-14 h-14 bg-[#0068FF] text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
@@ -55,7 +58,7 @@ export function FloatingActions() {
 
         {/* Call */}
         <a
-          href={`tel:${CONTACT.hotline}`}
+          href={`tel:${hotline}`}
           className="w-14 h-14 bg-green-600 text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform animate-pulse"
           aria-label="Gọi ngay"
         >
@@ -119,7 +122,7 @@ export function FloatingActions() {
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-brand-900 min-h-[80px]"
             />
             <button type="submit" className="btn-primary w-full">Gửi yêu cầu</button>
-            <p className="text-xs text-gray-500 text-center">Hoặc gọi trực tiếp: <a href={`tel:${CONTACT.hotline}`} className="text-brand-900 font-semibold">{CONTACT.hotline}</a></p>
+            <p className="text-xs text-gray-500 text-center">Hoặc gọi trực tiếp: <a href={`tel:${hotline}`} className="text-brand-900 font-semibold">{hotline}</a></p>
           </form>
         </div>
       )}

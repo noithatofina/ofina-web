@@ -5,28 +5,39 @@ import { FormEvent, useState } from 'react'
 import { Facebook, Mail, MapPin, Phone, Youtube } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { CONTACT } from '@/lib/utils'
+import type { ContactInfo, Branch } from '@/lib/shop-chrome-context'
 
-export function Footer() {
-  const [email, setEmail] = useState('')
+export function Footer({
+  contact,
+  branches: cmsBranches,
+}: {
+  contact?: ContactInfo
+  branches?: Branch[]
+} = {}) {
+  const hotline = contact?.hotline || CONTACT.hotline
+  const email = contact?.email || CONTACT.email
+  const facebookUrl = contact?.facebook_url || CONTACT.facebookUrl
+  const branches = cmsBranches && cmsBranches.length > 0 ? cmsBranches : CONTACT.branches
+  const [newsletterEmail, setNewsletterEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleNewsletter(e: FormEvent) {
     e.preventDefault()
-    if (!email) return
+    if (!newsletterEmail) return
     setLoading(true)
     try {
       const res = await fetch('/api/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email,
+          email: newsletterEmail,
           source: 'newsletter',
           subject: 'Đăng ký nhận tin',
         }),
       })
       if (res.ok) {
         toast.success('Đã đăng ký nhận tin từ OFINA! 🎉')
-        setEmail('')
+        setNewsletterEmail('')
       } else toast.error('Có lỗi, vui lòng thử lại')
     } catch {
       toast.error('Lỗi kết nối')
@@ -53,13 +64,13 @@ export function Footer() {
             Chuẩn quốc tế, giá hợp lý, dịch vụ tận tâm.
           </p>
           <div className="flex gap-3">
-            <a href={CONTACT.facebookUrl} className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent-500 transition-colors" aria-label="Facebook">
+            <a href={facebookUrl} className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent-500 transition-colors" aria-label="Facebook">
               <Facebook className="w-5 h-5" />
             </a>
             <a href="#" className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent-500 transition-colors" aria-label="YouTube">
               <Youtube className="w-5 h-5" />
             </a>
-            <a href={`mailto:${CONTACT.email}`} className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent-500 transition-colors" aria-label="Email">
+            <a href={`mailto:${email}`} className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-accent-500 transition-colors" aria-label="Email">
               <Mail className="w-5 h-5" />
             </a>
           </div>
@@ -101,7 +112,7 @@ export function Footer() {
         <div>
           <h3 className="text-white font-bold text-lg mb-4">Liên hệ</h3>
           <ul className="space-y-3 text-sm">
-            {CONTACT.branches.map((b) => (
+            {branches.map((b) => (
               <li key={b.address} className="flex items-start gap-2">
                 <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-accent-400" />
                 <span>
@@ -112,11 +123,11 @@ export function Footer() {
             ))}
             <li className="flex items-center gap-2">
               <Phone className="w-5 h-5 text-accent-400" />
-              <a href={`tel:${CONTACT.hotline}`} className="hover:text-accent-400">Hotline: {CONTACT.hotline}</a>
+              <a href={`tel:${hotline}`} className="hover:text-accent-400">Hotline: {hotline}</a>
             </li>
             <li className="flex items-center gap-2">
               <Mail className="w-5 h-5 text-accent-400" />
-              <a href={`mailto:${CONTACT.email}`} className="hover:text-accent-400">{CONTACT.email}</a>
+              <a href={`mailto:${email}`} className="hover:text-accent-400">{email}</a>
             </li>
           </ul>
           <div className="mt-6">
@@ -125,8 +136,8 @@ export function Footer() {
               <input
                 type="email"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
                 placeholder="Email của bạn"
                 className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:border-accent-400"
               />

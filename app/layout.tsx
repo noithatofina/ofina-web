@@ -3,6 +3,8 @@ import './globals.css'
 import { ShopChrome } from '@/components/layout/ShopChrome'
 import { CartProvider } from '@/lib/cart'
 import { Toaster } from 'react-hot-toast'
+import { getSetting } from '@/lib/site-settings'
+import type { ShopChromeSettings } from '@/lib/shop-chrome-context'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 const HOTLINE = '0325669996'
@@ -107,11 +109,23 @@ const LOCAL_BUSINESS_LD = [
   },
 ]
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [topbar, contact, branchesRaw, branding] = await Promise.all([
+    getSetting<{ messages: string[] }>('home.topbar', { messages: [] }),
+    getSetting<any>('contact.info', {}),
+    getSetting<{ items: any[] }>('contact.branches', { items: [] }),
+    getSetting<any>('branding', {}),
+  ])
+  const chromeSettings: ShopChromeSettings = {
+    topbar,
+    contact: contact.hotline ? contact : undefined,
+    branches: branchesRaw.items,
+    branding: branding.logo_url || branding.favicon_url || branding.og_image_url ? branding : undefined,
+  }
   return (
     <html lang="vi">
       <head>
@@ -129,7 +143,7 @@ export default function RootLayout({
           <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
         ))}
         <CartProvider>
-          <ShopChrome>{children}</ShopChrome>
+          <ShopChrome settings={chromeSettings}>{children}</ShopChrome>
           <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         </CartProvider>
       </body>

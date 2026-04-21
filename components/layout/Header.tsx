@@ -8,8 +8,22 @@ import { Search, ShoppingCart, Phone, Menu, X, ChevronDown, Sparkles } from 'luc
 import { CONTACT, cn } from '@/lib/utils'
 import { useCart } from '@/lib/cart'
 import { NAV_MENU } from '@/lib/nav-menu'
+import type { ContactInfo } from '@/lib/shop-chrome-context'
 
-export function Header() {
+export function Header({
+  topbarMessages,
+  contact,
+  logoUrl,
+}: {
+  topbarMessages?: string[]
+  contact?: ContactInfo
+  logoUrl?: string
+} = {}) {
+  const hotline = contact?.hotline || CONTACT.hotline
+  const messages = topbarMessages && topbarMessages.length > 0
+    ? topbarMessages
+    : ['Miễn phí giao hàng nội thành HCM', 'Bảo hành 2 năm', 'Đổi trả 7 ngày']
+  const topbarText = messages.join(' · ')
   const router = useRouter()
   const { count } = useCart()
   const [scrolled, setScrolled] = useState(false)
@@ -40,10 +54,10 @@ export function Header() {
       {/* Top bar */}
       <div className="bg-brand-900 text-white text-sm hidden md:block">
         <div className="container-custom flex justify-between py-2">
-          <span>Miễn phí giao hàng nội thành HCM · Bảo hành 2 năm · Đổi trả 7 ngày</span>
+          <span>{topbarText}</span>
           <div className="flex gap-4">
-            <a href={`tel:${CONTACT.hotline}`} className="hover:text-accent-400 transition-colors">
-              📞 {CONTACT.hotline}
+            <a href={`tel:${hotline}`} className="hover:text-accent-400 transition-colors">
+              📞 {hotline}
             </a>
             <span>|</span>
             <Link href="/tra-cuu-don-hang" className="hover:text-accent-400 transition-colors">Tra cứu đơn</Link>
@@ -60,11 +74,12 @@ export function Header() {
           <Link href="/" className="flex items-center gap-2.5 group py-4">
             <div className="w-14 h-14 bg-brand-900 rounded-xl flex items-center justify-center group-hover:bg-brand-800 transition-colors p-2">
               <Image
-                src="/logo.png"
+                src={logoUrl || '/logo.png'}
                 alt="OFINA logo"
                 width={56}
                 height={56}
                 priority
+                unoptimized={!!logoUrl}
                 className="w-full h-full object-contain"
               />
             </div>
@@ -170,10 +185,10 @@ export function Header() {
               )}
             </Link>
             <a
-              href={`tel:${CONTACT.hotline}`}
+              href={`tel:${hotline}`}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-brand-900"
-              aria-label={`Gọi ngay ${CONTACT.hotline}`}
-              title={`Gọi ${CONTACT.hotline}`}
+              aria-label={`Gọi ngay ${hotline}`}
+              title={`Gọi ${hotline}`}
             >
               <Phone className="w-5 h-5" />
             </a>

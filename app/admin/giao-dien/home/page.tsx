@@ -7,6 +7,9 @@ import {
   updateHomeStatsAction,
   updateHomeFaqAction,
   updateHomeBrandStoryAction,
+  updateHomeTrustBarAction,
+  updateHomeCollectionsAction,
+  updateHomeWhyUsAction,
 } from '../actions'
 
 export const dynamic = 'force-dynamic'
@@ -32,6 +35,20 @@ export default async function HomeEditorPage() {
   const brandStory = await getSetting<{ title: string; content: string }>('home.brand_story', {
     title: '',
     content: '',
+  })
+  const trustBar = await getSetting<{ items: Array<{ title: string; desc: string }> }>(
+    'home.trust_bar',
+    { items: [] },
+  )
+  const collections = await getSetting<{ items: Array<{ title: string; subtitle: string; image: string; href: string }> }>(
+    'home.collections',
+    { items: [] },
+  )
+  const whyUs = await getSetting<any>('home.why_us', {
+    heading_subtitle: '',
+    heading_title: '',
+    heading_desc: '',
+    items: [],
   })
 
   return (
@@ -187,6 +204,99 @@ export default async function HomeEditorPage() {
             )
           })}
           <SubmitBtn label="Lưu FAQ" />
+        </form>
+      </Section>
+
+      {/* ===== Trust Bar ===== */}
+      <Section title="Trust Bar (6 cam kết)" desc="Thanh icon 6 cam kết hiển thị ngay sau Hero">
+        <form action={updateHomeTrustBarAction} className="space-y-3">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="grid grid-cols-[1fr_2fr] gap-2">
+              <input
+                name={`title_${i}`}
+                defaultValue={trustBar.items[i]?.title || ''}
+                placeholder={`Tiêu đề ${i + 1}`}
+                className="px-3 py-2 border border-neutral-300 rounded-lg"
+              />
+              <input
+                name={`desc_${i}`}
+                defaultValue={trustBar.items[i]?.desc || ''}
+                placeholder="Mô tả"
+                className="px-3 py-2 border border-neutral-300 rounded-lg"
+              />
+            </div>
+          ))}
+          <SubmitBtn label="Lưu Trust Bar" />
+        </form>
+      </Section>
+
+      {/* ===== Featured Collections ===== */}
+      <Section title="Bộ sưu tập nổi bật (3 card)" desc="3 card lớn dẫn đến danh mục">
+        <form action={updateHomeCollectionsAction} className="space-y-4">
+          {[0, 1, 2, 3, 4, 5].map((i) => {
+            const c = collections.items[i] || { title: '', subtitle: '', image: '', href: '' }
+            if (i > 2 && !c.title) return null
+            return (
+              <div key={i} className="border border-neutral-200 rounded-lg p-3 space-y-2 bg-neutral-50">
+                <input
+                  name={`title_${i}`}
+                  defaultValue={c.title}
+                  placeholder={`Card ${i + 1} — tiêu đề`}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-white"
+                />
+                <input
+                  name={`subtitle_${i}`}
+                  defaultValue={c.subtitle}
+                  placeholder="Mô tả ngắn"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-white"
+                />
+                <input
+                  name={`image_${i}`}
+                  type="url"
+                  defaultValue={c.image}
+                  placeholder="URL ảnh (khuyến nghị 800×600)"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-white"
+                />
+                <input
+                  name={`href_${i}`}
+                  defaultValue={c.href}
+                  placeholder="Link (vd: /danh-muc/ghe-xoay-van-phong)"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-white font-mono text-sm"
+                />
+              </div>
+            )
+          })}
+          <SubmitBtn label="Lưu Collections" />
+        </form>
+      </Section>
+
+      {/* ===== Why Choose Us ===== */}
+      <Section title="Vì sao chọn OFINA (6 lý do)" desc="Section cam kết, 6 card">
+        <form action={updateHomeWhyUsAction} className="space-y-3">
+          <Field label="Label nhỏ phía trên" name="heading_subtitle" defaultValue={whyUs.heading_subtitle || ''} />
+          <Field label="Tiêu đề chính" name="heading_title" defaultValue={whyUs.heading_title || ''} />
+          <Field label="Mô tả dưới tiêu đề" name="heading_desc" defaultValue={whyUs.heading_desc || ''} />
+
+          <div className="mt-4 pt-4 border-t">
+            <div className="text-sm font-medium mb-2">6 lý do:</div>
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="grid grid-cols-[1fr_2fr] gap-2 mb-2">
+                <input
+                  name={`title_${i}`}
+                  defaultValue={whyUs.items?.[i]?.title || ''}
+                  placeholder={`Lý do ${i + 1}`}
+                  className="px-3 py-2 border border-neutral-300 rounded-lg"
+                />
+                <input
+                  name={`desc_${i}`}
+                  defaultValue={whyUs.items?.[i]?.desc || ''}
+                  placeholder="Mô tả"
+                  className="px-3 py-2 border border-neutral-300 rounded-lg"
+                />
+              </div>
+            ))}
+          </div>
+          <SubmitBtn label="Lưu Vì sao OFINA" />
         </form>
       </Section>
 

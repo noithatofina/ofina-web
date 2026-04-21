@@ -107,6 +107,15 @@ export default async function HomePage() {
     getSetting<{ messages: string[] }>('home.topbar', { messages: [] }),
   ])
 
+  const [trustBarSetting, collectionsSetting, whyUsSetting] = await Promise.all([
+    getSetting<{ items: Array<{ title: string; desc: string }> }>('home.trust_bar', { items: [] }),
+    getSetting<{ items: Array<{ title: string; subtitle: string; image: string; href: string }> }>(
+      'home.collections',
+      { items: [] },
+    ),
+    getSetting<any>('home.why_us', { heading_subtitle: '', heading_title: '', heading_desc: '', items: [] }),
+  ])
+
   // Hero featured product: ưu tiên slug được set trong CMS, fallback về query mặc định
   let heroProductFromCms: any = null
   if (heroSetting?.featured_product_slug) {
@@ -334,22 +343,31 @@ export default async function HomePage() {
       {/* ============ TRUST BAR (compact) ============ */}
       <section aria-label="Cam kết của OFINA" className="bg-gray-50 border-b">
         <div className="container-custom py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { icon: Truck, title: 'Miễn phí giao HN/HCM', desc: 'Đơn từ 500k' },
-            { icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Chính hãng' },
-            { icon: RefreshCw, title: 'Đổi trả 7 ngày', desc: 'Không lý do' },
-            { icon: CreditCard, title: 'Trả góp 0%', desc: 'Qua thẻ tín dụng' },
-          ].map((item) => (
-            <div key={item.title} className="flex items-center gap-2.5">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-brand-900 shadow-sm flex-shrink-0">
-                <item.icon className="w-5 h-5" aria-hidden="true" />
-              </div>
-              <div className="min-w-0">
-                <div className="font-semibold text-sm text-brand-900 truncate">{item.title}</div>
-                <div className="text-xs text-gray-600 truncate">{item.desc}</div>
-              </div>
-            </div>
-          ))}
+          {(() => {
+            const defaultIcons = [Truck, Shield, RefreshCw, CreditCard, BadgeCheck, Headphones]
+            const items = trustBarSetting.items.length > 0
+              ? trustBarSetting.items.slice(0, 6)
+              : [
+                  { title: 'Miễn phí giao HN/HCM', desc: 'Đơn từ 500k' },
+                  { title: 'Bảo hành 24 tháng', desc: 'Chính hãng' },
+                  { title: 'Đổi trả 7 ngày', desc: 'Không lý do' },
+                  { title: 'Trả góp 0%', desc: 'Qua thẻ tín dụng' },
+                ]
+            return items.slice(0, 4).map((item, i) => {
+              const Icon = defaultIcons[i] || Shield
+              return (
+                <div key={`${item.title}-${i}`} className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-brand-900 shadow-sm flex-shrink-0">
+                    <Icon className="w-5 h-5" aria-hidden="true" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-sm text-brand-900 truncate">{item.title}</div>
+                    <div className="text-xs text-gray-600 truncate">{item.desc}</div>
+                  </div>
+                </div>
+              )
+            })
+          })()}
         </div>
       </section>
 
@@ -364,10 +382,13 @@ export default async function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
-            {COLLECTIONS.map((c) => (
+            {(collectionsSetting.items.length > 0
+              ? collectionsSetting.items.slice(0, 3).map(c => ({ ...c, slug: c.href.replace(/^\//, '') }))
+              : COLLECTIONS.map(c => ({ ...c, href: `/danh-muc/${c.slug}` }))
+            ).map((c, i) => (
               <Link
-                key={c.slug}
-                href={`/danh-muc/${c.slug}`}
+                key={`${c.title}-${i}`}
+                href={c.href || '/san-pham'}
                 className="group relative aspect-[4/5] md:aspect-[3/4] rounded-3xl overflow-hidden hover:shadow-2xl transition-shadow"
               >
                 <Image
@@ -375,9 +396,10 @@ export default async function HomePage() {
                   alt={c.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
+                  unoptimized={c.image?.startsWith('http')}
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className={`absolute inset-0 bg-gradient-to-t ${c.gradient}`} aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent" aria-hidden="true" />
                 <div className="absolute inset-0 p-6 md:p-7 flex flex-col justify-end text-white">
                   <h3 className="font-display text-2xl md:text-3xl font-bold mb-2 leading-tight">{c.title}</h3>
                   <p className="text-sm md:text-base opacity-95 mb-4">{c.subtitle}</p>
@@ -497,23 +519,36 @@ export default async function HomePage() {
       <section className="py-16 bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-10">
-            <span className="text-gray-500 font-semibold text-sm uppercase tracking-wider">Cam kết OFINA</span>
+            <span className="text-gray-500 font-semibold text-sm uppercase tracking-wider">
+              {whyUsSetting.heading_subtitle || 'Cam kết OFINA'}
+            </span>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-3">
-              Vì sao 1,200+ doanh nghiệp chọn OFINA?
+              {whyUsSetting.heading_title || 'Vì sao 1,200+ doanh nghiệp chọn OFINA?'}
             </h2>
-            <p className="text-gray-600">Cam kết chất lượng — dịch vụ tận tâm — giá tốt nhất thị trường</p>
+            <p className="text-gray-600">
+              {whyUsSetting.heading_desc || 'Cam kết chất lượng — dịch vụ tận tâm — giá tốt nhất thị trường'}
+            </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {WHY_CHOOSE.map((r) => (
-              <div key={r.title} className="bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-900 hover:shadow-lg transition-all">
-                <div className="w-11 h-11 rounded-xl bg-gray-900 text-white flex items-center justify-center mb-3">
-                  <r.icon className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <h3 className="font-bold text-base text-gray-900 mb-1">{r.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{r.desc}</p>
-              </div>
-            ))}
+            {(() => {
+              const icons = [BadgeCheck, Shield, Truck, CreditCard, RefreshCw, Headphones]
+              const items = whyUsSetting.items && whyUsSetting.items.length > 0
+                ? whyUsSetting.items
+                : WHY_CHOOSE.map(w => ({ title: w.title, desc: w.desc }))
+              return items.slice(0, 6).map((r: any, i: number) => {
+                const Icon = icons[i] || Shield
+                return (
+                  <div key={`${r.title}-${i}`} className="bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-900 hover:shadow-lg transition-all">
+                    <div className="w-11 h-11 rounded-xl bg-gray-900 text-white flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5" aria-hidden="true" />
+                    </div>
+                    <h3 className="font-bold text-base text-gray-900 mb-1">{r.title}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{r.desc}</p>
+                  </div>
+                )
+              })
+            })()}
           </div>
         </div>
       </section>

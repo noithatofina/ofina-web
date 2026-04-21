@@ -92,6 +92,50 @@ export async function updateHomeBrandStoryAction(formData: FormData) {
   revalidateAll()
 }
 
+export async function updateHomeTrustBarAction(formData: FormData) {
+  const { email, role } = await requireStaff()
+  const items = []
+  for (let i = 0; i < 8; i++) {
+    const title = field(formData, `title_${i}`)
+    const desc = field(formData, `desc_${i}`)
+    if (title) items.push({ title, desc })
+  }
+  await setSetting('home.trust_bar', { items }, email, role)
+  revalidateAll()
+}
+
+export async function updateHomeCollectionsAction(formData: FormData) {
+  const { email, role } = await requireStaff()
+  const items = []
+  for (let i = 0; i < 6; i++) {
+    const title = field(formData, `title_${i}`)
+    const subtitle = field(formData, `subtitle_${i}`)
+    const image = field(formData, `image_${i}`)
+    const href = field(formData, `href_${i}`)
+    if (title && image) items.push({ title, subtitle, image, href })
+  }
+  await setSetting('home.collections', { items }, email, role)
+  revalidateAll()
+}
+
+export async function updateHomeWhyUsAction(formData: FormData) {
+  const { email, role } = await requireStaff()
+  const items = []
+  for (let i = 0; i < 10; i++) {
+    const title = field(formData, `title_${i}`)
+    const desc = field(formData, `desc_${i}`)
+    if (title) items.push({ title, desc })
+  }
+  const value = {
+    heading_subtitle: field(formData, 'heading_subtitle'),
+    heading_title: field(formData, 'heading_title'),
+    heading_desc: field(formData, 'heading_desc'),
+    items,
+  }
+  await setSetting('home.why_us', value, email, role)
+  revalidateAll()
+}
+
 // ===== KHUYẾN MÃI =====
 
 export async function updateKhuyenMaiAction(formData: FormData) {

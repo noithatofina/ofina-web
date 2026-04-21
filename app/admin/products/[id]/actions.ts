@@ -8,7 +8,7 @@ import { createAdminClient, isStaffEmail } from '@/lib/supabase-admin'
 async function assertStaff() {
   const supabase = await createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user || !isStaffEmail(user.email)) {
+  if (!user || !(await isStaffEmail(user.email))) {
     redirect('/admin/login')
   }
   return user

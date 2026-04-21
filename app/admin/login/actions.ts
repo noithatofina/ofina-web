@@ -9,7 +9,7 @@ export async function loginAction(formData: FormData) {
   const password = String(formData.get('password') || '')
   const redirectTo = String(formData.get('redirect') || '/admin/products')
 
-  if (!isStaffEmail(email)) {
+  if (!(await isStaffEmail(email))) {
     redirect('/admin/login?error=forbidden')
   }
 

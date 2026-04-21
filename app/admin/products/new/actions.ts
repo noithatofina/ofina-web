@@ -9,7 +9,7 @@ import { slugify } from '@/lib/utils'
 async function assertStaff() {
   const supabase = await createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user || !isStaffEmail(user.email)) {
+  if (!user || !(await isStaffEmail(user.email))) {
     redirect('/admin/login')
   }
 }

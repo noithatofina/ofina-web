@@ -5,6 +5,7 @@ import { CartProvider } from '@/lib/cart'
 import { Toaster } from 'react-hot-toast'
 import { getSetting } from '@/lib/site-settings'
 import type { ShopChromeSettings } from '@/lib/shop-chrome-context'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 const HOTLINE = '0325669996'
@@ -146,6 +147,7 @@ export default async function RootLayout({
           <ShopChrome settings={chromeSettings}>{children}</ShopChrome>
           <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         </CartProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   )

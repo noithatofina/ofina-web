@@ -8,6 +8,7 @@ import { NAV_MENU } from '@/lib/nav-menu'
 import { CONTACT, formatPrice } from '@/lib/utils'
 import { CategoryStickyNav } from '@/components/home/CategoryStickyNav'
 import { ProductTabs } from '@/components/home/ProductTabs'
+import { getSetting } from '@/lib/site-settings'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
@@ -91,7 +92,7 @@ const COLLECTIONS = [
 export default async function HomePage() {
   const { newest, categories } = await getHomepageData()
 
-  const [ergonomicChairs, executiveDesks, executiveChairs, featured2026] = await Promise.all([
+  const [ergonomicChairs, executiveDesks, executiveChairs, featured2026, statsSetting, faqSetting, brandStorySetting] = await Promise.all([
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
     getNewProductsByCategory(['ban-lanh-dao', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
     getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
@@ -99,14 +100,25 @@ export default async function HomePage() {
       ['ghe-xoay-van-phong', 'ghe-da-giam-doc', 'ghe-cong-thai-hoc', 'ghe-xoay-luoi', 'ban-nang-ha-thong-minh', 'ban-lanh-dao'],
       1
     ),
+    getSetting<{ items: Array<{ label: string; value: string; suffix?: string }> }>('home.stats', { items: [] }),
+    getSetting<{ items: Array<{ q: string; a: string }> }>('home.faq', { items: [] }),
+    getSetting<{ title: string; content: string }>('home.brand_story', { title: '', content: '' }),
   ])
 
   const featuredHeroProduct = featured2026[0] || (newest || [])[0]
 
+  // Stats: ưu tiên DB, fallback hardcoded STATS
+  const statsItems = statsSetting.items.length > 0
+    ? statsSetting.items.map(i => ({ value: `${i.value}${i.suffix || ''}`, label: i.label }))
+    : STATS
+
+  // FAQ: ưu tiên DB, fallback HOMEPAGE_FAQ
+  const faqItems = faqSetting.items.length > 0 ? faqSetting.items : HOMEPAGE_FAQ
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: HOMEPAGE_FAQ.map((f) => ({
+    mainEntity: faqItems.map((f) => ({
       '@type': 'Question',
       name: f.q,
       acceptedAnswer: { '@type': 'Answer', text: f.a },
@@ -443,7 +455,7 @@ export default async function HomePage() {
       {/* ============ STATS COUNTER ============ */}
       <section aria-label="Thống kê OFINA" className="py-12 bg-gray-900 text-white">
         <div className="container-custom grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          {STATS.map((s) => (
+          {statsItems.map((s) => (
             <div key={s.label}>
               <div className="text-4xl md:text-5xl font-bold text-white">{s.value}</div>
               <div className="text-sm md:text-base text-gray-400 mt-1">{s.label}</div>
@@ -537,24 +549,31 @@ export default async function HomePage() {
           <div className="text-center mb-8">
             <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Về OFINA</span>
             <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2">
-              Nội thất văn phòng thay đổi trải nghiệm làm việc
+              {brandStorySetting.title || 'Nội thất văn phòng thay đổi trải nghiệm làm việc'}
             </h2>
           </div>
 
-          <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-            <p>
-              <strong>OFINA</strong> là đơn vị phân phối nội thất văn phòng cao cấp tại Việt Nam, với sứ mệnh mang đến
-              giải pháp không gian làm việc <strong>hiện đại, tiện nghi và bền vững</strong> cho mọi quy mô doanh nghiệp.
-              Bộ sưu tập <strong>2,400+ sản phẩm</strong> được tuyển chọn kỹ càng — đảm bảo tiêu chuẩn công thái học
-              quốc tế, vật liệu cao cấp và độ bền vượt trội.
-            </p>
-            <p>
-              Với <strong>2 showroom</strong> tại Hà Nội và TP.HCM, khách hàng có thể trải nghiệm trực tiếp sản phẩm.
-              Đội ngũ kiến trúc sư hỗ trợ <strong>khảo sát + thiết kế bố trí văn phòng miễn phí</strong> cho đơn B2B
-              từ 50 triệu đồng. Cam kết <strong>giá tốt nhất</strong> — hoàn tiền nếu khách tìm được nơi rẻ hơn.
-              Liên hệ hotline <a href={`tel:${CONTACT.hotline}`} className="text-brand-900 font-semibold hover:underline">{CONTACT.hotline}</a> để được tư vấn miễn phí 24/7.
-            </p>
-          </div>
+          {brandStorySetting.content ? (
+            <div
+              className="blog-content max-w-none text-gray-700"
+              dangerouslySetInnerHTML={{ __html: brandStorySetting.content }}
+            />
+          ) : (
+            <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+              <p>
+                <strong>OFINA</strong> là đơn vị phân phối nội thất văn phòng cao cấp tại Việt Nam, với sứ mệnh mang đến
+                giải pháp không gian làm việc <strong>hiện đại, tiện nghi và bền vững</strong> cho mọi quy mô doanh nghiệp.
+                Bộ sưu tập <strong>2,400+ sản phẩm</strong> được tuyển chọn kỹ càng — đảm bảo tiêu chuẩn công thái học
+                quốc tế, vật liệu cao cấp và độ bền vượt trội.
+              </p>
+              <p>
+                Với <strong>2 showroom</strong> tại Hà Nội và TP.HCM, khách hàng có thể trải nghiệm trực tiếp sản phẩm.
+                Đội ngũ kiến trúc sư hỗ trợ <strong>khảo sát + thiết kế bố trí văn phòng miễn phí</strong> cho đơn B2B
+                từ 50 triệu đồng. Cam kết <strong>giá tốt nhất</strong> — hoàn tiền nếu khách tìm được nơi rẻ hơn.
+                Liên hệ hotline <a href={`tel:${CONTACT.hotline}`} className="text-brand-900 font-semibold hover:underline">{CONTACT.hotline}</a> để được tư vấn miễn phí 24/7.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -569,7 +588,7 @@ export default async function HomePage() {
           </div>
 
           <div className="space-y-3">
-            {HOMEPAGE_FAQ.map((item, i) => (
+            {faqItems.map((item, i) => (
               <details
                 key={i}
                 className="group rounded-xl border bg-white open:shadow-md transition-shadow"

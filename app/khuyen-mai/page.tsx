@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
 import { createClient } from '@supabase/supabase-js'
+import { getSetting } from '@/lib/site-settings'
 
 export const metadata = {
   title: 'Khuyến mãi - Giảm đến 20% | OFINA',
@@ -43,24 +44,55 @@ async function getSaleProducts() {
 }
 
 export default async function SalePage() {
-  const { products } = await getSaleProducts()
+  const [{ products }, cms] = await Promise.all([
+    getSaleProducts(),
+    getSetting<{ title: string; banner_image: string; content: string }>('page.khuyen_mai', {
+      title: '',
+      banner_image: '',
+      content: '',
+    }),
+  ])
 
   return (
     <div>
-      <section className="bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white py-16 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,255,0.1)_10px,rgba(255,255,255,0.1)_20px)]" />
-        <div className="container-custom text-center relative z-10">
-          <div className="inline-block px-4 py-1 bg-white/20 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
-            🔥 MEGA SALE
+      <section className="relative overflow-hidden">
+        {cms.banner_image ? (
+          <div
+            className="bg-cover bg-center text-white py-20"
+            style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(${cms.banner_image})` }}
+          >
+            <div className="container-custom text-center relative z-10">
+              <h1 className="font-display text-5xl md:text-6xl font-bold mb-4">
+                {cms.title || 'Khuyến mãi sốc — Giảm đến 20%'}
+              </h1>
+            </div>
           </div>
-          <h1 className="font-display text-5xl md:text-6xl font-bold mb-4">
-            Khuyến mãi sốc — Giảm đến 20%
-          </h1>
-          <p className="text-xl opacity-95 max-w-2xl mx-auto">
-            Hàng trăm sản phẩm nội thất văn phòng đang được giảm giá — số lượng có hạn!
-          </p>
-        </div>
+        ) : (
+          <div className="bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white py-16">
+            <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,255,0.1)_10px,rgba(255,255,255,0.1)_20px)]" />
+            <div className="container-custom text-center relative z-10">
+              <div className="inline-block px-4 py-1 bg-white/20 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
+                🔥 MEGA SALE
+              </div>
+              <h1 className="font-display text-5xl md:text-6xl font-bold mb-4">
+                {cms.title || 'Khuyến mãi sốc — Giảm đến 20%'}
+              </h1>
+              <p className="text-xl opacity-95 max-w-2xl mx-auto">
+                Hàng trăm sản phẩm nội thất văn phòng đang được giảm giá — số lượng có hạn!
+              </p>
+            </div>
+          </div>
+        )}
       </section>
+
+      {cms.content && (
+        <section className="container-custom py-10">
+          <div
+            className="blog-content max-w-4xl mx-auto"
+            dangerouslySetInnerHTML={{ __html: cms.content }}
+          />
+        </section>
+      )}
 
       <div className="container-custom py-12">
         <div className="flex items-center justify-between mb-8">

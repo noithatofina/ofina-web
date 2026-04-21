@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { createServerSupabase } from '@/lib/supabase'
 import { createAdminClient, isStaffEmail } from '@/lib/supabase-admin'
 import { slugify } from '@/lib/utils'
+import { sanitizeHtml } from '@/lib/sanitize-html'
 
 async function assertStaff() {
   const supabase = await createServerSupabase()
@@ -12,31 +13,6 @@ async function assertStaff() {
   if (!user || !(await isStaffEmail(user.email))) {
     redirect('/admin/login')
   }
-}
-
-function sanitizeHtml(raw: string): string {
-  if (!raw) return raw
-  return raw
-    // Xoá inline style="..." attribute (font, color, margin từ ChatGPT/Word)
-    .replace(/\s*style\s*=\s*"[^"]*"/gi, '')
-    .replace(/\s*style\s*=\s*'[^']*'/gi, '')
-    // Xoá class="..." (tránh Tailwind class ngẫu nhiên đè style)
-    .replace(/\s*class\s*=\s*"[^"]*"/gi, '')
-    .replace(/\s*class\s*=\s*'[^']*'/gi, '')
-    // Xoá <font>, <span> thẻ không cần (giữ nội dung)
-    .replace(/<\/?font[^>]*>/gi, '')
-    .replace(/<span[^>]*>/gi, '')
-    .replace(/<\/span>/gi, '')
-    // Xoá ID có dạng "docs-internal-guid-..." từ Google Docs
-    .replace(/\s*id\s*=\s*"docs-internal-[^"]*"/gi, '')
-    // Xoá data-* attribute
-    .replace(/\s*data-[\w-]+\s*=\s*"[^"]*"/gi, '')
-    // Normalize smart quotes về thường
-    .replace(/[\u2018\u2019]/g, "'")
-    .replace(/[\u201C\u201D]/g, '"')
-    // Xoá non-breaking space đầu/cuối dòng
-    .replace(/&nbsp;/g, ' ')
-    .replace(/\u00a0/g, ' ')
 }
 
 function parsePostData(formData: FormData) {

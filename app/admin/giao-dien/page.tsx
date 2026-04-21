@@ -15,6 +15,7 @@ export default async function GiaoDienIndexPage() {
   const adminSections = [
     { href: '/admin/giao-dien/lien-he', title: 'Thông tin liên hệ', desc: 'Hotline, email, địa chỉ showroom, social links' },
     { href: '/admin/giao-dien/gioi-thieu', title: 'Trang Giới thiệu', desc: 'Nội dung /gioi-thieu' },
+    { href: '/admin/giao-dien/chinh-sach', title: 'Các trang Chính sách', desc: '6 trang: đổi trả, bảo hành, vận chuyển, thanh toán, bảo mật, điều khoản' },
     { href: '/admin/giao-dien/branding', title: 'Logo & Branding', desc: 'Logo, favicon, OG image, ảnh showroom' },
   ]
 

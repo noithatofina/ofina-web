@@ -58,6 +58,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 <Link href="/admin/giao-dien/gioi-thieu" className="block px-3 py-2 rounded hover:bg-neutral-800 text-sm">
                   Trang Giới thiệu
                 </Link>
+                <Link href="/admin/giao-dien/chinh-sach" className="block px-3 py-2 rounded hover:bg-neutral-800 text-sm">
+                  Các trang Chính sách
+                </Link>
                 <Link href="/admin/giao-dien/branding" className="block px-3 py-2 rounded hover:bg-neutral-800 text-sm">
                   Logo &amp; Branding
                 </Link>

@@ -3,10 +3,16 @@
 import { revalidatePath } from 'next/cache'
 import { requireStaff } from '@/lib/auth-guard'
 import { setSetting, type SiteSettingKey } from '@/lib/site-settings'
+import { sanitizeHtml } from '@/lib/sanitize-html'
 
 /** Đọc 1 field JSON từ FormData, parse số/bool. */
 function field(fd: FormData, name: string): string {
   return String(fd.get(name) || '').trim()
+}
+
+/** Đọc HTML field với sanitize (xoá inline style/class từ ChatGPT/Word paste). */
+function htmlField(fd: FormData, name: string): string {
+  return sanitizeHtml(String(fd.get(name) || '').trim())
 }
 
 function fieldAll(fd: FormData, name: string): string[] {
@@ -80,7 +86,7 @@ export async function updateHomeBrandStoryAction(formData: FormData) {
   const { email, role } = await requireStaff()
   const value = {
     title: field(formData, 'title'),
-    content: field(formData, 'content'),
+    content: htmlField(formData, 'content'),
   }
   await setSetting('home.brand_story', value, email, role)
   revalidateAll()
@@ -93,7 +99,7 @@ export async function updateKhuyenMaiAction(formData: FormData) {
   const value = {
     title: field(formData, 'title'),
     banner_image: field(formData, 'banner_image'),
-    content: field(formData, 'content'),
+    content: htmlField(formData, 'content'),
   }
   await setSetting('page.khuyen_mai', value, email, role)
   revalidatePath('/khuyen-mai')
@@ -132,7 +138,7 @@ export async function updateGioiThieuAction(formData: FormData) {
   const { email, role } = await requireStaff({ requireAdmin: true })
   const value = {
     title: field(formData, 'title'),
-    content: field(formData, 'content'),
+    content: htmlField(formData, 'content'),
   }
   await setSetting('page.gioi_thieu', value, email, role)
   revalidatePath('/gioi-thieu')

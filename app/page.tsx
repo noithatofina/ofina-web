@@ -92,7 +92,7 @@ const COLLECTIONS = [
 export default async function HomePage() {
   const { newest, categories } = await getHomepageData()
 
-  const [ergonomicChairs, executiveDesks, executiveChairs, featured2026, statsSetting, faqSetting, brandStorySetting] = await Promise.all([
+  const [ergonomicChairs, executiveDesks, executiveChairs, featured2026, statsSetting, faqSetting, brandStorySetting, heroSetting, topbarSetting] = await Promise.all([
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
     getNewProductsByCategory(['ban-lanh-dao', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
     getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
@@ -103,9 +103,45 @@ export default async function HomePage() {
     getSetting<{ items: Array<{ label: string; value: string; suffix?: string }> }>('home.stats', { items: [] }),
     getSetting<{ items: Array<{ q: string; a: string }> }>('home.faq', { items: [] }),
     getSetting<{ title: string; content: string }>('home.brand_story', { title: '', content: '' }),
+    getSetting<any>('home.hero', {}),
+    getSetting<{ messages: string[] }>('home.topbar', { messages: [] }),
   ])
 
-  const featuredHeroProduct = featured2026[0] || (newest || [])[0]
+  // Hero featured product: ưu tiên slug được set trong CMS, fallback về query mặc định
+  let heroProductFromCms: any = null
+  if (heroSetting?.featured_product_slug) {
+    const found = await getNewProductsByCategory([], 0).then(async () => {
+      const admin = (await import('@/lib/supabase-admin')).createAdminClient()
+      const { data } = await admin
+        .from('products')
+        .select('*, product_images(url, position, is_primary)')
+        .eq('slug', heroSetting.featured_product_slug)
+        .eq('status', 'active')
+        .maybeSingle()
+      if (!data) return null
+      const imgs = (data.product_images || []).sort((a: any, b: any) => a.position - b.position)
+      return {
+        ...data,
+        primary_image: imgs.find((i: any) => i.is_primary)?.url || imgs[0]?.url || null,
+      }
+    })
+    heroProductFromCms = found
+  }
+  const featuredHeroProduct = heroProductFromCms || featured2026[0] || (newest || [])[0]
+
+  // Hero text content: ưu tiên CMS, fallback hardcoded
+  const heroHeadline = heroSetting?.headline || 'Nội Thất Văn Phòng Cao Cấp.'
+  const heroSubheadline = heroSetting?.subheadline || 'Giảm đến 20% cho đơn đầu tiên'
+  const heroTagline = heroSetting?.tagline || '2,400+ sản phẩm tuyển chọn từ thương hiệu uy tín. Bảo hành 24 tháng · Miễn phí giao Hà Nội & HCM · Trả góp 0%.'
+  const heroCtaLabel = heroSetting?.cta_label || 'Khám phá sản phẩm'
+  const heroCtaHref = heroSetting?.cta_href || '/san-pham-moi-2026'
+  const heroStats = (heroSetting?.stats && heroSetting.stats.length > 0)
+    ? heroSetting.stats
+    : [
+        { value: '1,234+', label: 'khách hài lòng' },
+        { value: '4.8', label: 'điểm trung bình' },
+        { value: '95', label: 'danh mục SP' },
+      ]
 
   // Stats: ưu tiên DB, fallback hardcoded STATS
   const statsItems = statsSetting.items.length > 0
@@ -161,27 +197,26 @@ export default async function HomePage() {
                   </span>
                   Khai trương 2026
                 </span>
-                <span className="text-sm text-gray-600">Giảm đến <strong className="text-gray-900">20%</strong> cho đơn đầu tiên</span>
+                {heroSubheadline && <span className="text-sm text-gray-600">{heroSubheadline}</span>}
               </div>
 
               {/* Editorial display heading */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-6">
-                Nội Thất<br/>
-                Văn Phòng<br/>
-                Cao Cấp.
-              </h1>
+              <h1
+                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-6"
+                dangerouslySetInnerHTML={{ __html: heroHeadline }}
+              />
 
               <p className="text-base md:text-lg text-gray-600 max-w-xl mb-8 leading-relaxed">
-                2,400+ sản phẩm tuyển chọn từ thương hiệu uy tín. Bảo hành 24 tháng · Miễn phí giao Hà Nội & HCM · Trả góp 0%.
+                {heroTagline}
               </p>
 
               {/* CTA pill with floating arrow circle */}
               <div className="flex flex-wrap items-center gap-4 mb-10">
                 <Link
-                  href="/san-pham-moi-2026"
+                  href={heroCtaHref}
                   className="group inline-flex items-center gap-3 pl-7 pr-3 py-3 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-800 transition-all shadow-2xl shadow-gray-900/20"
                 >
-                  Khám phá sản phẩm
+                  {heroCtaLabel}
                   <span className="w-9 h-9 bg-white text-gray-900 rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform">
                     <ArrowRight className="w-4 h-4" />
                   </span>
@@ -191,32 +226,26 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              {/* Inline stats row with avatar stack */}
+              {/* Inline stats row — dynamic from CMS */}
               <div className="flex flex-wrap items-center gap-x-6 gap-y-4 pt-6 border-t border-gray-200">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex -space-x-2">
-                    {['#1A5FBF', '#F59E0B', '#10B981', '#6366F1'].map((c, i) => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white shadow-sm" style={{ background: c }} aria-hidden="true" />
-                    ))}
+                {heroStats.slice(0, 4).map((s: { value: string; label: string }, i: number) => (
+                  <div key={`${s.label}-${i}`} className="flex items-center gap-2">
+                    {i === 0 && (
+                      <div className="flex -space-x-2 mr-1.5">
+                        {['#1A5FBF', '#F59E0B', '#10B981', '#6366F1'].map((c, j) => (
+                          <div key={j} className="w-8 h-8 rounded-full border-2 border-white shadow-sm" style={{ background: c }} aria-hidden="true" />
+                        ))}
+                      </div>
+                    )}
+                    <div>
+                      <div className="font-bold text-gray-900 text-sm leading-tight">{s.value}</div>
+                      <div className="text-xs text-gray-500 leading-tight">{s.label}</div>
+                    </div>
+                    {i < heroStats.slice(0, 4).length - 1 && (
+                      <div className="h-8 w-px bg-gray-200 ml-3" aria-hidden="true" />
+                    )}
                   </div>
-                  <div>
-                    <div className="font-bold text-gray-900 text-sm leading-tight">1,234+</div>
-                    <div className="text-xs text-gray-500 leading-tight">khách hài lòng</div>
-                  </div>
-                </div>
-                <div className="h-8 w-px bg-gray-200" aria-hidden="true" />
-                <div>
-                  <div className="flex items-center gap-1 text-amber-500">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
-                    <span className="text-gray-900 font-bold ml-1 text-sm">4.8</span>
-                  </div>
-                  <div className="text-xs text-gray-500 mt-0.5">điểm trung bình</div>
-                </div>
-                <div className="h-8 w-px bg-gray-200" aria-hidden="true" />
-                <div>
-                  <div className="font-bold text-gray-900 text-sm leading-tight">95</div>
-                  <div className="text-xs text-gray-500 leading-tight">danh mục SP</div>
-                </div>
+                ))}
               </div>
             </div>
 

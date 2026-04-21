@@ -6,6 +6,8 @@ import { Toaster } from 'react-hot-toast'
 import { getSetting } from '@/lib/site-settings'
 import type { ShopChromeSettings } from '@/lib/shop-chrome-context'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 const HOTLINE = '0325669996'
@@ -148,6 +150,8 @@ export default async function RootLayout({
           <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         </CartProvider>
         <GoogleAnalytics />
+        <VercelAnalytics />
+        <SpeedInsights />
       </body>
     </html>
   )

@@ -34,6 +34,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <nav className="flex-1 p-4 space-y-4 overflow-y-auto">
           <div>
             <div className="text-[10px] text-neutral-500 uppercase tracking-wider mb-2 px-3">Nội dung</div>
+            <Link href="/admin/orders" className="block px-3 py-2 rounded hover:bg-neutral-800 text-sm">
+              Đơn hàng
+            </Link>
             <Link href="/admin/products" className="block px-3 py-2 rounded hover:bg-neutral-800 text-sm">
               Sản phẩm
             </Link>

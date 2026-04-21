@@ -154,3 +154,40 @@ export async function updateBrandingAction(formData: FormData) {
   await setSetting('branding', value, email, role)
   revalidateAll()
 }
+
+/** Upload 1 file vào Supabase Storage bucket `branding`, update 1 field trong setting. */
+export async function uploadBrandingImageAction(formData: FormData) {
+  const { email, role } = await requireStaff({ requireAdmin: true })
+  const { createAdminClient } = await import('@/lib/supabase-admin')
+  const { getSetting } = await import('@/lib/site-settings')
+
+  const target = String(formData.get('target') || '') as 'logo_url' | 'favicon_url' | 'og_image_url'
+  if (!['logo_url', 'favicon_url', 'og_image_url'].includes(target)) {
+    throw new Error('Target không hợp lệ')
+  }
+
+  const file = formData.get('file') as File | null
+  if (!file || file.size === 0) throw new Error('Chưa chọn file')
+  if (file.size > 5 * 1024 * 1024) throw new Error('File > 5MB')
+
+  const admin = createAdminClient()
+  const ext = (file.name.split('.').pop() || 'png').toLowerCase()
+  const key = `${target}-${Date.now()}.${ext}`
+
+  const { error: upErr } = await admin.storage.from('branding').upload(key, file, {
+    upsert: true,
+    contentType: file.type,
+  })
+  if (upErr) throw new Error(upErr.message)
+
+  const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/branding/${key}`
+
+  // Update setting — merge với value cũ
+  const current = await getSetting<{ logo_url: string; favicon_url: string; og_image_url: string }>(
+    'branding',
+    { logo_url: '', favicon_url: '', og_image_url: '' },
+  )
+  const newValue = { ...current, [target]: publicUrl }
+  await setSetting('branding', newValue, email, role)
+  revalidateAll()
+}

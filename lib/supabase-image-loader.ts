@@ -1,12 +1,12 @@
 /**
- * Custom loader cho next/image:
- * - Supabase Storage URLs → dùng Image Transformation API (resize on-the-fly).
- * - URL ngoài (Unsplash, OG images, branding URLs khác) → trả nguyên (bypass).
+ * Custom loader cho next/image.
  *
- * URL pattern Supabase:
- *   /storage/v1/object/public/<bucket>/<path>      ← raw object
- *   /storage/v1/render/image/public/<bucket>/<path> ← transformed image
+ * Supabase Image Transformation chỉ available ở Pro tier ($25/m). Hiện tại
+ * Free → trả về URL gốc /object/public/. Ảnh được CDN cache nhưng không
+ * resize. Khi upgrade Supabase Pro, đổi `ENABLE_TRANSFORM = true`.
  */
+
+const ENABLE_TRANSFORM = false
 
 export default function supabaseImageLoader({
   src,
@@ -17,7 +17,7 @@ export default function supabaseImageLoader({
   width: number
   quality?: number
 }): string {
-  if (src.includes('/storage/v1/object/public/')) {
+  if (ENABLE_TRANSFORM && src.includes('/storage/v1/object/public/')) {
     const transformed = src.replace(
       '/storage/v1/object/public/',
       '/storage/v1/render/image/public/',

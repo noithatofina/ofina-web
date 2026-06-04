@@ -4,9 +4,13 @@
  * Hiện tại dùng MOCK DATA để dev nhanh.
  * Khi Supabase được setup (env NEXT_PUBLIC_SUPABASE_URL có giá trị), tự động
  * chuyển sang query Supabase thật.
+ *
+ * Public reads dùng `createPublicSupabase()` — KHÔNG đọc cookies → cho phép
+ * Next.js static-cache page (TTFB từ ~4s xuống ~0.3s).
  */
 
 import type { Product, Category } from './supabase'
+import { createPublicSupabase } from './supabase-public'
 
 const USE_SUPABASE = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL)
 
@@ -108,10 +112,8 @@ export async function getHomepageData() {
     }
   }
 
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
 
-  // Categories nổi bật: chọn 8 danh mục chính
   const FEATURED_SLUGS = [
     'ghe-xoay-van-phong',
     'ghe-da-giam-doc',
@@ -132,7 +134,6 @@ export async function getHomepageData() {
   const featured = (featuredRes.data || []).map(mapProduct)
   const newest = (newestRes.data || []).map(mapProduct)
 
-  // Category image fallback + product counts
   const categoryImageFallback: Record<string, string> = {
     'ghe-xoay-van-phong': 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=600&q=80',
     'ghe-da-giam-doc': 'https://images.unsplash.com/photo-1541558869434-2840d308329a?w=600&q=80',
@@ -144,24 +145,29 @@ export async function getHomepageData() {
     'sofa-van-phong': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80',
   }
 
-  // Get product counts for categories
+  // Fix N+1: gộp 8 count queries thành 1 query rồi count trong JS.
+  // 8 categories × ~hàng nghìn rows = vài chục KB transfer, cache 1h ở page level.
   const categoryIds = (categoriesRes.data || []).map((c: any) => c.id)
-  const countPromises = categoryIds.map((id: string) =>
-    supabase.from('products').select('id', { count: 'exact' }).eq('category_id', id).eq('status', 'active')
-  )
-  const countResults = await Promise.all(countPromises)
-  const counts = countResults.map((r: any) => r.count || 0)
+  const counts: Record<string, number> = {}
+  if (categoryIds.length > 0) {
+    const { data: countRows } = await supabase
+      .from('products')
+      .select('category_id')
+      .in('category_id', categoryIds)
+      .eq('status', 'active')
+    for (const row of countRows || []) {
+      counts[row.category_id] = (counts[row.category_id] || 0) + 1
+    }
+  }
 
-  // Giữ thứ tự theo FEATURED_SLUGS
   const categoriesWithImage = FEATURED_SLUGS
     .map(slug => {
-      const idx = (categoriesRes.data || []).findIndex((c: any) => c.slug === slug)
-      if (idx === -1) return null
-      const c = categoriesRes.data![idx]
+      const c = (categoriesRes.data || []).find((c: any) => c.slug === slug)
+      if (!c) return null
       return {
         ...c,
         image: c.image || categoryImageFallback[c.slug] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
-        product_count: counts[idx] || 0,
+        product_count: counts[c.id] || 0,
       }
     })
     .filter(Boolean)
@@ -178,8 +184,7 @@ export async function getProductBySlug(slug: string) {
   if (!USE_SUPABASE) {
     return SAMPLE_PRODUCTS.find(p => p.slug === slug) || null
   }
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
   const { data } = await supabase.from('products').select(PRODUCT_SELECT).eq('slug', slug).maybeSingle()
   return mapProduct(data)
 }
@@ -187,8 +192,7 @@ export async function getProductBySlug(slug: string) {
 export async function getRelatedProducts(opts: { productId: string; categoryId?: string | null; limit?: number }) {
   const { productId, categoryId, limit = 8 } = opts
   if (!USE_SUPABASE) return SAMPLE_PRODUCTS.slice(0, limit)
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
 
   let q = supabase
     .from('products')
@@ -206,18 +210,16 @@ export async function getRelatedProducts(opts: { productId: string; categoryId?:
 
 export async function getCategoryById(id: string) {
   if (!USE_SUPABASE) return null
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
   const { data } = await supabase.from('categories').select('id, slug, name').eq('id', id).maybeSingle()
   return data
 }
 
 export async function getNewProductsByCategory(categorySlugs: string[], limit = 8) {
   if (!USE_SUPABASE) return SAMPLE_PRODUCTS.slice(0, limit)
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  if (categorySlugs.length === 0) return []
+  const supabase = createPublicSupabase()
 
-  // Get category IDs
   const { data: cats } = await supabase
     .from('categories')
     .select('id')
@@ -237,13 +239,24 @@ export async function getNewProductsByCategory(categorySlugs: string[], limit = 
   return (data || []).map(mapProduct)
 }
 
+/** Public: query 1 product by slug — dùng riêng cho hero featured ở homepage. */
+export async function getProductBySlugPublic(slug: string) {
+  if (!USE_SUPABASE) return SAMPLE_PRODUCTS.find(p => p.slug === slug) || null
+  const supabase = createPublicSupabase()
+  const { data } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT)
+    .eq('slug', slug)
+    .eq('status', 'active')
+    .maybeSingle()
+  return mapProduct(data)
+}
+
 export async function getNewProducts(opts: { limit?: number; offset?: number } = {}) {
   const { limit = 24, offset = 0 } = opts
   if (!USE_SUPABASE) return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
 
-  // SP mới: sort theo created_at DESC, ưu tiên SP có giá và còn hàng
   const { data, count } = await supabase
     .from('products')
     .select(PRODUCT_SELECT, { count: 'exact' })
@@ -259,8 +272,7 @@ export async function getNewProducts(opts: { limit?: number; offset?: number } =
 export async function getAllProducts(opts: { limit?: number; offset?: number } = {}) {
   const { limit = 24, offset = 0 } = opts
   if (!USE_SUPABASE) return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
   const { data, count } = await supabase
     .from('products')
     .select(PRODUCT_SELECT, { count: 'exact' })
@@ -278,10 +290,8 @@ export async function searchProducts(
   if (!USE_SUPABASE || !query) {
     return { products: [], total: 0 }
   }
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
 
-  // Search bằng ilike trên name + ofina_sku (đơn giản hơn full-text search)
   const { data, count } = await supabase
     .from('products')
     .select(PRODUCT_SELECT, { count: 'exact' })
@@ -296,8 +306,7 @@ export async function getCategoryInfo(slug: string) {
   if (!USE_SUPABASE) {
     return MOCK_CATEGORIES.find(c => c.slug === slug) || null
   }
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
   const { data } = await supabase.from('categories').select('*').eq('slug', slug).maybeSingle()
   return data
 }
@@ -311,8 +320,7 @@ export async function getProductsBySubcategories(
   if (!USE_SUPABASE || categorySlugs.length === 0) {
     return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
   }
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
 
   const { data: cats } = await supabase.from('categories').select('id').in('slug', categorySlugs)
   if (!cats || cats.length === 0) return { products: [], total: 0 }
@@ -347,8 +355,7 @@ export async function getProductsByCategory(
   if (!USE_SUPABASE) {
     return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
   }
-  const { createServerSupabase } = await import('./supabase')
-  const supabase = await createServerSupabase()
+  const supabase = createPublicSupabase()
 
   const { data: category } = await supabase.from('categories').select('id').eq('slug', categorySlug).maybeSingle()
   if (!category) return { products: [], total: 0 }
@@ -359,11 +366,9 @@ export async function getProductsByCategory(
     .eq('category_id', category.id)
     .eq('status', 'active')
 
-  // Price filter
   if (minPrice !== undefined && minPrice > 0) q = q.gte('price', minPrice)
   if (maxPrice !== undefined && maxPrice > 0) q = q.lte('price', maxPrice)
 
-  // Sort
   if (sort === 'price-asc') q = q.order('price', { ascending: true }).gt('price', 0)
   else if (sort === 'price-desc') q = q.order('price', { ascending: false })
   else if (sort === 'name') q = q.order('name', { ascending: true })

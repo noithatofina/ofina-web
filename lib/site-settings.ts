@@ -1,4 +1,6 @@
+import { unstable_cache, revalidateTag } from 'next/cache'
 import { createAdminClient } from './supabase-admin'
+import { createPublicSupabase } from './supabase-public'
 
 export type SiteSettingKey =
   | 'home.topbar'
@@ -26,18 +28,31 @@ type SettingRow<T = any> = {
   updated_by: string | null
 }
 
+export const SETTINGS_CACHE_TAG = 'site-settings'
+
+/**
+ * Fetch ALL settings 1 lần / giờ. 22 settings tổng → ~vài KB, fetch luôn cả bảng
+ * rẻ hơn nhiều so với eq('key', X) × N lần.
+ */
+export const getAllSettings = unstable_cache(
+  async (): Promise<Record<string, any>> => {
+    const sb = createPublicSupabase()
+    const { data } = await sb.from('site_settings').select('key, value')
+    const map: Record<string, any> = {}
+    for (const row of data || []) map[row.key] = row.value
+    return map
+  },
+  ['site-settings-all'],
+  { tags: [SETTINGS_CACHE_TAG], revalidate: 3600 },
+)
+
 /** Read 1 setting. Returns `fallback` if not found. */
 export async function getSetting<T = any>(
   key: SiteSettingKey,
   fallback: T,
 ): Promise<T> {
-  const admin = createAdminClient()
-  const { data } = await admin
-    .from('site_settings')
-    .select('value')
-    .eq('key', key)
-    .maybeSingle()
-  return (data?.value as T) ?? fallback
+  const all = await getAllSettings()
+  return (all[key] as T) ?? fallback
 }
 
 /** Read all settings the current role can edit. Used in admin UI. */
@@ -60,7 +75,7 @@ export async function getSettingRow(key: SiteSettingKey): Promise<SettingRow | n
   return (data as SettingRow) || null
 }
 
-/** Write 1 setting. Checks role before write. */
+/** Write 1 setting. Checks role before write. Invalidates public cache. */
 export async function setSetting(
   key: SiteSettingKey,
   value: any,
@@ -76,7 +91,6 @@ export async function setSetting(
 
   if (!existing) throw new Error(`Setting ${key} không tồn tại`)
 
-  // Admin can edit anything; editor can only edit editor-level settings
   if (existing.role_required === 'admin' && userRole !== 'admin') {
     throw new Error('Bạn không có quyền sửa setting này')
   }
@@ -87,4 +101,6 @@ export async function setSetting(
     .eq('key', key)
 
   if (error) throw new Error(error.message)
+
+  revalidateTag(SETTINGS_CACHE_TAG)
 }

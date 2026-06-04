@@ -3,12 +3,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Shield, Truck, RefreshCw, Sparkles, MessageSquare, BadgeCheck, Headphones, MapPin, CreditCard, Star } from 'lucide-react'
 import { ProductCard } from '@/components/product/ProductCard'
-import { getHomepageData, getNewProductsByCategory } from '@/lib/queries'
+import { getHomepageData, getNewProductsByCategory, getProductBySlugPublic } from '@/lib/queries'
 import { NAV_MENU } from '@/lib/nav-menu'
 import { CONTACT, formatPrice } from '@/lib/utils'
 import { CategoryStickyNav } from '@/components/home/CategoryStickyNav'
 import { ProductTabs } from '@/components/home/ProductTabs'
-import { getSetting } from '@/lib/site-settings'
+import { getAllSettings } from '@/lib/site-settings'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
@@ -90,9 +90,10 @@ const COLLECTIONS = [
 ]
 
 export default async function HomePage() {
-  const { newest, categories } = await getHomepageData()
-
-  const [ergonomicChairs, executiveDesks, executiveChairs, featured2026, statsSetting, faqSetting, brandStorySetting, heroSetting, topbarSetting] = await Promise.all([
+  // 1 fetch settings (cached 1h) + 5 product queries song song
+  const [{ newest, categories }, allSettings, ergonomicChairs, executiveDesks, executiveChairs, featured2026] = await Promise.all([
+    getHomepageData(),
+    getAllSettings(),
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
     getNewProductsByCategory(['ban-lanh-dao', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
     getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
@@ -100,42 +101,19 @@ export default async function HomePage() {
       ['ghe-xoay-van-phong', 'ghe-da-giam-doc', 'ghe-cong-thai-hoc', 'ghe-xoay-luoi', 'ban-nang-ha-thong-minh', 'ban-lanh-dao'],
       1
     ),
-    getSetting<{ items: Array<{ label: string; value: string; suffix?: string }> }>('home.stats', { items: [] }),
-    getSetting<{ items: Array<{ q: string; a: string }> }>('home.faq', { items: [] }),
-    getSetting<{ title: string; content: string }>('home.brand_story', { title: '', content: '' }),
-    getSetting<any>('home.hero', {}),
-    getSetting<{ messages: string[] }>('home.topbar', { messages: [] }),
   ])
 
-  const [trustBarSetting, collectionsSetting, whyUsSetting] = await Promise.all([
-    getSetting<{ items: Array<{ title: string; desc: string }> }>('home.trust_bar', { items: [] }),
-    getSetting<{ items: Array<{ title: string; subtitle: string; image: string; href: string }> }>(
-      'home.collections',
-      { items: [] },
-    ),
-    getSetting<any>('home.why_us', { heading_subtitle: '', heading_title: '', heading_desc: '', items: [] }),
-  ])
+  const statsSetting: { items: Array<{ label: string; value: string; suffix?: string }> } = allSettings['home.stats'] || { items: [] }
+  const faqSetting: { items: Array<{ q: string; a: string }> } = allSettings['home.faq'] || { items: [] }
+  const brandStorySetting: { title: string; content: string } = allSettings['home.brand_story'] || { title: '', content: '' }
+  const heroSetting: any = allSettings['home.hero'] || {}
+  const trustBarSetting: { items: Array<{ title: string; desc: string }> } = allSettings['home.trust_bar'] || { items: [] }
+  const collectionsSetting: { items: Array<{ title: string; subtitle: string; image: string; href: string }> } = allSettings['home.collections'] || { items: [] }
+  const whyUsSetting: any = allSettings['home.why_us'] || { heading_subtitle: '', heading_title: '', heading_desc: '', items: [] }
 
-  // Hero featured product: ưu tiên slug được set trong CMS, fallback về query mặc định
-  let heroProductFromCms: any = null
-  if (heroSetting?.featured_product_slug) {
-    const found = await getNewProductsByCategory([], 0).then(async () => {
-      const admin = (await import('@/lib/supabase-admin')).createAdminClient()
-      const { data } = await admin
-        .from('products')
-        .select('*, product_images(url, position, is_primary)')
-        .eq('slug', heroSetting.featured_product_slug)
-        .eq('status', 'active')
-        .maybeSingle()
-      if (!data) return null
-      const imgs = (data.product_images || []).sort((a: any, b: any) => a.position - b.position)
-      return {
-        ...data,
-        primary_image: imgs.find((i: any) => i.is_primary)?.url || imgs[0]?.url || null,
-      }
-    })
-    heroProductFromCms = found
-  }
+  const heroProductFromCms = heroSetting?.featured_product_slug
+    ? await getProductBySlugPublic(heroSetting.featured_product_slug)
+    : null
   const featuredHeroProduct = heroProductFromCms || featured2026[0] || (newest || [])[0]
 
   // Hero text content: ưu tiên CMS, fallback hardcoded

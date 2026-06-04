@@ -31,9 +31,9 @@
 
   --color-sale: #DC2626;
 
-  /* Single font system: Be Vietnam Pro cho mọi text (native Vietnamese support) */
-  --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
-  --font-display: "Be Vietnam Pro", system-ui, sans-serif;
+  /* Be Vietnam Pro self-hosted qua next/font (variable: --font-be-vietnam) */
+  --font-sans: var(--font-be-vietnam), system-ui, sans-serif;
+  --font-display: var(--font-be-vietnam), system-ui, sans-serif;
 }
 
 @layer base {
@@ -102,7 +102,7 @@
 /* Blog content — render HTML from CMS */
 /* Force font + clean inline styles from pasted ChatGPT/Word content */
 .blog-content, .blog-content * {
-  font-family: "Be Vietnam Pro", system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-be-vietnam), system-ui, -apple-system, sans-serif !important;
   background-color: transparent !important;
 }
 .blog-content { color: #374151; font-size: 1.0625rem; line-height: 1.75; }

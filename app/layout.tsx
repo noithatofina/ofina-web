@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import { Be_Vietnam_Pro } from 'next/font/google'
 import './globals.css'
 import { ShopChrome } from '@/components/layout/ShopChrome'
 import { CartProvider } from '@/lib/cart'
 import { Toaster } from 'react-hot-toast'
-import { getSetting } from '@/lib/site-settings'
+import { getAllSettings } from '@/lib/site-settings'
 import type { ShopChromeSettings } from '@/lib/shop-chrome-context'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
@@ -11,6 +12,13 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 const HOTLINE = '0325669996'
+
+const beVietnam = Be_Vietnam_Pro({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-be-vietnam',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -117,12 +125,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [topbar, contact, branchesRaw, branding] = await Promise.all([
-    getSetting<{ messages: string[] }>('home.topbar', { messages: [] }),
-    getSetting<any>('contact.info', {}),
-    getSetting<{ items: any[] }>('contact.branches', { items: [] }),
-    getSetting<any>('branding', {}),
-  ])
+  const allSettings = await getAllSettings()
+  const topbar = allSettings['home.topbar'] || { messages: [] }
+  const contact = allSettings['contact.info'] || {}
+  const branchesRaw = allSettings['contact.branches'] || { items: [] }
+  const branding = allSettings['branding'] || {}
+
   const chromeSettings: ShopChromeSettings = {
     topbar,
     contact: contact.hotline ? contact : undefined,
@@ -130,15 +138,7 @@ export default async function RootLayout({
     branding: branding.logo_url || branding.favicon_url || branding.og_image_url ? branding : undefined,
   }
   return (
-    <html lang="vi">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="vi" className={beVietnam.variable}>
       <body className="antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_LD) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_LD) }} />

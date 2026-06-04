@@ -2,12 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './lib/supabase-image-loader.ts',
     remotePatterns: [
       { protocol: 'https', hostname: '*.supabase.co' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
-    formats: ['image/avif', 'image/webp'],
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],

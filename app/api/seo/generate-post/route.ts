@@ -19,6 +19,7 @@ import { sendTelegram } from '@/lib/telegram'
 import { generateBlogPost } from '@/lib/ai-writer'
 import { SEO_TOPICS, type SeoTopic } from '@/lib/seo-topics'
 import { pingIndexNow } from '@/lib/indexnow'
+import { approveToken } from '@/lib/approve-token'
 
 export const maxDuration = 120 // sinh bài có thể mất ~30–60s
 
@@ -134,9 +135,17 @@ async function handle(req: NextRequest) {
       { buttons: [[{ text: '👀 Xem bài', url: liveUrl }, { text: '✏️ Sửa', url: adminUrl }]] }
     )
   } else {
+    const tok = approveToken(created.id)
+    const previewUrl = `${SITE_URL}/api/seo/preview?id=${created.id}&t=${tok}`
+    const approveUrl = `${SITE_URL}/api/seo/approve?id=${created.id}&t=${tok}`
     await sendTelegram(
-      `🤖📝 BÀI NHÁP CHỜ DUYỆT\n\n📝 ${post.title}\n🏷️ ${post.category}\n📄 ${post.excerpt}\n\n👉 Mở để đọc & bấm "Đăng" nếu OK:\n${adminUrl}`,
-      { buttons: [[{ text: '✍️ Duyệt bài ngay', url: adminUrl }]] }
+      `🤖📝 BÀI NHÁP CHỜ DUYỆT\n\n📝 ${post.title}\n🏷️ ${post.category}\n📄 ${post.excerpt}\n\n• Bấm "Đọc trước" để xem toàn bài (cuối trang có nút Đăng)\n• Hoặc bấm "Duyệt & Đăng ngay" để đăng luôn`,
+      {
+        buttons: [
+          [{ text: '👀 Đọc trước', url: previewUrl }],
+          [{ text: '✅ Duyệt & Đăng ngay', url: approveUrl }],
+        ],
+      }
     )
   }
 

@@ -7,6 +7,7 @@
  */
 
 import { createAdminClient } from '@/lib/supabase-admin'
+import { COLLECTIONS } from '@/lib/collections'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 const HOTLINE = process.env.NEXT_PUBLIC_HOTLINE || '0325669996'
@@ -76,6 +77,10 @@ export async function GET() {
 ## Danh mục sản phẩm
 
 ${categoryLines}
+
+## Bộ sưu tập theo nhu cầu
+
+${COLLECTIONS.map((c) => `- [${c.name}](${SITE_URL}/bo-suu-tap/${c.slug})`).join('\n')}
 
 ## Trang chính
 

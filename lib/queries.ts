@@ -11,6 +11,7 @@
 
 import type { Product, Category } from './supabase'
 import { createPublicSupabase } from './supabase-public'
+import type { CollectionFilter } from './collections'
 
 const USE_SUPABASE = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL)
 
@@ -178,6 +179,50 @@ export async function getHomepageData() {
     newest,
     featured: featured.slice(0, 4),
   }
+}
+
+/**
+ * Lấy sản phẩm cho một Bộ sưu tập (programmatic SEO landing page).
+ * Gom sản phẩm active từ nhiều danh mục + lọc giá, có phân trang.
+ */
+export async function getCollectionProducts(
+  filter: CollectionFilter,
+  opts: { limit?: number; offset?: number; sort?: string } = {}
+) {
+  const { limit = 24, offset = 0, sort = 'newest' } = opts
+
+  if (!USE_SUPABASE) {
+    return { products: SAMPLE_PRODUCTS, total: SAMPLE_PRODUCTS.length }
+  }
+  const supabase = createPublicSupabase()
+
+  const { data: cats } = await supabase
+    .from('categories')
+    .select('id')
+    .in('slug', filter.categorySlugs)
+  const ids = (cats || []).map((c: any) => c.id)
+  if (ids.length === 0) return { products: [], total: 0 }
+
+  let q = supabase
+    .from('products')
+    .select(PRODUCT_SELECT, { count: 'exact' })
+    .in('category_id', ids)
+    .eq('status', 'active')
+    .gt('price', 0)
+
+  if (filter.priceMin && filter.priceMin > 0) q = q.gte('price', filter.priceMin)
+  if (filter.priceMax && filter.priceMax > 0) q = q.lte('price', filter.priceMax)
+  if (filter.isBestseller) q = q.eq('is_bestseller', true)
+
+  if (sort === 'price-asc') q = q.order('price', { ascending: true })
+  else if (sort === 'price-desc') q = q.order('price', { ascending: false })
+  else if (sort === 'name') q = q.order('name', { ascending: true })
+  else q = q.order('created_at', { ascending: false })
+
+  q = q.range(offset, offset + limit - 1)
+
+  const { data, count } = await q
+  return { products: (data || []).map(mapProduct), total: count || 0 }
 }
 
 export async function getProductBySlug(slug: string) {

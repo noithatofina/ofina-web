@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { COLLECTIONS } from '@/lib/collections'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
@@ -12,6 +13,7 @@ const STATIC_PAGES: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/showroom', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/gioi-thieu', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/blog', priority: 0.6, changeFrequency: 'weekly' },
+  { path: '/bo-suu-tap', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/tu-van', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/bao-gia-b2b', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/chinh-sach/doi-tra', priority: 0.4, changeFrequency: 'yearly' },
@@ -32,8 +34,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: p.priority,
   }))
 
+  // Programmatic SEO — landing page bộ sưu tập
+  const collectionEntries: MetadataRoute.Sitemap = COLLECTIONS.map((c) => ({
+    url: `${SITE_URL}/bo-suu-tap/${c.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.75,
+  }))
+
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    return staticEntries
+    return [...staticEntries, ...collectionEntries]
   }
 
   const { createServerSupabase } = await import('@/lib/supabase')
@@ -71,5 +81,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticEntries, ...categoryEntries, ...productEntries]
+  return [...staticEntries, ...collectionEntries, ...categoryEntries, ...productEntries]
 }

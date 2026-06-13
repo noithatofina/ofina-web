@@ -107,8 +107,39 @@ export default async function BlogPostPage({
       })
     : null
 
+  const SITE_URL = 'https://ofina.vn'
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt || post.seo_description || undefined,
+    image: post.cover_image || `${SITE_URL}/og-image.jpg`,
+    datePublished: post.published_at || undefined,
+    dateModified: post.updated_at || post.published_at || undefined,
+    author: { '@type': post.author && post.author !== 'OFINA Team' ? 'Person' : 'Organization', name: post.author || 'OFINA' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'OFINA',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${post.slug}` },
+    inLanguage: 'vi-VN',
+    ...(post.keywords || post.tags ? { keywords: (post.tags || []).join(', ') } : {}),
+  }
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `${SITE_URL}/blog/${post.slug}` },
+    ],
+  }
+
   return (
     <div className="container-custom py-12 max-w-3xl">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <nav className="text-sm text-gray-500 mb-6 flex items-center gap-2">
         <Link href="/" className="hover:text-brand-900">
           Trang chủ

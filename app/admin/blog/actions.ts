@@ -6,6 +6,7 @@ import { createServerSupabase } from '@/lib/supabase'
 import { createAdminClient, isStaffEmail } from '@/lib/supabase-admin'
 import { slugify } from '@/lib/utils'
 import { sanitizeHtml } from '@/lib/sanitize-html'
+import { pingIndexNow } from '@/lib/indexnow'
 
 async function assertStaff() {
   const supabase = await createServerSupabase()
@@ -76,7 +77,10 @@ export async function createBlogPostAction(formData: FormData) {
 
   revalidatePath('/admin/blog')
   revalidatePath('/blog')
-  if (data.is_published) revalidatePath(`/blog/${data.slug}`)
+  if (data.is_published) {
+    revalidatePath(`/blog/${data.slug}`)
+    await pingIndexNow([`/blog/${data.slug}`, '/blog'])
+  }
   redirect(`/admin/blog/${created.id}?created=1`)
 }
 
@@ -122,6 +126,7 @@ export async function updateBlogPostAction(id: string, formData: FormData) {
   revalidatePath('/blog')
   revalidatePath(`/blog/${data.slug}`)
   if (current?.slug && current.slug !== data.slug) revalidatePath(`/blog/${current.slug}`)
+  if (data.is_published) await pingIndexNow([`/blog/${data.slug}`, '/blog'])
 }
 
 export async function deleteBlogPostAction(id: string) {

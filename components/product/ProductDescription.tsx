@@ -69,13 +69,13 @@ export function SpecsTable({ specs }: { specs?: Record<string, string> }) {
   const entries = Object.entries(specs)
   if (!entries.length) return null
   return (
-    <div className="rounded-xl border overflow-hidden">
-      <table className="w-full text-sm">
+    <div className="rounded-xl border border-gray-100 overflow-hidden">
+      <table className="w-full text-sm border-collapse">
         <tbody>
-          {entries.map(([k, v], idx) => (
-            <tr key={k} className={idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-              <th scope="row" className="text-left font-semibold text-gray-900 px-4 py-3 align-top w-1/3 md:w-1/4">{k}</th>
-              <td className="px-4 py-3 text-gray-700">{v}</td>
+          {entries.map(([k, v]) => (
+            <tr key={k} className="border-b border-gray-100 last:border-0">
+              <th scope="row" className="text-left text-xs font-medium text-gray-500 bg-gray-50/70 px-4 py-3 align-top w-2/5 md:w-1/3 border-r border-gray-100">{k}</th>
+              <td className="px-4 py-3 text-gray-800">{v}</td>
             </tr>
           ))}
         </tbody>

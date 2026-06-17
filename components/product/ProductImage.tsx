@@ -12,6 +12,7 @@ interface Props {
   height?: number
   priority?: boolean
   sizes?: string
+  fit?: 'cover' | 'contain'  // contain = không crop mất sản phẩm
   watermark?: 'full' | 'small' | 'none'  // DEPRECATED: ảnh đã có watermark sẵn
 }
 
@@ -20,8 +21,9 @@ interface Props {
  * Chỉ làm nhiệm vụ hiển thị ảnh đúng size/aspect-ratio
  */
 export function ProductImage({
-  src, alt, className, fill, width, height, priority, sizes,
+  src, alt, className, fill, width, height, priority, sizes, fit = 'cover',
 }: Props) {
+  const fitClass = fit === 'contain' ? 'object-contain' : 'object-cover'
   if (!src) {
     return (
       <div className={cn('bg-gray-100 flex items-center justify-center', className)}>
@@ -39,7 +41,7 @@ export function ProductImage({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover"
+          className={fitClass}
         />
       ) : (
         <Image
@@ -48,7 +50,7 @@ export function ProductImage({
           width={width || 500}
           height={height || 500}
           priority={priority}
-          className="w-full h-full object-cover"
+          className={cn('w-full h-full', fitClass)}
         />
       )}
     </div>

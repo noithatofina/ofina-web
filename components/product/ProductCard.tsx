@@ -1,11 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { ShoppingCart, Eye, Heart } from 'lucide-react'
-import toast from 'react-hot-toast'
 import { ProductImage } from './ProductImage'
 import { formatPrice, calcDiscountPercent } from '@/lib/utils'
-import { useCart } from '@/lib/cart'
 import type { Product } from '@/lib/supabase'
 
 interface Props {
@@ -13,35 +10,15 @@ interface Props {
 }
 
 export function ProductCard({ product }: Props) {
-  const { addItem } = useCart()
   const price = product.price || 0
   const comparePrice = product.compare_price || 0
   const discount = calcDiscountPercent(comparePrice || price, price)
-  const hasDiscount = comparePrice && comparePrice > price
+  const hasDiscount = !!comparePrice && comparePrice > price
   const img = product.primary_image || product.images?.[0] || '/placeholder-product.jpg'
 
-  function handleAdd(e: React.MouseEvent) {
-    e.preventDefault()
-    e.stopPropagation()
-    if (!price) {
-      toast.error('Sản phẩm này vui lòng liên hệ báo giá', { icon: '📞' })
-      return
-    }
-    addItem({
-      id: product.id,
-      slug: product.slug,
-      sku: product.ofina_sku || '',
-      name: product.name,
-      price,
-      compare_price: comparePrice,
-      image: img,
-    })
-    toast.success(`Đã thêm "${product.name.substring(0, 30)}..." vào giỏ`, { icon: '🛒' })
-  }
-
   return (
-    <article className="card group">
-      <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
+    <article className="group flex flex-col h-full bg-white rounded-lg border border-gray-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow overflow-hidden">
+      <div className="relative aspect-square bg-gray-50 overflow-hidden">
         <Link href={`/san-pham/${product.slug}`} className="block w-full h-full">
           <ProductImage
             src={img}
@@ -65,48 +42,41 @@ export function ProductCard({ product }: Props) {
             <span className="bg-accent-500 text-white text-xs font-bold px-2 py-1 rounded">BÁN CHẠY</span>
           )}
         </div>
-
-        {/* Hover actions */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-          <Link
-            href={`/san-pham/${product.slug}`}
-            className="w-9 h-9 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-brand-900 hover:text-white transition-colors"
-            aria-label="Xem nhanh"
-          >
-            <Eye className="w-4 h-4" />
-          </Link>
-        </div>
-
-        {/* Quick add */}
-        <button
-          onClick={handleAdd}
-          className="absolute bottom-0 left-0 right-0 bg-brand-900 text-white py-2.5 font-semibold flex items-center justify-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform z-20"
-        >
-          <ShoppingCart className="w-4 h-4" /> Thêm vào giỏ
-        </button>
       </div>
 
-      <div className="p-4">
-        <div className="text-xs text-gray-500 mb-1 uppercase tracking-wide">
-          {product.ofina_sku || ''}
-        </div>
-        <h3 className="font-semibold text-gray-900 line-clamp-2 mb-2 min-h-[2.75rem]">
+      <div className="p-3 sm:p-4 flex flex-col flex-1">
+        {product.ofina_sku ? (
+          <div className="text-[11px] text-gray-400 mb-1 uppercase tracking-wide truncate">
+            {product.ofina_sku}
+          </div>
+        ) : null}
+        <h3 className="font-medium text-sm sm:text-[15px] text-gray-900 line-clamp-2 mb-2 h-10 leading-snug overflow-hidden">
           <Link href={`/san-pham/${product.slug}`} className="hover:text-brand-900 transition-colors">
             {product.name}
           </Link>
         </h3>
 
-        <div className="flex items-baseline gap-2 flex-wrap">
-          {price > 0 ? (
-            <>
-              <span className="text-lg font-bold text-brand-900">{formatPrice(price)}</span>
-              {hasDiscount && (
-                <span className="text-sm text-gray-400 line-through">{formatPrice(comparePrice)}</span>
-              )}
-            </>
-          ) : (
-            <span className="text-sm text-brand-900 font-semibold">Liên hệ báo giá</span>
-          )}
+        {/* Giá + CTA luôn đẩy xuống đáy để các card thẳng hàng */}
+        <div className="mt-auto">
+          <div className="flex items-baseline gap-2 flex-wrap">
+            {price > 0 ? (
+              <>
+                <span className="text-base font-bold text-brand-900">{formatPrice(price)}</span>
+                {hasDiscount && (
+                  <span className="text-xs text-gray-400 line-through">{formatPrice(comparePrice)}</span>
+                )}
+              </>
+            ) : (
+              <span className="text-sm text-brand-900 font-semibold">Liên hệ báo giá</span>
+            )}
+          </div>
+
+          <Link
+            href={`/san-pham/${product.slug}`}
+            className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-brand-900 hover:text-brand-700 transition-colors"
+          >
+            Xem chi tiết <span aria-hidden>→</span>
+          </Link>
         </div>
       </div>
     </article>

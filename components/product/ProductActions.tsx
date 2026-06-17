@@ -1,10 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Minus, Plus, ShoppingCart, Heart } from 'lucide-react'
-import toast from 'react-hot-toast'
-import { useCart } from '@/lib/cart'
+import { Phone, MessageCircle } from 'lucide-react'
+import { CONTACT } from '@/lib/utils'
 
 interface Props {
   product: {
@@ -19,98 +16,36 @@ interface Props {
   }
 }
 
-export function ProductActions({ product }: Props) {
-  const router = useRouter()
-  const { addItem } = useCart()
-  const [quantity, setQuantity] = useState(1)
-
-  const disabled = !product.price || product.is_price_hidden
-
-  function handleAddToCart() {
-    if (disabled) {
-      toast.error('Sản phẩm này vui lòng liên hệ báo giá', { icon: '📞' })
-      return
-    }
-    addItem({
-      id: product.id,
-      slug: product.slug,
-      sku: product.ofina_sku || '',
-      name: product.name,
-      price: product.price,
-      compare_price: product.compare_price,
-      image: product.primary_image || '',
-      quantity,
-    })
-    toast.success(`Đã thêm ${quantity} × ${product.name.substring(0, 30)}...`, { icon: '🛒' })
-  }
-
-  function handleBuyNow() {
-    if (disabled) {
-      toast.error('Sản phẩm này vui lòng liên hệ báo giá')
-      return
-    }
-    addItem({
-      id: product.id,
-      slug: product.slug,
-      sku: product.ofina_sku || '',
-      name: product.name,
-      price: product.price,
-      compare_price: product.compare_price,
-      image: product.primary_image || '',
-      quantity,
-    })
-    router.push('/thanh-toan')
-  }
-
-  function handleWishlist() {
-    const key = 'ofina_wishlist_v1'
-    try {
-      const list = JSON.parse(localStorage.getItem(key) || '[]')
-      if (list.includes(product.id)) {
-        localStorage.setItem(key, JSON.stringify(list.filter((id: string) => id !== product.id)))
-        toast('Đã bỏ khỏi yêu thích', { icon: '💔' })
-      } else {
-        localStorage.setItem(key, JSON.stringify([...list, product.id]))
-        toast.success('Đã thêm vào yêu thích', { icon: '❤️' })
-      }
-    } catch {}
-  }
+/**
+ * CTA tư vấn-only (theo chuẩn M8ARC): khách xem sản phẩm rồi liên hệ tư vấn/báo giá.
+ * OFINA dùng 1 hotline chung → 2 nút thẳng, không cần chọn khu vực.
+ */
+export function ProductActions(_props: Props) {
+  const hotline = CONTACT.hotline
+  const zalo = CONTACT.zaloUrl
 
   return (
-    <>
-      <div className="mb-5">
-        <div className="font-semibold mb-2">Số lượng:</div>
-        <div className="inline-flex items-center gap-3 border-2 rounded-lg">
-          <button
-            onClick={() => setQuantity(q => Math.max(1, q - 1))}
-            className="p-3 hover:bg-gray-100"
-            aria-label="Giảm"
-          >
-            <Minus className="w-4 h-4" />
-          </button>
-          <span className="w-12 text-center font-semibold">{quantity}</span>
-          <button
-            onClick={() => setQuantity(q => q + 1)}
-            className="p-3 hover:bg-gray-100"
-            aria-label="Tăng"
-          >
-            <Plus className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+    <div className="mb-6">
+      <p className="text-xs text-gray-500 leading-relaxed mb-4">
+        Liên hệ OFINA để được tư vấn cấu hình, chất liệu, kích thước và báo giá tốt nhất cho văn phòng / dự án của bạn.
+      </p>
 
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <button onClick={handleAddToCart} className="btn-primary py-4 text-base">
-          <ShoppingCart className="w-5 h-5 mr-2" /> Thêm vào giỏ
-        </button>
-        <button onClick={handleBuyNow} className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl text-base">
-          Mua ngay →
-        </button>
+      <div className="flex flex-col gap-2.5">
+        <a
+          href={zalo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full h-12 rounded-xl bg-[#2F6FE0] text-white font-semibold flex items-center justify-center gap-2 hover:bg-[#2862c9] transition-colors"
+        >
+          <MessageCircle className="w-5 h-5" /> Tư vấn qua Zalo
+        </a>
+        <a
+          href={`tel:${hotline}`}
+          className="w-full h-12 rounded-xl border border-brand-900 text-brand-900 font-semibold flex items-center justify-center gap-2 hover:bg-brand-900 hover:text-white transition-colors"
+        >
+          <Phone className="w-5 h-5" /> Gọi trực tiếp {hotline}
+        </a>
       </div>
-
-      <button onClick={handleWishlist} className="w-full flex items-center justify-center gap-2 py-3 border rounded-lg hover:bg-gray-50 mb-6">
-        <Heart className="w-4 h-4" /> Thêm vào yêu thích
-      </button>
-    </>
+    </div>
   )
 }

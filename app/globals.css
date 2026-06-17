@@ -126,3 +126,22 @@
 .blog-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
 .blog-content th, .blog-content td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
 .blog-content th { background: #f9fafb; font-weight: 600; }
+
+/* Dual-range price slider — 2 thumb kéo từ–đến (khớp brand OFINA #1A5FBF) */
+.price-slider input[type="range"] {
+  position: absolute; width: 100%; margin: 0; height: 24px;
+  background: transparent; pointer-events: none;
+  -webkit-appearance: none; appearance: none;
+}
+.price-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; pointer-events: auto;
+  width: 18px; height: 18px; border-radius: 9999px;
+  background: #1A5FBF; border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.35); cursor: pointer; margin-top: -1px;
+}
+.price-slider input[type="range"]::-moz-range-thumb {
+  pointer-events: auto; width: 18px; height: 18px; border-radius: 9999px;
+  background: #1A5FBF; border: 2px solid #fff; cursor: pointer;
+}
+.price-slider input[type="range"]::-webkit-slider-runnable-track { background: transparent; }
+.price-slider input[type="range"]::-moz-range-track { background: transparent; }

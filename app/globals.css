@@ -39,6 +39,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 92px;
   }
   body {
     font-family: var(--font-sans);

@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Shield, Truck, RefreshCw, Sparkles, MessageSquare, BadgeCheck, Headphones, MapPin, CreditCard, Star } from 'lucide-react'
-import { ProductCard } from '@/components/product/ProductCard'
+import { ArrowRight, Shield, Truck, RefreshCw, MessageSquare, BadgeCheck, Headphones, MapPin, CreditCard } from 'lucide-react'
 import { getHomepageData, getNewProductsByCategory, getProductBySlugPublic } from '@/lib/queries'
-import { NAV_MENU } from '@/lib/nav-menu'
-import { CONTACT, formatPrice } from '@/lib/utils'
+import { CONTACT } from '@/lib/utils'
 import { CategoryStickyNav } from '@/components/home/CategoryStickyNav'
 import { ProductTabs } from '@/components/home/ProductTabs'
 import { getAllSettings } from '@/lib/site-settings'
@@ -28,66 +26,36 @@ export const metadata: Metadata = {
 
 const HOMEPAGE_FAQ = [
   {
-    q: 'OFINA có phải đơn vị phân phối chính hãng không?',
-    a: 'Đúng. OFINA cam kết 100% sản phẩm chính hãng, có tem chống giả và đầy đủ giấy tờ chứng nhận xuất xứ. Hoàn tiền gấp đôi nếu phát hiện hàng giả.',
+    q: 'OFINA có showroom để xem trực tiếp không?',
+    a: 'Có. OFINA có 2 showroom trải nghiệm trực tiếp: Trụ sở Hà Nội — 135 đường K2, Phường Phú Đô; Chi nhánh TP.HCM — Tầng 2, số 36 Lương Định Của, Quận 2. Mở cửa 8h-18h hàng ngày. Gọi 0325629996 (HN) hoặc 0777569996 (HCM) để đặt lịch.',
   },
   {
-    q: 'OFINA có showroom trải nghiệm trực tiếp không?',
-    a: 'Có. OFINA có 2 showroom: Trụ sở Hà Nội — 135 đường K2, Phường Phú Đô; Chi nhánh TP.HCM — Tầng 2, số 36 Lương Định Của, Quận 2. Mở cửa 8h-18h hàng ngày.',
+    q: 'Có hỗ trợ báo giá cho doanh nghiệp không?',
+    a: 'Có. OFINA hỗ trợ báo giá cho khách doanh nghiệp, dự án, setup văn phòng và phòng họp. Gửi yêu cầu qua /bao-gia-b2b hoặc gọi hotline để được tư vấn cụ thể về chiết khấu theo số lượng và phương thức thanh toán.',
   },
   {
-    q: 'Chính sách giao hàng và lắp đặt thế nào?',
-    a: 'Miễn phí giao hàng + lắp đặt nội thành Hà Nội & TP.HCM (đơn từ 500.000đ). Các tỉnh khác phí ship 50k-500k tùy khu vực, thời gian giao 1-7 ngày.',
+    q: 'Ghế được bảo hành bao lâu?',
+    a: 'Hầu hết sản phẩm tại OFINA được bảo hành 24 tháng kể từ ngày mua. Một số dòng cao cấp (Libernovo Omni, ghế công thái học...) có bảo hành khung dài hơn theo chính sách của nhà sản xuất. Chi tiết bảo hành ghi rõ trên trang từng sản phẩm.',
   },
   {
-    q: 'Có hỗ trợ trả góp 0% không?',
-    a: 'Có. OFINA hỗ trợ trả góp 0% qua thẻ tín dụng các ngân hàng (Sacombank, VPBank, Techcombank...) với kỳ hạn 3-12 tháng cho đơn hàng từ 3 triệu đồng.',
+    q: 'Có giao hàng và lắp đặt tại HN/HCM không?',
+    a: 'Có. OFINA miễn phí giao hàng và lắp đặt nội thành Hà Nội và TP.HCM cho đơn từ 500.000đ. Các tỉnh khác phí ship dao động 50.000-500.000đ tuỳ khu vực, kỹ thuật viên hỗ trợ hướng dẫn lắp qua video call.',
   },
   {
-    q: 'Khách doanh nghiệp/B2B có được ưu đãi gì?',
-    a: 'Khách B2B nhận được: chiết khấu sỉ theo số lượng, hóa đơn VAT đầy đủ, miễn phí khảo sát + thiết kế bố trí văn phòng, lắp đặt toàn quốc, hỗ trợ thanh toán linh hoạt.',
+    q: 'Tôi chưa biết chọn ghế nào thì có được tư vấn không?',
+    a: 'Có. OFINA tư vấn miễn phí qua hotline (HN 0325629996 / HCM 0777569996) hoặc Zalo. Đội ngũ tư vấn sẽ hỏi về dáng người, thời gian ngồi mỗi ngày, ngân sách và không gian làm việc để gợi ý mẫu ghế phù hợp nhất.',
   },
 ]
 
 const WHY_CHOOSE = [
-  { icon: BadgeCheck, title: 'Chính hãng 100%', desc: 'Tem chống giả + giấy tờ xuất xứ. Hoàn tiền gấp đôi nếu hàng giả.' },
-  { icon: Shield, title: 'Bảo hành 24 tháng', desc: '1 đổi 1 nếu lỗi NSX. Sửa chữa miễn phí tại nhà HN/HCM.' },
-  { icon: Truck, title: 'Giao + lắp miễn phí', desc: '1-2 ngày HN/HCM. Đội kỹ thuật chuyên nghiệp.' },
-  { icon: CreditCard, title: 'Trả góp 0% lãi', desc: 'Qua thẻ tín dụng các ngân hàng lớn — kỳ hạn 3-12 tháng.' },
-  { icon: RefreshCw, title: 'Đổi trả 7 ngày', desc: 'Không cần lý do. Hoàn tiền 100% nếu còn nguyên vẹn.' },
-  { icon: Headphones, title: 'Tư vấn 24/7', desc: 'Đội am hiểu nội thất văn phòng — gọi/chat bất cứ lúc nào.' },
+  { icon: BadgeCheck, title: 'Sản phẩm chọn lọc', desc: 'Các dòng ghế và nội thất văn phòng được OFINA tuyển kỹ theo chất liệu, độ bền, công năng — không nhập tràn lan.' },
+  { icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Bảo hành chính hãng 24 tháng cho hầu hết sản phẩm. Ghế cao cấp có bảo hành khung dài hơn theo NSX.' },
+  { icon: Truck, title: 'Giao hàng HN/HCM', desc: 'Miễn phí giao và lắp đặt nội thành HN, TP.HCM 1-2 ngày làm việc. Các tỉnh hỗ trợ theo nhu cầu.' },
+  { icon: Headphones, title: 'Tư vấn chọn ghế theo nhu cầu', desc: 'Hỏi về dáng người, thời gian ngồi, ngân sách, không gian — OFINA gợi ý đúng mẫu phù hợp, không bán theo combo.' },
+  { icon: CreditCard, title: 'Báo giá số lượng cho doanh nghiệp', desc: 'Chiết khấu theo số lượng, hoá đơn VAT, hỗ trợ thanh toán linh hoạt cho khách doanh nghiệp.' },
+  { icon: RefreshCw, title: 'Hỗ trợ dự án văn phòng', desc: 'Khảo sát mặt bằng, tư vấn bố trí, đồng bộ sản phẩm cho dự án văn phòng, coworking, phòng họp.' },
 ]
 
-const STATS = [
-  { value: '2,400+', label: 'Sản phẩm chính hãng' },
-  { value: '95', label: 'Danh mục đa dạng' },
-  { value: '24', label: 'Tháng bảo hành' },
-  { value: '2', label: 'Showroom HN & HCM' },
-]
-
-const COLLECTIONS = [
-  {
-    slug: 'ban-lam-viec-chan-sat',
-    title: 'Setup văn phòng nhỏ',
-    subtitle: 'Bàn ghế làm việc cho team < 10 người',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
-    gradient: 'from-gray-900/80 via-gray-900/30 to-transparent',
-  },
-  {
-    slug: 'ghe-da-giam-doc',
-    title: 'Phòng giám đốc cao cấp',
-    subtitle: 'Ghế da, bàn làm việc, tủ hồ sơ sang trọng',
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80',
-    gradient: 'from-gray-900/80 via-gray-900/30 to-transparent',
-  },
-  {
-    slug: 'ghe-cafe',
-    title: 'Cafe & nhà hàng',
-    subtitle: 'Bàn ghế cafe, ghế bar, sofa quầy lễ tân',
-    image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80',
-    gradient: 'from-gray-900/80 via-gray-900/30 to-transparent',
-  },
-]
 
 export default async function HomePage() {
   // 1 fetch settings (cached 1h) + 5 product queries song song
@@ -103,13 +71,10 @@ export default async function HomePage() {
     ),
   ])
 
-  const statsSetting: { items: Array<{ label: string; value: string; suffix?: string }> } = allSettings['home.stats'] || { items: [] }
   const faqSetting: { items: Array<{ q: string; a: string }> } = allSettings['home.faq'] || { items: [] }
   const brandStorySetting: { title: string; content: string } = allSettings['home.brand_story'] || { title: '', content: '' }
   const heroSetting: any = allSettings['home.hero'] || {}
-  const trustBarSetting: { items: Array<{ title: string; desc: string }> } = allSettings['home.trust_bar'] || { items: [] }
-  const collectionsSetting: { items: Array<{ title: string; subtitle: string; image: string; href: string }> } = allSettings['home.collections'] || { items: [] }
-  const whyUsSetting: any = allSettings['home.why_us'] || { heading_subtitle: '', heading_title: '', heading_desc: '', items: [] }
+  const whyUsSetting: any = allSettings['home.why_us'] || { heading_title: '', heading_desc: '', items: [] }
 
   const heroProductFromCms = heroSetting?.featured_product_slug
     ? await getProductBySlugPublic(heroSetting.featured_product_slug)
@@ -118,22 +83,9 @@ export default async function HomePage() {
 
   // Hero text content: ưu tiên CMS, fallback hardcoded
   const heroHeadline = heroSetting?.headline || 'Ghế văn phòng hiện đại cho không gian làm việc chuyên nghiệp'
-  const heroSubheadline = heroSetting?.subheadline || ''
   const heroTagline = heroSetting?.tagline || 'OFINA cung cấp ghế công thái học, ghế giám đốc, ghế nhân viên và giải pháp nội thất văn phòng cho cá nhân, doanh nghiệp và dự án.'
   const heroCtaLabel = heroSetting?.cta_label || 'Xem sản phẩm'
   const heroCtaHref = heroSetting?.cta_href || '/san-pham'
-  const heroStats = (heroSetting?.stats && heroSetting.stats.length > 0)
-    ? heroSetting.stats
-    : [
-        { value: '1,234+', label: 'khách hài lòng' },
-        { value: '4.8', label: 'điểm trung bình' },
-        { value: '95', label: 'danh mục SP' },
-      ]
-
-  // Stats: ưu tiên DB, fallback hardcoded STATS
-  const statsItems = statsSetting.items.length > 0
-    ? statsSetting.items.map(i => ({ value: `${i.value}${i.suffix || ''}`, label: i.label }))
-    : STATS
 
   // FAQ: ưu tiên DB, fallback HOMEPAGE_FAQ
   const faqItems = faqSetting.items.length > 0 ? faqSetting.items : HOMEPAGE_FAQ
@@ -154,67 +106,75 @@ export default async function HomePage() {
 
       {/* ============ HERO — gradient nhẹ, 2 cột, clean ============ */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]">
-        <div className="container-custom relative py-14 md:py-20 lg:py-24">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[460px] md:min-h-[520px]">
+        <div className="container-custom relative pt-10 pb-12 md:pt-12 md:pb-16 lg:pt-14 lg:pb-20">
+          <div className="grid lg:grid-cols-[48fr_52fr] gap-8 lg:gap-12 items-center">
 
             {/* LEFT: copy + CTA + trust */}
-            <div>
+            <div className="max-w-[620px]">
               <h1
-                className="text-[34px] sm:text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.08] tracking-tight text-gray-900 mb-5"
+                className="text-[34px] sm:text-[40px] md:text-[46px] lg:text-[54px] font-bold leading-[1.08] tracking-tight text-gray-900 mb-5"
                 dangerouslySetInnerHTML={{ __html: heroHeadline }}
               />
 
-              <p className="text-base md:text-lg text-gray-600 max-w-xl mb-8 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-600 max-w-[560px] mb-7 leading-relaxed">
                 {heroTagline}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 mb-8">
+              <div className="flex flex-wrap items-center gap-3 mb-7">
                 <Link
                   href={heroCtaHref}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-900 text-white font-semibold rounded-xl hover:bg-brand-800 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#155EEF] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] transition-colors"
                 >
                   {heroCtaLabel}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/bao-gia-b2b"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#E5EAF1] text-gray-900 font-semibold rounded-xl hover:border-brand-900 hover:text-brand-900 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#E5EAF1] text-gray-900 font-semibold rounded-xl hover:border-[#155EEF] hover:text-[#155EEF] transition-colors"
                 >
                   Nhận tư vấn B2B
                 </Link>
               </div>
 
-              {/* Trust 3 points */}
               <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
                 <span className="inline-flex items-center gap-1.5">
-                  <Truck className="w-4 h-4 text-brand-900" /> Giao hàng HN/HCM
+                  <Truck className="w-4 h-4 text-[#155EEF]" /> Giao hàng HN/HCM
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Shield className="w-4 h-4 text-brand-900" /> Bảo hành 24 tháng
+                  <Shield className="w-4 h-4 text-[#155EEF]" /> Bảo hành 24 tháng
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <MessageSquare className="w-4 h-4 text-brand-900" /> Tư vấn chọn ghế miễn phí
+                  <MessageSquare className="w-4 h-4 text-[#155EEF]" /> Tư vấn chọn ghế miễn phí
                 </span>
               </div>
             </div>
 
-            {/* RIGHT: featured product clean */}
+            {/* RIGHT: featured product — ảnh lớn, card rộng */}
             <div className="relative order-first lg:order-last">
               {featuredHeroProduct?.primary_image ? (
                 <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
-                  <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] rounded-2xl bg-white border border-[#E5EAF1] overflow-hidden">
+                  <div className="relative aspect-square sm:aspect-[5/6] lg:aspect-[4/5] rounded-[28px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1] overflow-hidden">
                     <Image
                       src={featuredHeroProduct.primary_image}
                       alt={featuredHeroProduct.name}
                       fill
-                      sizes="(max-width: 1024px) 100vw, 45vw"
-                      className="object-contain p-6 group-hover:scale-[1.02] transition-transform duration-500"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-contain p-3 md:p-5 group-hover:scale-[1.03] transition-transform duration-500"
                       priority
                     />
+                    {/* Badges nhỏ */}
+                    <div className="absolute top-4 left-4 flex flex-col gap-1.5">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
+                        Ghế công thái học
+                      </span>
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
+                        Bảo hành 24 tháng
+                      </span>
+                    </div>
                   </div>
                 </Link>
               ) : (
-                <div className="aspect-[4/5] rounded-2xl bg-white border border-[#E5EAF1]" aria-hidden="true" />
+                <div className="aspect-[4/5] rounded-[28px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1]" aria-hidden="true" />
               )}
             </div>
 
@@ -225,89 +185,37 @@ export default async function HomePage() {
       {/* ============ STICKY CATEGORY NAV ============ */}
       <CategoryStickyNav categories={categories || []} />
 
-      {/* ============ TRUST BAR (compact) ============ */}
-      <section aria-label="Cam kết của OFINA" className="bg-gray-50 border-b">
-        <div className="container-custom py-5 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {(() => {
-            const defaultIcons = [Truck, Shield, RefreshCw, CreditCard, BadgeCheck, Headphones]
-            const items = trustBarSetting.items.length > 0
-              ? trustBarSetting.items.slice(0, 6)
-              : [
-                  { title: 'Miễn phí giao HN/HCM', desc: 'Đơn từ 500k' },
-                  { title: 'Bảo hành 24 tháng', desc: 'Chính hãng' },
-                  { title: 'Đổi trả 7 ngày', desc: 'Không lý do' },
-                  { title: 'Trả góp 0%', desc: 'Qua thẻ tín dụng' },
-                ]
-            return items.slice(0, 4).map((item, i) => {
-              const Icon = defaultIcons[i] || Shield
-              return (
-                <div key={`${item.title}-${i}`} className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-brand-900 shadow-sm flex-shrink-0">
-                    <Icon className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="font-semibold text-sm text-brand-900 truncate">{item.title}</div>
-                    <div className="text-xs text-gray-600 truncate">{item.desc}</div>
-                  </div>
-                </div>
-              )
-            })
-          })()}
+      {/* ============ TRUST POLICY BAR (4 items, #F7F9FC) ============ */}
+      <section aria-label="Cam kết OFINA" className="bg-[#F7F9FC] border-y border-[#E5EAF1]">
+        <div className="container-custom py-7 md:py-9 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
+          {[
+            { Icon: Truck, title: 'Miễn phí giao HN/HCM', desc: 'Đơn từ 500k nội thành' },
+            { Icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Hỗ trợ tại nhà HN/HCM' },
+            { Icon: RefreshCw, title: 'Đổi trả 7 ngày', desc: 'Còn nguyên vẹn, không lý do' },
+            { Icon: MessageSquare, title: 'Báo giá doanh nghiệp', desc: 'Chiết khấu theo số lượng' },
+          ].map(({ Icon, title, desc }) => (
+            <div key={title} className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white border border-[#E5EAF1] flex items-center justify-center text-[#155EEF] flex-shrink-0">
+                <Icon className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-semibold text-[15px] text-gray-900 leading-tight">{title}</div>
+                <div className="text-xs text-gray-500 mt-0.5 leading-tight">{desc}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ============ FEATURED COLLECTIONS (3 editorial cards) ============ */}
-      <section className="py-14">
+      {/* ============ BỘ SƯU TẬP NỔI BẬT (Product tabs) ============ */}
+      <section className="py-16 md:py-20">
         <div className="container-custom">
-          <div className="text-center mb-10">
-            <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Bộ sưu tập</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2">
-              Setup văn phòng theo nhu cầu
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-5">
-            {(collectionsSetting.items.length > 0
-              ? collectionsSetting.items.slice(0, 3).map(c => ({ ...c, slug: c.href.replace(/^\//, '') }))
-              : COLLECTIONS.map(c => ({ ...c, href: `/danh-muc/${c.slug}` }))
-            ).map((c, i) => (
-              <Link
-                key={`${c.title}-${i}`}
-                href={c.href || '/san-pham'}
-                className="group relative aspect-[4/5] md:aspect-[3/4] rounded-3xl overflow-hidden hover:shadow-2xl transition-shadow"
-              >
-                <Image
-                  src={c.image}
-                  alt={c.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  unoptimized={c.image?.startsWith('http')}
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent" aria-hidden="true" />
-                <div className="absolute inset-0 p-6 md:p-7 flex flex-col justify-end text-white">
-                  <h3 className="font-display text-2xl md:text-3xl font-bold mb-2 leading-tight">{c.title}</h3>
-                  <p className="text-sm md:text-base opacity-95 mb-4">{c.subtitle}</p>
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold w-fit border-b-2 border-accent-400 pb-1 group-hover:gap-3 transition-all">
-                    Khám phá ngay <ArrowRight className="w-4 h-4" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ TABBED PRODUCT SHOWCASE ============ */}
-      <section className="py-14 bg-gray-50/40">
-        <div className="container-custom">
-          <div className="text-center mb-8">
-            <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Sản phẩm OFINA</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2 mb-3">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-3">
               Bộ sưu tập nổi bật
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Ghế công thái học · Bàn làm việc giám đốc · Sản phẩm 2026 — chọn đúng nhu cầu của doanh nghiệp bạn
+            <p className="text-gray-500 text-base md:text-lg">
+              Những mẫu ghế và nội thất văn phòng được chọn lọc cho nhu cầu làm việc hiện đại.
             </p>
           </div>
 
@@ -316,26 +224,24 @@ export default async function HomePage() {
               {
                 id: 'ergonomic',
                 label: 'Ghế công thái học',
-                badge: 'Top',
-                cta: { label: 'Xem tất cả ghế công thái học', href: '/danh-muc/ghe-cong-thai-hoc' },
+                cta: { label: 'Xem tất cả', href: '/danh-muc/ghe-cong-thai-hoc' },
                 products: ergonomicChairs || [],
-              },
-              {
-                id: 'exec-desk',
-                label: 'Bàn giám đốc',
-                cta: { label: 'Xem tất cả bàn giám đốc', href: '/danh-muc/ban-lanh-dao' },
-                products: executiveDesks || [],
               },
               {
                 id: 'exec-chair',
                 label: 'Ghế giám đốc',
-                cta: { label: 'Xem tất cả ghế giám đốc', href: '/danh-muc/ghe-da-giam-doc' },
+                cta: { label: 'Xem tất cả', href: '/danh-muc/ghe-da-giam-doc' },
                 products: executiveChairs || [],
+              },
+              {
+                id: 'exec-desk',
+                label: 'Ghế nhân viên',
+                cta: { label: 'Xem tất cả', href: '/danh-muc/ghe-xoay-van-phong' },
+                products: executiveDesks || [],
               },
               {
                 id: 'new',
                 label: 'Mới 2026',
-                badge: 'New',
                 cta: { label: 'Xem bộ sưu tập 2026', href: '/san-pham-moi-2026' },
                 products: newest || [],
               },
@@ -344,19 +250,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ DANH MỤC NỔI BẬT ============ */}
-      <section className="py-14">
+      {/* ============ KHÁM PHÁ DANH MỤC CHÍNH (8 card, overlay nhẹ) ============ */}
+      <section className="py-16 md:py-20 bg-[#F7F9FC]">
         <div className="container-custom">
-          <div className="flex items-end justify-between mb-8 flex-wrap gap-3">
-            <div>
-              <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Theo danh mục</span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-950 mt-2">
-                Khám phá theo nhóm sản phẩm
-              </h2>
-            </div>
-            <Link href="/san-pham" className="text-brand-900 hover:text-accent-600 font-semibold inline-flex items-center text-sm">
-              Tất cả 95 danh mục <ArrowRight className="ml-1 w-4 h-4" />
-            </Link>
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-3">
+              Khám phá danh mục chính
+            </h2>
+            <p className="text-gray-500 text-base md:text-lg">
+              Ghế, bàn, tủ và nội thất văn phòng cho cá nhân và doanh nghiệp.
+            </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
@@ -364,7 +267,7 @@ export default async function HomePage() {
               <Link
                 key={cat.slug}
                 href={`/danh-muc/${cat.slug}`}
-                className="group relative aspect-square rounded-2xl overflow-hidden hover:shadow-xl transition-all"
+                className="group relative aspect-[4/3] rounded-[20px] overflow-hidden bg-white border border-[#E5EAF1] hover:border-[#155EEF] transition-colors"
               >
                 {cat.image && (
                   <Image
@@ -372,64 +275,58 @@ export default async function HomePage() {
                     alt={`Danh mục ${cat.name}`}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" aria-hidden="true" />
                 <div className="absolute inset-0 flex items-end p-4">
                   <div className="text-white">
-                    <h3 className="font-bold text-base md:text-lg leading-tight drop-shadow-lg">{cat.name}</h3>
-                    <p className="text-xs opacity-90 drop-shadow mt-0.5">{cat.product_count} sản phẩm</p>
+                    <h3 className="font-semibold text-base md:text-[17px] leading-tight">{cat.name}</h3>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
+
+          <div className="text-center mt-10">
+            <Link
+              href="/san-pham"
+              className="inline-flex items-center gap-2 px-6 py-2.5 border border-[#E5EAF1] bg-white text-gray-900 font-medium rounded-xl hover:border-[#155EEF] hover:text-[#155EEF] transition-colors text-sm"
+            >
+              Xem toàn bộ danh mục
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ============ STATS COUNTER ============ */}
-      <section aria-label="Thống kê OFINA" className="py-12 bg-gray-900 text-white">
-        <div className="container-custom grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          {statsItems.map((s) => (
-            <div key={s.label}>
-              <div className="text-4xl md:text-5xl font-bold text-white">{s.value}</div>
-              <div className="text-sm md:text-base text-gray-400 mt-1">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ============ VÌ SAO CHỌN OFINA ============ */}
-      <section className="py-16 bg-gray-50">
+      {/* ============ VÌ SAO KHÁCH HÀNG CHỌN OFINA ============ */}
+      <section className="py-16 md:py-20">
         <div className="container-custom">
-          <div className="text-center mb-10">
-            <span className="text-gray-500 font-semibold text-sm uppercase tracking-wider">
-              {whyUsSetting.heading_subtitle || 'Cam kết OFINA'}
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-3">
-              {whyUsSetting.heading_title || 'Vì sao 1,200+ doanh nghiệp chọn OFINA?'}
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-3">
+              {whyUsSetting.heading_title || 'Vì sao khách hàng chọn OFINA?'}
             </h2>
-            <p className="text-gray-600">
-              {whyUsSetting.heading_desc || 'Cam kết chất lượng — dịch vụ tận tâm — giá tốt nhất thị trường'}
+            <p className="text-gray-500 text-base md:text-lg">
+              {whyUsSetting.heading_desc || 'Chọn lọc sản phẩm kỹ, tư vấn đúng nhu cầu, chính sách rõ ràng.'}
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {(() => {
-              const icons = [BadgeCheck, Shield, Truck, CreditCard, RefreshCw, Headphones]
+              const icons = [BadgeCheck, Shield, Truck, Headphones, CreditCard, RefreshCw]
               const items = whyUsSetting.items && whyUsSetting.items.length > 0
                 ? whyUsSetting.items
                 : WHY_CHOOSE.map(w => ({ title: w.title, desc: w.desc }))
               return items.slice(0, 6).map((r: any, i: number) => {
                 const Icon = icons[i] || Shield
                 return (
-                  <div key={`${r.title}-${i}`} className="bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-900 hover:shadow-lg transition-all">
-                    <div className="w-11 h-11 rounded-xl bg-gray-900 text-white flex items-center justify-center mb-3">
-                      <Icon className="w-5 h-5" aria-hidden="true" />
+                  <div key={`${r.title}-${i}`} className="bg-white border border-[#E5EAF1] rounded-[20px] p-5 hover:border-[#155EEF] transition-colors">
+                    <div className="w-11 h-11 rounded-xl bg-[#F7F9FC] text-[#155EEF] flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
                     </div>
-                    <h3 className="font-bold text-base text-gray-900 mb-1">{r.title}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">{r.desc}</p>
+                    <h3 className="font-semibold text-[17px] text-gray-900 mb-1.5">{r.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{r.desc}</p>
                   </div>
                 )
               })
@@ -438,169 +335,132 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ QUIZ AI (slim banner) ============ */}
-      <section className="py-12 bg-gray-900 text-white">
-        <div className="container-custom flex flex-col md:flex-row items-center gap-6 justify-between">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-5 h-5 text-white" />
-              <span className="text-sm font-bold uppercase tracking-wider text-gray-400">Trợ lý AI</span>
+      {/* ============ SHOWROOM + B2B (compact, navy) ============ */}
+      <section className="py-14 md:py-16 bg-[#0F172A] text-white">
+        <div className="container-custom grid md:grid-cols-2 gap-5">
+          <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:p-7">
+            <div className="flex items-center gap-2 text-[#93C5FD] mb-3">
+              <MapPin className="w-4 h-4" strokeWidth={1.75} />
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Showroom OFINA</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-1">
-              Tìm sản phẩm hoàn hảo trong 30 giây
-            </h2>
-            <p className="text-gray-400 text-sm md:text-base">AI gợi ý sản phẩm phù hợp nhu cầu, không gian và ngân sách của bạn</p>
-          </div>
-          <Link href="/quiz" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-white text-gray-900 font-semibold hover:bg-gray-100 transition-colors text-base md:text-lg whitespace-nowrap">
-            Bắt đầu quiz <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
-
-      {/* ============ B2B + SHOWROOM ============ */}
-      <section className="py-16 bg-gray-900 text-white">
-        <div className="container-custom grid md:grid-cols-2 gap-6">
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-7">
-            <div className="flex items-center gap-2 text-accent-400 mb-3">
-              <MapPin className="w-5 h-5" /> <span className="font-semibold uppercase tracking-wider text-xs">Showroom OFINA</span>
-            </div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-3">Trải nghiệm trực tiếp tại 2 chi nhánh</h2>
-            <p className="text-gray-300 mb-5 text-sm md:text-base">Ngồi thử ghế, kiểm tra chất liệu bàn, nhận tư vấn chuyên sâu từ kiến trúc sư OFINA</p>
-            <ul className="mb-5 space-y-2 text-accent-400">
+            <h2 className="text-[22px] md:text-2xl font-bold mb-4">Trải nghiệm tại showroom</h2>
+            <ul className="mb-5 space-y-3">
               {CONTACT.branches.map((b) => (
-                <li key={b.address} className="flex items-start gap-2">
-                  <span aria-hidden="true">📍</span>
+                <li key={b.address} className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-[#93C5FD] flex-shrink-0 mt-0.5" strokeWidth={1.75} aria-hidden="true" />
                   <span>
-                    <span className="block font-semibold">{b.name}</span>
-                    <span className="block text-sm text-gray-200">{b.address}</span>
+                    <span className="block font-semibold text-sm">{b.name}</span>
+                    <span className="block text-sm text-gray-300 leading-snug">{b.address}</span>
                   </span>
                 </li>
               ))}
             </ul>
-            <Link href="/showroom" className="btn-accent">Xem đường đi →</Link>
+            <Link
+              href="/showroom"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-white border-b border-[#93C5FD] hover:border-white pb-0.5"
+            >
+              Xem đường đi <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
-          <div className="bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl p-7">
+          <div className="bg-[#155EEF] rounded-[20px] p-6 md:p-7">
             <div className="flex items-center gap-2 text-white/80 mb-3">
-              <MessageSquare className="w-5 h-5" /> <span className="font-semibold uppercase tracking-wider text-xs">B2B Quote</span>
+              <MessageSquare className="w-4 h-4" strokeWidth={1.75} />
+              <span className="font-semibold uppercase tracking-wider text-[11px]">Doanh nghiệp / Dự án</span>
             </div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-3">Khách doanh nghiệp?</h2>
-            <p className="mb-5 opacity-95 text-sm md:text-base">Báo giá ưu đãi cho đơn lớn — VAT — lắp đặt toàn quốc — thiết kế bố trí miễn phí</p>
-            <Link href="/bao-gia-b2b" className="inline-flex items-center justify-center px-5 py-3 bg-white text-accent-600 font-bold rounded-lg hover:bg-gray-100">
-              Nhận báo giá B2B <MessageSquare className="ml-2 w-5 h-5" />
+            <h2 className="text-[22px] md:text-2xl font-bold mb-3">Báo giá B2B</h2>
+            <p className="mb-5 opacity-90 text-sm md:text-[15px] leading-relaxed">
+              Báo giá ưu đãi cho đơn lớn, setup văn phòng, phòng họp và dự án. Hoá đơn VAT đầy đủ, hỗ trợ thiết kế bố trí và lắp đặt.
+            </p>
+            <Link
+              href="/bao-gia-b2b"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#155EEF] font-semibold rounded-xl hover:bg-gray-100 text-sm"
+            >
+              Nhận báo giá B2B <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ============ BRAND STORY (rich SEO content) ============ */}
-      <section className="py-16">
-        <div className="container-custom max-w-4xl">
-          <div className="text-center mb-8">
-            <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">Về OFINA</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2">
-              {brandStorySetting.title || 'Nội thất văn phòng thay đổi trải nghiệm làm việc'}
-            </h2>
-          </div>
-
-          {brandStorySetting.content ? (
-            <div
-              className="blog-content max-w-none text-gray-700"
-              dangerouslySetInnerHTML={{ __html: brandStorySetting.content }}
-            />
-          ) : (
-            <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
-              <p>
-                <strong>OFINA</strong> là đơn vị phân phối nội thất văn phòng cao cấp tại Việt Nam, với sứ mệnh mang đến
-                giải pháp không gian làm việc <strong>hiện đại, tiện nghi và bền vững</strong> cho mọi quy mô doanh nghiệp.
-                Bộ sưu tập <strong>2,400+ sản phẩm</strong> được tuyển chọn kỹ càng — đảm bảo tiêu chuẩn công thái học
-                quốc tế, vật liệu cao cấp và độ bền vượt trội.
-              </p>
-              <p>
-                Với <strong>2 showroom</strong> tại Hà Nội và TP.HCM, khách hàng có thể trải nghiệm trực tiếp sản phẩm.
-                Đội ngũ kiến trúc sư hỗ trợ <strong>khảo sát + thiết kế bố trí văn phòng miễn phí</strong> cho đơn B2B
-                từ 50 triệu đồng. Cam kết <strong>giá tốt nhất</strong> — hoàn tiền nếu khách tìm được nơi rẻ hơn.
-                Liên hệ hotline <a href={`tel:${CONTACT.hotline}`} className="text-brand-900 font-semibold hover:underline">{CONTACT.hotline}</a> để được tư vấn miễn phí 24/7.
-              </p>
+      {/* ============ VỀ OFINA — 2 cột text + 3 highlight ============ */}
+      <section className="py-16 md:py-20">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-[55fr_45fr] gap-10 lg:gap-14 items-start max-w-6xl mx-auto">
+            <div>
+              <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-5">
+                Về OFINA
+              </h2>
+              <div className="space-y-4 text-gray-600 text-[16px] md:text-[17px] leading-relaxed">
+                {brandStorySetting.content ? (
+                  <div className="blog-content" dangerouslySetInnerHTML={{ __html: brandStorySetting.content }} />
+                ) : (
+                  <p>
+                    OFINA tập trung vào các dòng ghế và nội thất văn phòng hiện đại, phù hợp cho cá nhân làm việc tại nhà, doanh nghiệp đang setup văn phòng và các dự án cần đồng bộ sản phẩm. Chúng tôi ưu tiên thiết kế gọn, chất liệu bền, chính sách rõ ràng và tư vấn đúng nhu cầu sử dụng.
+                  </p>
+                )}
+              </div>
             </div>
-          )}
+            <div className="space-y-3">
+              {[
+                { Icon: BadgeCheck, title: 'Chuyên ghế & nội thất văn phòng', desc: 'Ghế công thái học, ghế giám đốc, bàn làm việc, tủ hồ sơ — tập trung 1 ngành.' },
+                { Icon: MapPin, title: 'Có showroom HN/HCM', desc: '2 showroom trải nghiệm trực tiếp 8h-18h hàng ngày.' },
+                { Icon: Headphones, title: 'Hỗ trợ cá nhân và doanh nghiệp', desc: 'Tư vấn theo nhu cầu — báo giá riêng cho dự án, văn phòng và doanh nghiệp.' },
+              ].map(({ Icon, title, desc }) => (
+                <div key={title} className="flex items-start gap-3.5 bg-[#F7F9FC] border border-[#E5EAF1] rounded-[18px] p-4 md:p-5">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-[#E5EAF1] flex items-center justify-center text-[#155EEF] flex-shrink-0">
+                    <Icon className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-[16px] text-gray-900 mb-0.5">{title}</div>
+                    <div className="text-sm text-gray-500 leading-snug">{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ============ FAQ HOMEPAGE ============ */}
-      <section className="py-16 bg-gray-50">
-        <div className="container-custom max-w-4xl">
-          <div className="text-center mb-8">
-            <span className="text-gray-500 font-semibold text-sm uppercase tracking-wider">FAQ</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-brand-950 mt-2 mb-3">
+      {/* ============ FAQ (max-w 900, gọn) ============ */}
+      <section className="py-16 md:py-20 bg-[#F7F9FC]">
+        <div className="container-custom max-w-[900px]">
+          <div className="text-center mb-10">
+            <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-3">
               Câu hỏi thường gặp
             </h2>
+            <p className="text-gray-500 text-base">Những câu khách hàng OFINA thường hỏi nhất.</p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {faqItems.map((item, i) => (
               <details
                 key={i}
-                className="group rounded-xl border bg-white open:shadow-md transition-shadow"
+                className="group rounded-[14px] border border-[#E5EAF1] bg-white open:border-[#155EEF]/40 transition-colors"
                 {...(i === 0 ? { open: true } : {})}
               >
-                <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-4 font-semibold text-brand-950">
+                <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-4 font-semibold text-gray-900 text-[15px]">
                   <span>{item.q}</span>
-                  <svg className="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <svg className="w-4 h-4 text-gray-400 transition-transform group-open:rotate-180 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
                   </svg>
                 </summary>
-                <div className="px-5 pb-5 -mt-1 text-gray-700 leading-relaxed">{item.a}</div>
+                <div className="px-5 pb-5 -mt-1 text-gray-600 leading-relaxed text-[15px]">{item.a}</div>
               </details>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============ TẤT CẢ DANH MỤC (mega list) ============ */}
-      <section className="py-14 bg-gray-50 border-t">
-        <div className="container-custom">
-          <div className="text-center mb-8">
-            <span className="text-accent-600 font-semibold text-sm uppercase tracking-wider">95 danh mục</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-950 mt-2">
-              Toàn bộ danh mục sản phẩm
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {NAV_MENU.filter(m => m.mega).map((group) => (
-              <div key={group.label} className="bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
-                <h3 className="font-display font-bold text-lg text-brand-900 mb-3 pb-2 border-b-2 border-accent-500 inline-block">
-                  <Link href={group.href} className="hover:underline">{group.label}</Link>
-                </h3>
-                <div className="space-y-3">
-                  {group.mega!.columns.map((col) => (
-                    <div key={col.heading}>
-                      <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">
-                        {col.heading}
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {col.items.slice(0, 6).map((cat) => (
-                          <Link
-                            key={cat.slug}
-                            href={`/danh-muc/${cat.slug}`}
-                            className="text-xs px-2.5 py-1 bg-white hover:bg-brand-900 hover:text-white rounded-full text-gray-700 transition-colors border border-gray-200"
-                          >
-                            {cat.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-8">
-            <Link href="/san-pham" className="btn-primary">
-              Xem tất cả 2,400+ sản phẩm →
-            </Link>
-          </div>
+      {/* ============ CTA xem toàn bộ danh mục (cuối trang chủ) ============ */}
+      <section className="py-14 md:py-16 border-t border-[#E5EAF1]">
+        <div className="container-custom text-center">
+          <p className="text-gray-500 text-sm md:text-base mb-4">Xem hết tất cả danh mục ghế, bàn, tủ và nội thất văn phòng tại OFINA.</p>
+          <Link
+            href="/san-pham"
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#155EEF] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] transition-colors"
+          >
+            Xem toàn bộ danh mục
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </>

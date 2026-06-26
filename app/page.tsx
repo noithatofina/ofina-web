@@ -115,8 +115,29 @@ export default async function HomePage() {
       {/* MOBILE Hero — banner fixed + H1 section below */}
       <section className="md:hidden">
         {featuredHeroProduct?.primary_image ? (
-          <div className="relative bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC] overflow-hidden" style={{ height: 400 }}>
-            {/* Ảnh sản phẩm — top portion, cân giữa, không dính đáy */}
+          <div className="relative overflow-hidden" style={{ height: 400 }}>
+            {/* Layer 1: Background không gian văn phòng — blur + opacity */}
+            <div
+              className="absolute inset-0"
+              style={{ filter: 'blur(3px)', opacity: 0.5 }}
+              aria-hidden="true"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover scale-110"
+              />
+            </div>
+            {/* Layer 2: Light white overlay làm dịu bg, giữ ghế nổi */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(247,249,252,0.55) 60%, rgba(255,255,255,0.35) 100%)' }}
+              aria-hidden="true"
+            />
+
+            {/* Layer 3: Ảnh sản phẩm — top portion, cân giữa */}
             <div className="absolute inset-x-0 top-0" style={{ bottom: 116 }}>
               <Image
                 src={featuredHeroProduct.primary_image}
@@ -127,20 +148,21 @@ export default async function HomePage() {
                 priority
               />
             </div>
-            {/* Overlay gradient + text + CTA */}
+
+            {/* Layer 4: Gradient navy đáy + text + CTA */}
             <div
-              className="absolute inset-x-0 bottom-0 px-4 pt-10 pb-4 text-white"
+              className="absolute inset-x-0 bottom-0 px-5 pt-14 pb-4 text-white"
               style={{
-                background: 'linear-gradient(to top, rgba(15,23,42,0.55) 0%, rgba(15,23,42,0.25) 60%, rgba(15,23,42,0) 100%)',
+                background: 'linear-gradient(to top, rgba(15,23,42,0.5) 0%, rgba(15,23,42,0.25) 55%, rgba(15,23,42,0) 100%)',
               }}
             >
-              <div className="text-[18px] font-bold leading-[1.2] mb-0.5 drop-shadow">Ghế văn phòng hiện đại</div>
-              <div className="text-[13px] opacity-95 mb-2.5 drop-shadow">Cho cá nhân, doanh nghiệp & dự án</div>
+              <h2 className="text-[28px] font-bold leading-[1.15] mb-1 drop-shadow-md">Ghế văn phòng hiện đại</h2>
+              <div className="text-[16px] opacity-95 mb-3 drop-shadow">Cho cá nhân, doanh nghiệp & dự án</div>
               <Link
                 href="/san-pham"
-                className="inline-flex items-center gap-1 px-3.5 py-1.5 bg-white text-gray-900 text-[12px] font-semibold rounded-md"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-gray-900 text-[13px] font-semibold rounded-lg"
               >
-                Xem sản phẩm <ArrowRight className="w-3 h-3" />
+                Xem sản phẩm <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
@@ -172,7 +194,7 @@ export default async function HomePage() {
             {/* LEFT: copy + CTA + trust */}
             <div className="max-w-[620px]">
               <h1
-                className="text-[34px] sm:text-[40px] md:text-[46px] lg:text-[54px] font-bold leading-[1.08] tracking-tight text-gray-900 mb-5"
+                className="text-[34px] sm:text-[40px] md:text-[42px] lg:text-[48px] font-bold leading-[1.1] tracking-tight text-gray-900 mb-5"
                 dangerouslySetInnerHTML={{ __html: heroHeadline }}
               />
 
@@ -214,16 +236,37 @@ export default async function HomePage() {
               {featuredHeroProduct?.primary_image ? (
                 <>
                   <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
-                    <div className="relative aspect-[5/4] sm:aspect-[5/4] rounded-[24px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1] overflow-hidden">
+                    <div className="relative aspect-[5/4] sm:aspect-[5/4] rounded-[24px] border border-[#E5EAF1] overflow-hidden">
+                      {/* Bg văn phòng blur + opacity */}
+                      <div
+                        className="absolute inset-0"
+                        style={{ filter: 'blur(3px)', opacity: 0.5 }}
+                        aria-hidden="true"
+                      >
+                        <Image
+                          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"
+                          alt=""
+                          fill
+                          sizes="50vw"
+                          className="object-cover scale-110"
+                        />
+                      </div>
+                      {/* Light overlay làm dịu bg */}
+                      <div
+                        className="absolute inset-0"
+                        style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.75) 0%, rgba(247,249,252,0.6) 60%, rgba(255,255,255,0.45) 100%)' }}
+                        aria-hidden="true"
+                      />
+                      {/* Sản phẩm */}
                       <Image
                         src={featuredHeroProduct.primary_image}
                         alt={featuredHeroProduct.name}
                         fill
                         sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-contain p-3 md:p-5 group-hover:scale-[1.03] transition-transform duration-500"
+                        className="object-contain p-3 md:p-5 group-hover:scale-[1.03] transition-transform duration-500 relative z-10"
                         priority
                       />
-                      <div className="absolute top-4 left-4 flex flex-col gap-1.5">
+                      <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
                         <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
                           Ghế công thái học
                         </span>
@@ -231,7 +274,7 @@ export default async function HomePage() {
                           Bảo hành 24 tháng
                         </span>
                       </div>
-                      <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur rounded-xl px-3 py-2 border border-[#E5EAF1]">
+                      <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur rounded-xl px-3 py-2 border border-[#E5EAF1] z-20">
                         <div className="text-[11px] text-gray-500 uppercase tracking-wider mb-0.5">Sản phẩm nổi bật</div>
                         <div className="text-sm font-semibold text-gray-900 line-clamp-1">{featuredHeroProduct.name}</div>
                       </div>

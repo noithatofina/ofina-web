@@ -96,22 +96,20 @@ export default async function HomePage() {
       {/* ============ STICKY CATEGORY NAV ============ */}
       <CategoryStickyNav categories={categories || []} />
 
-      {/* ============ TRUST POLICY BAR (4 items, #F7F9FC) ============ */}
+      {/* ============ TRUST POLICY BAR (2 items gọn) ============ */}
       <section aria-label="Cam kết OFINA" className="bg-[#F7F9FC] border-y border-[#E5EAF1]">
-        <div className="container-custom py-7 md:py-9 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
+        <div className="container-custom py-4 md:py-6 grid grid-cols-2 gap-3 md:gap-6 max-w-3xl mx-auto">
           {[
-            { Icon: Truck, title: 'Miễn phí giao HN/HCM', desc: 'Đơn từ 500k nội thành' },
+            { Icon: Truck, title: 'Miễn phí giao HN/HCM', desc: 'Đơn nội thành từ 500k' },
             { Icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Hỗ trợ tại nhà HN/HCM' },
-            { Icon: RefreshCw, title: 'Đổi trả 7 ngày', desc: 'Còn nguyên vẹn, không lý do' },
-            { Icon: MessageSquare, title: 'Báo giá doanh nghiệp', desc: 'Chiết khấu theo số lượng' },
           ].map(({ Icon, title, desc }) => (
-            <div key={title} className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white border border-[#E5EAF1] flex items-center justify-center text-[#155EEF] flex-shrink-0">
-                <Icon className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
+            <div key={title} className="flex items-center gap-2.5">
+              <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white border border-[#E5EAF1] flex items-center justify-center text-[#155EEF] flex-shrink-0">
+                <Icon className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.75} aria-hidden="true" />
               </div>
               <div className="min-w-0">
-                <div className="font-semibold text-[15px] text-gray-900 leading-tight">{title}</div>
-                <div className="text-xs text-gray-500 mt-0.5 leading-tight">{desc}</div>
+                <div className="font-semibold text-[13px] md:text-[14px] text-gray-900 leading-tight">{title}</div>
+                <div className="text-[11px] md:text-xs text-gray-500 mt-0.5 leading-tight">{desc}</div>
               </div>
             </div>
           ))}
@@ -119,15 +117,12 @@ export default async function HomePage() {
       </section>
 
       {/* ============ BỘ SƯU TẬP NỔI BẬT (Product tabs) ============ */}
-      <section className="py-16 md:py-20">
+      <section className="py-8 md:py-12">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-            <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-3">
+          <div className="text-center mb-5 md:mb-7">
+            <h2 className="text-[18px] md:text-[22px] font-bold text-gray-900 leading-tight tracking-wider uppercase">
               Bộ sưu tập nổi bật
             </h2>
-            <p className="text-gray-500 text-base md:text-lg">
-              Những mẫu ghế và nội thất văn phòng được chọn lọc cho nhu cầu làm việc hiện đại.
-            </p>
           </div>
 
           <ProductTabs

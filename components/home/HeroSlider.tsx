@@ -3,44 +3,65 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { ArrowRight } from 'lucide-react'
 
 type Slide = {
   image: string
   alt: string
-  href: string
+  title: string
+  subtitle: string
+  ctaLabel: string
+  ctaHref: string
+  /** Vị trí object-fit cho background ảnh (mặc định 'center center'). */
+  bgPosition?: string
 }
 
 const STORAGE = 'https://ivxdwqsqveqsjcsdvewq.supabase.co/storage/v1/object/public/branding/hero-slider'
 
 /**
- * 5 banner OFINA tự thiết kế. Mỗi ảnh đã có headline + subtitle + CTA
- * in sẵn trong design — slider chỉ render ảnh full + dots + click navigate.
+ * 5 slide. Ảnh CHỈ làm background, không có chữ trong ảnh.
+ * Text + CTA + dots là code HTML/CSS thật, responsive theo viewport.
  */
 const SLIDES: Slide[] = [
   {
     image: `${STORAGE}/noi-that-van-phong-chuan-ofina.png`,
-    alt: 'Nội thất văn phòng chuẩn — ghế công thái học, ghế giám đốc, bàn làm việc OFINA',
-    href: '/san-pham',
+    alt: 'Không gian văn phòng hiện đại — OFINA',
+    title: 'Nội thất văn phòng chuẩn',
+    subtitle: 'Ghế công thái học, ghế giám đốc, bàn làm việc và giải pháp cho cá nhân, doanh nghiệp, dự án.',
+    ctaLabel: 'Khám phá ngay',
+    ctaHref: '/san-pham',
   },
   {
     image: `${STORAGE}/ghe-cong-thai-hoc-giam-doc-ofina.png`,
-    alt: 'Ghế công thái học và ghế giám đốc cao cấp — trải nghiệm làm việc tốt mỗi ngày — OFINA',
-    href: '/danh-muc/ghe-cong-thai-hoc',
+    alt: 'Ghế công thái học và ghế giám đốc cao cấp — OFINA',
+    title: 'Ghế công thái học & ghế giám đốc',
+    subtitle: 'Bảo vệ cột sống, trải nghiệm làm việc tốt mỗi ngày cho dân văn phòng.',
+    ctaLabel: 'Xem bộ sưu tập',
+    ctaHref: '/danh-muc/ghe-cong-thai-hoc',
   },
   {
     image: `${STORAGE}/van-phong-chuyen-nghiep-ofina.png`,
-    alt: 'Văn phòng chuyên nghiệp — giải pháp nội thất cho cá nhân, doanh nghiệp và dự án — OFINA',
-    href: '/bao-gia-b2b',
+    alt: 'Văn phòng chuyên nghiệp — OFINA',
+    title: 'Văn phòng chuyên nghiệp',
+    subtitle: 'Setup workstation hiện đại — đồng bộ thiết kế cho cá nhân và doanh nghiệp.',
+    ctaLabel: 'Khám phá ngay',
+    ctaHref: '/bao-gia-b2b',
   },
   {
     image: `${STORAGE}/giai-phap-van-phong-doanh-nghiep-ofina.png`,
-    alt: 'Đủ giải pháp nội thất văn phòng — bàn làm việc, tủ kệ, sofa văn phòng cho doanh nghiệp — OFINA',
-    href: '/bao-gia-b2b',
+    alt: 'Giải pháp văn phòng cho doanh nghiệp — OFINA',
+    title: 'Đủ giải pháp cho doanh nghiệp',
+    subtitle: 'Bàn làm việc, tủ kệ, sofa văn phòng đồng bộ cho dự án và setup văn phòng.',
+    ctaLabel: 'Nhận tư vấn B2B',
+    ctaHref: '/bao-gia-b2b',
   },
   {
     image: `${STORAGE}/phong-hop-noi-that-cao-cap-ofina.png`,
-    alt: 'Phòng họp nội thất cao cấp — không gian làm việc đẹp cho doanh nghiệp chuyên nghiệp — OFINA',
-    href: '/danh-muc/ban-hop-van-phong-chan-sat',
+    alt: 'Phòng họp nội thất cao cấp — OFINA',
+    title: 'Phòng họp cao cấp',
+    subtitle: 'Không gian phòng họp chuyên nghiệp, đồng bộ cho doanh nghiệp hiện đại.',
+    ctaLabel: 'Xem sản phẩm',
+    ctaHref: '/danh-muc/ban-hop-van-phong-chan-sat',
   },
 ]
 
@@ -72,18 +93,15 @@ export function HeroSlider() {
     }
     const diff = e.changedTouches[0].clientX - touchStartX.current
     const threshold = 50
-    if (diff > threshold) {
-      setIndex((i) => (i - 1 + total) % total)
-    } else if (diff < -threshold) {
-      setIndex((i) => (i + 1) % total)
-    }
+    if (diff > threshold) setIndex((i) => (i - 1 + total) % total)
+    else if (diff < -threshold) setIndex((i) => (i + 1) % total)
     touchStartX.current = null
     window.setTimeout(() => setPaused(false), 200)
   }
 
   return (
     <div
-      className="relative overflow-hidden bg-white aspect-[21/9]"
+      className="relative overflow-hidden bg-[#F7F9FC] h-[320px] sm:h-[400px] md:h-[520px] lg:h-[580px]"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onMouseEnter={() => setPaused(true)}
@@ -92,30 +110,89 @@ export function HeroSlider() {
       aria-label="Banner OFINA"
     >
       {SLIDES.map((slide, i) => (
-        <Link
+        <div
           key={i}
-          href={slide.href}
           className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
             i === index ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
           }`}
           aria-hidden={i !== index}
         >
+          {/* Layer 1: Background image */}
           <Image
             src={slide.image}
             alt={slide.alt}
             fill
             sizes="100vw"
-            className="object-cover"
             priority={i === 0}
             unoptimized
+            className="object-cover"
+            style={{ objectPosition: slide.bgPosition || 'center right' }}
           />
-        </Link>
+
+          {/* Layer 2: Overlay gradient — desktop white-left, mobile dark-bottom */}
+          <div
+            className="hidden md:block absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(90deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.65) 42%, rgba(255,255,255,0.10) 100%)',
+            }}
+            aria-hidden="true"
+          />
+          <div
+            className="md:hidden absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(15,23,42,0.15) 40%, rgba(15,23,42,0.55) 100%)',
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Layer 3: Text + CTA — DESKTOP */}
+          <div className="hidden md:flex absolute inset-0 items-center">
+            <div className="container-custom w-full">
+              <div className="max-w-[520px] text-gray-900">
+                <h2 className="text-[40px] lg:text-[52px] xl:text-[56px] font-bold leading-[1.08] tracking-tight mb-4">
+                  {slide.title}
+                </h2>
+                <p className="text-[17px] lg:text-[19px] text-gray-700 leading-relaxed mb-6">
+                  {slide.subtitle}
+                </p>
+                <Link
+                  href={slide.ctaHref}
+                  className="inline-flex items-center justify-center gap-2 h-12 px-6 bg-[#155EEF] text-white text-[15px] font-semibold rounded-xl hover:bg-[#1D4ED8] transition-colors shadow-sm"
+                >
+                  {slide.ctaLabel}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Layer 3: Text + CTA — MOBILE (bottom-left, white text) */}
+          <div className="md:hidden absolute inset-0 flex flex-col justify-end">
+            <div className="container-custom pb-12 text-white">
+              <h2 className="text-[26px] sm:text-[30px] font-bold leading-[1.15] tracking-tight mb-2 drop-shadow-sm">
+                {slide.title}
+              </h2>
+              <p className="text-[14px] sm:text-[15px] opacity-95 mb-3.5 line-clamp-2 drop-shadow-sm">
+                {slide.subtitle}
+              </p>
+              <Link
+                href={slide.ctaHref}
+                className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#155EEF] text-white text-[13px] font-semibold rounded-lg shadow-sm w-fit"
+              >
+                {slide.ctaLabel}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        </div>
       ))}
 
-      {/* Dots indicator */}
+      {/* Dots indicator — màu #155EEF active */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 md:gap-2"
-        style={{ bottom: 'max(12px, env(safe-area-inset-bottom))' }}
+        className="absolute left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 md:gap-2"
+        style={{ bottom: 'max(14px, env(safe-area-inset-bottom))' }}
       >
         {SLIDES.map((_, i) => (
           <button
@@ -123,8 +200,8 @@ export function HeroSlider() {
             onClick={() => setIndex(i)}
             className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
               i === index
-                ? 'w-7 md:w-9 bg-gray-900/85 shadow-sm'
-                : 'w-1.5 md:w-2 bg-gray-900/35 hover:bg-gray-900/55'
+                ? 'w-7 md:w-9 bg-[#155EEF] shadow-sm'
+                : 'w-1.5 md:w-2 bg-white/70 hover:bg-white md:bg-gray-400/60 md:hover:bg-gray-500'
             }`}
             aria-label={`Chuyển sang slide ${i + 1}`}
             aria-current={i === index}

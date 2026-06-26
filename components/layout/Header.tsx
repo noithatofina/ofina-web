@@ -184,7 +184,7 @@ export function Header({
             </Link>
             <a
               href={`tel:${hotline}`}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-brand-900"
+              className="hidden md:inline-flex p-2 hover:bg-gray-100 rounded-lg transition-colors text-brand-900"
               aria-label={`Gọi ngay ${hotline}`}
               title={`Gọi ${hotline}`}
             >
@@ -200,7 +200,33 @@ export function Header({
           </div>
         </div>
 
-        {/* Search overlay */}
+        {/* MOBILE search bar row — always visible dưới header */}
+        <div className="md:hidden border-t border-[#E5EAF1] bg-white">
+          <div className="container-custom py-2.5">
+            <form
+              onSubmit={handleSearch}
+              className="flex items-center gap-2 bg-[#F7F9FC] border border-[#E5EAF1] rounded-xl h-12 px-3 focus-within:border-[#155EEF] transition-colors"
+            >
+              <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm ghế văn phòng, ghế công thái học..."
+                className="flex-1 min-w-0 bg-transparent text-sm focus:outline-none placeholder:text-gray-400 text-gray-900"
+                aria-label="Tìm kiếm sản phẩm"
+              />
+              <button
+                type="submit"
+                className="flex-shrink-0 inline-flex items-center justify-center px-3 h-8 bg-[#155EEF] text-white text-xs font-semibold rounded-lg"
+              >
+                Tìm
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Search overlay (desktop) */}
         {searchOpen && (
           <div className="border-t bg-white animate-slide-up">
             <div className="container-custom py-4">

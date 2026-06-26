@@ -30,8 +30,6 @@ export function ShopChrome({
         contact={settings?.contact}
         branches={settings?.branches}
       />
-      {/* Spacer mobile: tránh sticky bottom bar che footer */}
-      <div className="md:hidden" style={{ height: 64 }} aria-hidden="true" />
       <FloatingActions contact={settings?.contact} />
     </>
   )

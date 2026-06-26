@@ -50,6 +50,15 @@
     font-weight: 700;
     letter-spacing: -0.02em;
   }
+
+  @media (max-width: 767px) {
+    html {
+      scroll-padding-top: 140px;
+    }
+    body {
+      padding-bottom: calc(56px + env(safe-area-inset-bottom));
+    }
+  }
 }
 
 @layer utilities {

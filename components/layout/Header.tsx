@@ -76,17 +76,15 @@ export function Header({
       )}>
         <div className="container-custom flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2.5 group py-3.5">
-            <div className="w-10 h-10 bg-brand-900 rounded-xl flex items-center justify-center group-hover:bg-brand-800 transition-colors p-1.5">
-              <Image
-                src={logoUrl || '/logo.png'}
-                alt="OFINA logo"
-                width={40}
-                height={40}
-                priority
-                unoptimized={!!logoUrl}
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <Image
+              src={logoUrl || '/logo.png'}
+              alt="OFINA logo"
+              width={40}
+              height={40}
+              priority
+              unoptimized={!!logoUrl}
+              className="w-10 h-10 object-contain"
+            />
             <div className="flex flex-col justify-center">
               <div className="font-bold text-xl text-brand-900 leading-tight">OFINA</div>
               <div className="text-[10px] text-gray-500 leading-tight uppercase tracking-wider">Nội thất văn phòng</div>

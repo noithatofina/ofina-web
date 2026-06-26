@@ -79,11 +79,11 @@ export function Header({
             <Image
               src={logoUrl || '/logo.png'}
               alt="OFINA logo"
-              width={40}
-              height={40}
+              width={48}
+              height={48}
               priority
               unoptimized={!!logoUrl}
-              className="w-10 h-10 object-contain"
+              className="w-12 h-12 object-contain"
             />
             <div className="flex flex-col justify-center">
               <div className="font-bold text-xl text-brand-900 leading-tight">OFINA</div>

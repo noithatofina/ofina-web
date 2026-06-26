@@ -83,7 +83,7 @@ export function HeroSlider() {
 
   return (
     <div
-      className="relative overflow-hidden bg-[#F7F9FC] aspect-[16/9] sm:aspect-[16/9] md:aspect-[21/9] lg:aspect-[21/9]"
+      className="relative overflow-hidden bg-white aspect-[21/9]"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onMouseEnter={() => setPaused(true)}

@@ -93,21 +93,6 @@ export default async function HomePage() {
       {/* ============ HERO SLIDER — 5 slide chủ đề ============ */}
       <HeroSlider />
 
-      {/* H1 compact section dưới slider — giữ SEO + giới thiệu OFINA */}
-      <section className="container-custom pt-7 pb-2 md:pt-10 md:pb-4">
-        <h1 className="text-[24px] md:text-[34px] font-bold leading-[1.15] tracking-tight text-gray-900 mb-2 md:mb-3">
-          Ghế & nội thất văn phòng OFINA
-        </h1>
-        <p className="text-[14px] md:text-base text-gray-600 leading-relaxed mb-3 max-w-2xl">
-          Ghế công thái học, ghế giám đốc, bàn làm việc và giải pháp nội thất cho cá nhân, doanh nghiệp và dự án.
-        </p>
-        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-[12px] md:text-[13px] text-gray-600">
-          <span className="inline-flex items-center gap-1.5"><Truck className="w-3.5 h-3.5 text-[#155EEF]" /> Giao HN/HCM</span>
-          <span className="inline-flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-[#155EEF]" /> BH 24 tháng</span>
-          <span className="inline-flex items-center gap-1.5"><MessageSquare className="w-3.5 h-3.5 text-[#155EEF]" /> Tư vấn miễn phí</span>
-        </div>
-      </section>
-
       {/* ============ STICKY CATEGORY NAV ============ */}
       <CategoryStickyNav categories={categories || []} />
 
@@ -303,15 +288,19 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="grid lg:grid-cols-[55fr_45fr] gap-10 lg:gap-14 items-start max-w-6xl mx-auto">
             <div>
-              <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-5">
-                Về OFINA
-              </h2>
-              <div className="space-y-4 text-gray-600 text-[16px] md:text-[17px] leading-relaxed">
+              <div className="text-[12px] font-semibold uppercase tracking-wider text-[#155EEF] mb-3">Về OFINA</div>
+              <h1 className="text-[28px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-5">
+                Ghế &amp; nội thất văn phòng OFINA
+              </h1>
+              <div className="space-y-4 text-gray-600 text-[15px] md:text-[17px] leading-relaxed">
+                <p>
+                  OFINA cung cấp ghế công thái học, ghế giám đốc, bàn làm việc, tủ hồ sơ và giải pháp nội thất văn phòng cho cá nhân, doanh nghiệp và dự án.
+                </p>
                 {brandStorySetting.content ? (
                   <div className="blog-content" dangerouslySetInnerHTML={{ __html: brandStorySetting.content }} />
                 ) : (
                   <p>
-                    OFINA tập trung vào các dòng ghế và nội thất văn phòng hiện đại, phù hợp cho cá nhân làm việc tại nhà, doanh nghiệp đang setup văn phòng và các dự án cần đồng bộ sản phẩm. Chúng tôi ưu tiên thiết kế gọn, chất liệu bền, chính sách rõ ràng và tư vấn đúng nhu cầu sử dụng.
+                    Chúng tôi tập trung vào các dòng nội thất hiện đại, phù hợp cho cá nhân làm việc tại nhà, doanh nghiệp đang setup văn phòng và các dự án cần đồng bộ sản phẩm. Ưu tiên thiết kế gọn, chất liệu bền, chính sách rõ ràng và tư vấn đúng nhu cầu sử dụng.
                   </p>
                 )}
               </div>

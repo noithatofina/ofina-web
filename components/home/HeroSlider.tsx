@@ -3,56 +3,44 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight } from 'lucide-react'
 
 type Slide = {
   image: string
-  topic: string
-  title: string
-  subtitle: string
-  ctaHref: string
+  alt: string
+  href: string
 }
 
+const STORAGE = 'https://ivxdwqsqveqsjcsdvewq.supabase.co/storage/v1/object/public/branding/hero-slider'
+
 /**
- * 5 slide chủ đề nội thất văn phòng. Ảnh Unsplash royalty-free
- * (Unsplash License — free commercial). Khi có ảnh OFINA tự chụp,
- * thay từng URL trong SLIDES.
+ * 5 banner OFINA tự thiết kế. Mỗi ảnh đã có headline + subtitle + CTA
+ * in sẵn trong design — slider chỉ render ảnh full + dots + click navigate.
  */
 const SLIDES: Slide[] = [
   {
-    image: 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=2000&q=85',
-    topic: 'Ghế công thái học',
-    title: 'Ghế công thái học',
-    subtitle: 'Bảo vệ cột sống cho dân văn phòng ngồi 8+ giờ/ngày.',
-    ctaHref: '/danh-muc/ghe-cong-thai-hoc',
+    image: `${STORAGE}/khong-gian-van-phong-toi-gian-ofina.png`,
+    alt: 'Không gian văn phòng tối giản hiện đại — OFINA',
+    href: '/san-pham',
   },
   {
-    image: 'https://images.unsplash.com/photo-1541558869434-2840d308329a?w=2000&q=85',
-    topic: 'Ghế giám đốc',
-    title: 'Ghế giám đốc cao cấp',
-    subtitle: 'Da chính hãng, khung bền — đẳng cấp cho phòng giám đốc.',
-    ctaHref: '/danh-muc/ghe-da-giam-doc',
+    image: `${STORAGE}/ghe-da-cao-cap-phong-cach-ofina.png`,
+    alt: 'Ghế da cao cấp — 5 phong cách không gian văn phòng — OFINA',
+    href: '/danh-muc/ghe-da-giam-doc',
   },
   {
-    image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=2000&q=85',
-    topic: 'Bàn nâng hạ',
-    title: 'Bàn nâng hạ thông minh',
-    subtitle: 'Đứng — ngồi linh hoạt, giảm đau lưng và tăng năng suất.',
-    ctaHref: '/danh-muc/ban-nang-ha-thong-minh',
+    image: `${STORAGE}/noi-that-van-phong-nghe-thuat-ofina.png`,
+    alt: 'Nội thất văn phòng nghệ thuật — Fashion Office & Art Office — OFINA',
+    href: '/bao-gia-b2b',
   },
   {
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=2000&q=85',
-    topic: 'Phòng họp & tủ hồ sơ',
-    title: 'Đồng bộ phòng họp',
-    subtitle: 'Bàn họp, ghế hội nghị và tủ hồ sơ chuẩn doanh nghiệp.',
-    ctaHref: '/nhom/ban',
+    image: `${STORAGE}/phong-hop-hien-dai-noi-that-ofina.png`,
+    alt: 'Phòng họp hiện đại — giải pháp nội thất chuyên nghiệp — OFINA',
+    href: '/danh-muc/ban-hop-van-phong-chan-sat',
   },
   {
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=2000&q=85',
-    topic: 'Doanh nghiệp & dự án',
-    title: 'Giải pháp văn phòng cho doanh nghiệp',
-    subtitle: 'Tư vấn, báo giá và đồng bộ sản phẩm cho dự án văn phòng.',
-    ctaHref: '/bao-gia-b2b',
+    image: `${STORAGE}/khong-gian-van-phong-hien-dai-ofina.png`,
+    alt: 'Không gian văn phòng hiện đại — giải pháp nội thất tối ưu — OFINA',
+    href: '/bao-gia-b2b',
   },
 ]
 
@@ -95,7 +83,7 @@ export function HeroSlider() {
 
   return (
     <div
-      className="relative overflow-hidden bg-[#0F172A] h-[340px] sm:h-[420px] md:h-[520px] lg:h-[580px]"
+      className="relative overflow-hidden bg-[#F7F9FC] aspect-[16/9] sm:aspect-[16/9] md:aspect-[21/9] lg:aspect-[21/9]"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onMouseEnter={() => setPaused(true)}
@@ -104,8 +92,9 @@ export function HeroSlider() {
       aria-label="Banner OFINA"
     >
       {SLIDES.map((slide, i) => (
-        <div
+        <Link
           key={i}
+          href={slide.href}
           className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
             i === index ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
           }`}
@@ -113,62 +102,29 @@ export function HeroSlider() {
         >
           <Image
             src={slide.image}
-            alt={slide.title}
+            alt={slide.alt}
             fill
             sizes="100vw"
             className="object-cover"
             priority={i === 0}
             unoptimized
           />
-          {/* Gradient navy đáy + side cho text đọc rõ */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(to top, rgba(15,23,42,0.72) 0%, rgba(15,23,42,0.35) 45%, rgba(15,23,42,0.10) 75%, rgba(15,23,42,0) 100%)',
-            }}
-            aria-hidden="true"
-          />
-
-          {/* Text + CTA */}
-          <div className="absolute inset-x-0 bottom-0 z-10">
-            <div className="container-custom pb-10 md:pb-16">
-              <div className="max-w-xl text-white">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/15 backdrop-blur rounded-full text-[11px] md:text-xs font-semibold uppercase tracking-wider mb-3">
-                  OFINA · {slide.topic}
-                </div>
-                <h2 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[50px] font-bold leading-[1.1] mb-2 drop-shadow-md">
-                  {slide.title}
-                </h2>
-                <p className="text-[14px] sm:text-base md:text-lg opacity-95 mb-4 md:mb-6 max-w-md drop-shadow">
-                  {slide.subtitle}
-                </p>
-                <Link
-                  href={slide.ctaHref}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 bg-white text-gray-900 text-sm md:text-[15px] font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  Xem sản phẩm
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        </Link>
       ))}
 
       {/* Dots indicator */}
       <div
         className="absolute left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 md:gap-2"
-        style={{ bottom: 'max(16px, env(safe-area-inset-bottom))' }}
+        style={{ bottom: 'max(12px, env(safe-area-inset-bottom))' }}
       >
         {SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}
-            className={`h-1.5 md:h-[7px] rounded-full transition-all duration-300 ${
+            className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
               i === index
-                ? 'w-7 md:w-9 bg-white'
-                : 'w-1.5 md:w-2 bg-white/50 hover:bg-white/75'
+                ? 'w-7 md:w-9 bg-gray-900/85 shadow-sm'
+                : 'w-1.5 md:w-2 bg-gray-900/35 hover:bg-gray-900/55'
             }`}
             aria-label={`Chuyển sang slide ${i + 1}`}
             aria-current={i === index}

@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Shield, Truck, RefreshCw, MessageSquare, BadgeCheck, Headphones, MapPin, CreditCard } from 'lucide-react'
-import { getHomepageData, getNewProductsByCategory, getProductBySlugPublic } from '@/lib/queries'
+import { getHomepageData, getNewProductsByCategory } from '@/lib/queries'
 import { CONTACT } from '@/lib/utils'
 import { CategoryStickyNav } from '@/components/home/CategoryStickyNav'
+import { HeroSlider } from '@/components/home/HeroSlider'
 import { ProductTabs } from '@/components/home/ProductTabs'
 import { getAllSettings } from '@/lib/site-settings'
 
@@ -58,40 +59,19 @@ const WHY_CHOOSE = [
 
 
 export default async function HomePage() {
-  // 1 fetch settings (cached 1h) + 6 product queries song song
-  const [{ newest, categories }, allSettings, ergonomicChairs, staffChairs, executiveChairs, workDesks, featured2026] = await Promise.all([
+  // 1 fetch settings (cached 1h) + 5 product queries song song
+  const [{ newest, categories }, allSettings, ergonomicChairs, staffChairs, executiveChairs, workDesks] = await Promise.all([
     getHomepageData(),
     getAllSettings(),
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
     getNewProductsByCategory(['ghe-xoay-van-phong', 'ghe-xoay-luoi', 'ghe-xoay-lung-cao'], 8),
     getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
     getNewProductsByCategory(['ban-lam-viec-chan-sat', 'ban-lam-viec-chan-go', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
-    getNewProductsByCategory(
-      ['ghe-xoay-van-phong', 'ghe-da-giam-doc', 'ghe-cong-thai-hoc', 'ghe-xoay-luoi', 'ban-nang-ha-thong-minh', 'ban-lanh-dao'],
-      1
-    ),
   ])
 
   const faqSetting: { items: Array<{ q: string; a: string }> } = allSettings['home.faq'] || { items: [] }
   const brandStorySetting: { title: string; content: string } = allSettings['home.brand_story'] || { title: '', content: '' }
-  const heroSetting: any = allSettings['home.hero'] || {}
   const whyUsSetting: any = allSettings['home.why_us'] || { heading_title: '', heading_desc: '', items: [] }
-
-  const heroProductFromCms = heroSetting?.featured_product_slug
-    ? await getProductBySlugPublic(heroSetting.featured_product_slug)
-    : null
-  const featuredHeroProduct = heroProductFromCms || featured2026[0] || (newest || [])[0]
-
-  // Strip 3 thumbnails dưới hero — đa danh mục, cảm giác catalog rộng
-  const heroStripProducts = (newest || [])
-    .filter((p: any) => p?.id !== featuredHeroProduct?.id && p?.primary_image)
-    .slice(0, 3)
-
-  // Hero text content: ưu tiên CMS, fallback hardcoded
-  const heroHeadline = heroSetting?.headline || 'Ghế văn phòng hiện đại cho không gian làm việc chuyên nghiệp'
-  const heroTagline = heroSetting?.tagline || 'OFINA cung cấp ghế công thái học, ghế giám đốc, ghế nhân viên và giải pháp nội thất văn phòng cho cá nhân, doanh nghiệp và dự án.'
-  const heroCtaLabel = heroSetting?.cta_label || 'Xem sản phẩm'
-  const heroCtaHref = heroSetting?.cta_href || '/san-pham'
 
   // FAQ: ưu tiên DB, fallback HOMEPAGE_FAQ
   const faqItems = faqSetting.items.length > 0 ? faqSetting.items : HOMEPAGE_FAQ
@@ -110,205 +90,21 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ============ HERO — Mobile banner + Desktop 2-col ============ */}
+      {/* ============ HERO SLIDER — 5 slide chủ đề ============ */}
+      <HeroSlider />
 
-      {/* MOBILE Hero — banner fixed + H1 section below */}
-      <section className="md:hidden">
-        {featuredHeroProduct?.primary_image ? (
-          <div className="relative overflow-hidden" style={{ height: 400 }}>
-            {/* Layer 1: Background không gian văn phòng — rõ hơn, blur nhẹ */}
-            <div
-              className="absolute inset-0"
-              style={{ filter: 'blur(2px)', opacity: 0.78 }}
-              aria-hidden="true"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"
-                alt=""
-                fill
-                sizes="100vw"
-                className="object-cover scale-105"
-              />
-            </div>
-            {/* Layer 2: Light overlay nhẹ làm dịu — vẫn để bg văn phòng hiện rõ */}
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, rgba(247,249,252,0.25) 50%, rgba(255,255,255,0.10) 100%)' }}
-              aria-hidden="true"
-            />
-
-            {/* Layer 3: Ảnh sản phẩm — top portion, cân giữa */}
-            <div className="absolute inset-x-0 top-0" style={{ bottom: 116 }}>
-              <Image
-                src={featuredHeroProduct.primary_image}
-                alt={featuredHeroProduct.name}
-                fill
-                sizes="100vw"
-                className="object-contain p-5"
-                priority
-              />
-            </div>
-
-            {/* Layer 4: Gradient navy đáy + text + CTA */}
-            <div
-              className="absolute inset-x-0 bottom-0 px-5 pt-14 pb-4 text-white"
-              style={{
-                background: 'linear-gradient(to top, rgba(15,23,42,0.5) 0%, rgba(15,23,42,0.25) 55%, rgba(15,23,42,0) 100%)',
-              }}
-            >
-              <h2 className="text-[28px] font-bold leading-[1.15] mb-1 drop-shadow-md">Ghế văn phòng hiện đại</h2>
-              <div className="text-[16px] opacity-95 mb-3 drop-shadow">Cho cá nhân, doanh nghiệp & dự án</div>
-              <Link
-                href="/san-pham"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-gray-900 text-[13px] font-semibold rounded-lg"
-              >
-                Xem sản phẩm <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]" style={{ height: 400 }} aria-hidden="true" />
-        )}
-
-        {/* H1 section below banner */}
-        <div className="container-custom pt-6 pb-7">
-          <h1 className="text-[32px] font-bold leading-[1.12] tracking-tight text-gray-900 mb-2.5">
-            Ghế & nội thất văn phòng OFINA
-          </h1>
-          <p className="text-[14px] text-gray-600 leading-relaxed mb-4">
-            Ghế công thái học, ghế giám đốc, bàn làm việc và giải pháp nội thất cho cá nhân, doanh nghiệp và dự án.
-          </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-gray-600">
-            <span className="inline-flex items-center gap-1.5"><Truck className="w-3.5 h-3.5 text-[#155EEF]" /> Giao HN/HCM</span>
-            <span className="inline-flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-[#155EEF]" /> BH 24 tháng</span>
-            <span className="inline-flex items-center gap-1.5"><MessageSquare className="w-3.5 h-3.5 text-[#155EEF]" /> Tư vấn miễn phí</span>
-          </div>
-        </div>
-      </section>
-
-      {/* DESKTOP Hero — 2-col layout với collage */}
-      <section className="hidden md:block relative overflow-hidden bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]">
-        <div className="container-custom relative pt-10 pb-12 md:pt-12 md:pb-16 lg:pt-14 lg:pb-20">
-          <div className="grid lg:grid-cols-[48fr_52fr] gap-8 lg:gap-12 items-center">
-
-            {/* LEFT: copy + CTA + trust */}
-            <div className="max-w-[620px]">
-              <h1
-                className="text-[34px] sm:text-[40px] md:text-[42px] lg:text-[48px] font-bold leading-[1.1] tracking-tight text-gray-900 mb-5"
-                dangerouslySetInnerHTML={{ __html: heroHeadline }}
-              />
-
-              <p className="text-base md:text-lg text-gray-600 max-w-[560px] mb-7 leading-relaxed">
-                {heroTagline}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-3 mb-7">
-                <Link
-                  href={heroCtaHref}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#155EEF] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] transition-colors"
-                >
-                  {heroCtaLabel}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/bao-gia-b2b"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#E5EAF1] text-gray-900 font-semibold rounded-xl hover:border-[#155EEF] hover:text-[#155EEF] transition-colors"
-                >
-                  Nhận tư vấn B2B
-                </Link>
-              </div>
-
-              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
-                <span className="inline-flex items-center gap-1.5">
-                  <Truck className="w-4 h-4 text-[#155EEF]" /> Giao hàng HN/HCM
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Shield className="w-4 h-4 text-[#155EEF]" /> Bảo hành 24 tháng
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <MessageSquare className="w-4 h-4 text-[#155EEF]" /> Tư vấn chọn ghế miễn phí
-                </span>
-              </div>
-            </div>
-
-            {/* RIGHT: collage — main product + strip 3 thumbnails */}
-            <div className="relative order-first lg:order-last">
-              {featuredHeroProduct?.primary_image ? (
-                <>
-                  <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
-                    <div className="relative aspect-[5/4] sm:aspect-[5/4] rounded-[24px] border border-[#E5EAF1] overflow-hidden">
-                      {/* Bg văn phòng rõ hơn — blur nhẹ + opacity cao */}
-                      <div
-                        className="absolute inset-0"
-                        style={{ filter: 'blur(2px)', opacity: 0.78 }}
-                        aria-hidden="true"
-                      >
-                        <Image
-                          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"
-                          alt=""
-                          fill
-                          sizes="50vw"
-                          className="object-cover scale-105"
-                        />
-                      </div>
-                      {/* Light overlay rất nhẹ — vẫn để bg văn phòng hiện rõ */}
-                      <div
-                        className="absolute inset-0"
-                        style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.45) 0%, rgba(247,249,252,0.25) 60%, rgba(255,255,255,0.12) 100%)' }}
-                        aria-hidden="true"
-                      />
-                      {/* Sản phẩm */}
-                      <Image
-                        src={featuredHeroProduct.primary_image}
-                        alt={featuredHeroProduct.name}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-contain p-3 md:p-5 group-hover:scale-[1.03] transition-transform duration-500 relative z-10"
-                        priority
-                      />
-                      <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
-                          Ghế công thái học
-                        </span>
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
-                          Bảo hành 24 tháng
-                        </span>
-                      </div>
-                      <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur rounded-xl px-3 py-2 border border-[#E5EAF1] z-20">
-                        <div className="text-[11px] text-gray-500 uppercase tracking-wider mb-0.5">Sản phẩm nổi bật</div>
-                        <div className="text-sm font-semibold text-gray-900 line-clamp-1">{featuredHeroProduct.name}</div>
-                      </div>
-                    </div>
-                  </Link>
-
-                  {/* Strip 3 thumbnails — đa danh mục */}
-                  {heroStripProducts.length === 3 && (
-                    <div className="mt-3 grid grid-cols-3 gap-2">
-                      {heroStripProducts.map((p: any) => (
-                        <Link
-                          key={p.id}
-                          href={`/san-pham/${p.slug}`}
-                          className="group relative aspect-square rounded-[16px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1] overflow-hidden hover:border-[#155EEF]/40 transition-colors"
-                          title={p.name}
-                        >
-                          <Image
-                            src={p.primary_image}
-                            alt={p.name}
-                            fill
-                            sizes="(max-width: 1024px) 33vw, 18vw"
-                            className="object-contain p-2 group-hover:scale-[1.05] transition-transform duration-300"
-                          />
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="aspect-[5/4] rounded-[24px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1]" aria-hidden="true" />
-              )}
-            </div>
-
-          </div>
+      {/* H1 compact section dưới slider — giữ SEO + giới thiệu OFINA */}
+      <section className="container-custom pt-7 pb-2 md:pt-10 md:pb-4">
+        <h1 className="text-[24px] md:text-[34px] font-bold leading-[1.15] tracking-tight text-gray-900 mb-2 md:mb-3">
+          Ghế & nội thất văn phòng OFINA
+        </h1>
+        <p className="text-[14px] md:text-base text-gray-600 leading-relaxed mb-3 max-w-2xl">
+          Ghế công thái học, ghế giám đốc, bàn làm việc và giải pháp nội thất cho cá nhân, doanh nghiệp và dự án.
+        </p>
+        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-[12px] md:text-[13px] text-gray-600">
+          <span className="inline-flex items-center gap-1.5"><Truck className="w-3.5 h-3.5 text-[#155EEF]" /> Giao HN/HCM</span>
+          <span className="inline-flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-[#155EEF]" /> BH 24 tháng</span>
+          <span className="inline-flex items-center gap-1.5"><MessageSquare className="w-3.5 h-3.5 text-[#155EEF]" /> Tư vấn miễn phí</span>
         </div>
       </section>
 

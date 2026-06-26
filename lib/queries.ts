@@ -230,7 +230,7 @@ export async function getProductBySlug(slug: string) {
     return SAMPLE_PRODUCTS.find(p => p.slug === slug) || null
   }
   const supabase = createPublicSupabase()
-  const { data } = await supabase.from('products').select(PRODUCT_SELECT).eq('slug', slug).maybeSingle()
+  const { data } = await supabase.from('products').select(PRODUCT_SELECT).eq('slug', slug).eq('status', 'active').maybeSingle()
   return mapProduct(data)
 }
 

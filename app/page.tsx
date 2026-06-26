@@ -116,10 +116,10 @@ export default async function HomePage() {
       <section className="md:hidden">
         {featuredHeroProduct?.primary_image ? (
           <div className="relative overflow-hidden" style={{ height: 400 }}>
-            {/* Layer 1: Background không gian văn phòng — blur + opacity */}
+            {/* Layer 1: Background không gian văn phòng — rõ hơn, blur nhẹ */}
             <div
               className="absolute inset-0"
-              style={{ filter: 'blur(3px)', opacity: 0.5 }}
+              style={{ filter: 'blur(2px)', opacity: 0.78 }}
               aria-hidden="true"
             >
               <Image
@@ -127,13 +127,13 @@ export default async function HomePage() {
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-cover scale-110"
+                className="object-cover scale-105"
               />
             </div>
-            {/* Layer 2: Light white overlay làm dịu bg, giữ ghế nổi */}
+            {/* Layer 2: Light overlay nhẹ làm dịu — vẫn để bg văn phòng hiện rõ */}
             <div
               className="absolute inset-0"
-              style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(247,249,252,0.55) 60%, rgba(255,255,255,0.35) 100%)' }}
+              style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, rgba(247,249,252,0.25) 50%, rgba(255,255,255,0.10) 100%)' }}
               aria-hidden="true"
             />
 
@@ -237,10 +237,10 @@ export default async function HomePage() {
                 <>
                   <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
                     <div className="relative aspect-[5/4] sm:aspect-[5/4] rounded-[24px] border border-[#E5EAF1] overflow-hidden">
-                      {/* Bg văn phòng blur + opacity */}
+                      {/* Bg văn phòng rõ hơn — blur nhẹ + opacity cao */}
                       <div
                         className="absolute inset-0"
-                        style={{ filter: 'blur(3px)', opacity: 0.5 }}
+                        style={{ filter: 'blur(2px)', opacity: 0.78 }}
                         aria-hidden="true"
                       >
                         <Image
@@ -248,13 +248,13 @@ export default async function HomePage() {
                           alt=""
                           fill
                           sizes="50vw"
-                          className="object-cover scale-110"
+                          className="object-cover scale-105"
                         />
                       </div>
-                      {/* Light overlay làm dịu bg */}
+                      {/* Light overlay rất nhẹ — vẫn để bg văn phòng hiện rõ */}
                       <div
                         className="absolute inset-0"
-                        style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.75) 0%, rgba(247,249,252,0.6) 60%, rgba(255,255,255,0.45) 100%)' }}
+                        style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.45) 0%, rgba(247,249,252,0.25) 60%, rgba(255,255,255,0.12) 100%)' }}
                         aria-hidden="true"
                       />
                       {/* Sản phẩm */}

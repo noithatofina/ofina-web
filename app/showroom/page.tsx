@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { MapPin, Phone, Clock, Car } from 'lucide-react'
-import { CONTACT } from '@/lib/utils'
+import { MapPin, Phone, Clock, Car, MessageCircle } from 'lucide-react'
+import { CONTACT, zaloUrl } from '@/lib/utils'
 
 export const revalidate = 3600
 
@@ -33,9 +33,27 @@ export default function ShowroomPage() {
               </div>
               <div className="flex gap-3">
                 <Phone className="w-5 h-5 text-brand-900 flex-shrink-0 mt-1" />
-                <div>
-                  <div className="font-semibold">Hotline</div>
-                  <a href={`tel:${CONTACT.hotline}`} className="text-gray-600 hover:text-brand-900">{CONTACT.hotline}</a>
+                <div className="flex-1">
+                  <div className="font-semibold">Hotline {branch.region === 'HN' ? 'Hà Nội' : 'TP.HCM'}</div>
+                  <div className="space-y-1.5 mt-1">
+                    {branch.phones.map((p) => (
+                      <div key={p} className="flex items-center gap-2 flex-wrap">
+                        <a href={`tel:${p}`} className="text-gray-700 hover:text-brand-900 font-medium">
+                          {p}
+                        </a>
+                        <a
+                          href={zaloUrl(p)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#0068FF]/10 text-[#0068FF] hover:bg-[#0068FF]/20 text-xs font-semibold"
+                          aria-label={`Chat Zalo ${p}`}
+                        >
+                          <MessageCircle className="w-3 h-3" />
+                          Zalo
+                        </a>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div className="flex gap-3">

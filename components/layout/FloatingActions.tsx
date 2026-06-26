@@ -1,23 +1,44 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { MessageCircle, Phone, ArrowUp, X } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { CONTACT } from '@/lib/utils'
+import { CONTACT, zaloUrl as zaloUrlOf } from '@/lib/utils'
 import type { ContactInfo } from '@/lib/shop-chrome-context'
+
+type RegionGroup = { region: 'HN' | 'HCM'; label: string; phones: string[] }
 
 export function FloatingActions({ contact }: { contact?: ContactInfo } = {}) {
   const hotline = contact?.hotline || CONTACT.hotline
-  const zaloUrl = contact?.zalo_url || CONTACT.zaloUrl
+  const regions: RegionGroup[] = CONTACT.branches.map((b) => ({
+    region: b.region,
+    label: b.region === 'HN' ? 'Hà Nội' : 'TP.HCM',
+    phones: [...b.phones],
+  }))
   const [showTop, setShowTop] = useState(false)
   const [chatOpen, setChatOpen] = useState(false)
+  const [zaloOpen, setZaloOpen] = useState(false)
+  const [callOpen, setCallOpen] = useState(false)
   const [msg, setMsg] = useState('')
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 400)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    if (!zaloOpen && !callOpen) return
+    function onClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setZaloOpen(false)
+        setCallOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [zaloOpen, callOpen])
 
   async function sendContact(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -44,26 +65,76 @@ export function FloatingActions({ contact }: { contact?: ContactInfo } = {}) {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-        {/* Zalo */}
-        <a
-          href={zaloUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-14 h-14 bg-[#0068FF] text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
-          aria-label="Chat Zalo"
-        >
-          <span className="font-bold text-sm">Zalo</span>
-        </a>
+      <div ref={menuRef} className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+        {/* Zalo menu (HN/HCM) */}
+        <div className="relative flex flex-col items-end">
+          {zaloOpen && (
+            <div className="absolute right-16 bottom-0 bg-white rounded-2xl shadow-2xl border p-3 min-w-[210px] animate-slide-up">
+              <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2 px-1">Chat Zalo theo khu vực</div>
+              {regions.map((g) => (
+                <div key={g.region} className="mb-2 last:mb-0">
+                  <div className="text-xs font-semibold text-brand-900 px-1 mb-1">{g.label}</div>
+                  <div className="flex flex-col gap-1">
+                    {g.phones.map((p) => (
+                      <a
+                        key={p}
+                        href={zaloUrlOf(p)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setZaloOpen(false)}
+                        className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[#0068FF]/10 text-sm group"
+                      >
+                        <span className="font-medium text-gray-800">{p}</span>
+                        <span className="text-[#0068FF] font-bold text-xs group-hover:underline">Chat →</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          <button
+            onClick={() => { setZaloOpen(v => !v); setCallOpen(false) }}
+            className="w-14 h-14 bg-[#0068FF] text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
+            aria-label="Chat Zalo"
+          >
+            <span className="font-bold text-sm">Zalo</span>
+          </button>
+        </div>
 
-        {/* Call */}
-        <a
-          href={`tel:${hotline}`}
-          className="w-14 h-14 bg-green-600 text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform animate-pulse"
-          aria-label="Gọi ngay"
-        >
-          <Phone className="w-6 h-6" />
-        </a>
+        {/* Call menu (HN/HCM) */}
+        <div className="relative flex flex-col items-end">
+          {callOpen && (
+            <div className="absolute right-16 bottom-0 bg-white rounded-2xl shadow-2xl border p-3 min-w-[210px] animate-slide-up">
+              <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2 px-1">Gọi theo khu vực</div>
+              {regions.map((g) => (
+                <div key={g.region} className="mb-2 last:mb-0">
+                  <div className="text-xs font-semibold text-brand-900 px-1 mb-1">{g.label}</div>
+                  <div className="flex flex-col gap-1">
+                    {g.phones.map((p) => (
+                      <a
+                        key={p}
+                        href={`tel:${p}`}
+                        onClick={() => setCallOpen(false)}
+                        className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-green-50 text-sm group"
+                      >
+                        <span className="font-medium text-gray-800">{p}</span>
+                        <span className="text-green-600 font-bold text-xs group-hover:underline">Gọi →</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          <button
+            onClick={() => { setCallOpen(v => !v); setZaloOpen(false) }}
+            className="w-14 h-14 bg-green-600 text-white rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-transform animate-pulse"
+            aria-label="Gọi ngay"
+          >
+            <Phone className="w-6 h-6" />
+          </button>
+        </div>
 
         {/* Chat/Contact */}
         <button

@@ -16,7 +16,12 @@ export type ContactInfo = {
 export type Branch = {
   name: string
   address: string
+  /** Số điện thoại đơn (legacy). Component sẽ ưu tiên `phones` nếu có. */
   phone?: string
+  /** Danh sách SĐT của chi nhánh. Số đầu là số chính. Mỗi số có Zalo cùng số. */
+  phones?: string[]
+  region?: 'HN' | 'HCM'
+  mapsQuery?: string
   maps_query?: string
 }
 

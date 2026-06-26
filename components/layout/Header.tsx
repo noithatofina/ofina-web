@@ -55,11 +55,15 @@ export function Header({
       <div className="bg-brand-900 text-white text-sm hidden md:block">
         <div className="container-custom flex justify-between py-2">
           <span>{topbarText}</span>
-          <div className="flex gap-4">
-            <a href={`tel:${hotline}`} className="hover:text-accent-400 transition-colors">
-              📞 {hotline}
+          <div className="flex items-center gap-3">
+            <a href={`tel:${CONTACT.branches[0].phones[0]}`} className="hover:text-accent-400 transition-colors">
+              📞 HN: {CONTACT.branches[0].phones[0]}
             </a>
-            <span>|</span>
+            <span className="opacity-50">|</span>
+            <a href={`tel:${CONTACT.branches[1].phones[0]}`} className="hover:text-accent-400 transition-colors">
+              📞 HCM: {CONTACT.branches[1].phones[0]}
+            </a>
+            <span className="opacity-50">|</span>
             <Link href="/tra-cuu-don-hang" className="hover:text-accent-400 transition-colors">Tra cứu đơn</Link>
           </div>
         </div>

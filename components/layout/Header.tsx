@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect, FormEvent } from 'react'
-import { Search, ShoppingCart, Phone, Menu, X, ChevronDown, Sparkles } from 'lucide-react'
+import { Search, ShoppingCart, Phone, Menu, X, ChevronDown } from 'lucide-react'
 import { CONTACT, cn } from '@/lib/utils'
 import { useCart } from '@/lib/cart'
 import { NAV_MENU } from '@/lib/nav-menu'
@@ -69,32 +69,32 @@ export function Header({
         </div>
       </div>
 
-      {/* Main header */}
+      {/* Main header — gọn, 76px */}
       <header className={cn(
-        "sticky top-0 z-50 bg-white transition-shadow",
-        scrolled && "shadow-lg"
+        "sticky top-0 z-50 bg-white border-b border-[#E5EAF1] transition-shadow",
+        scrolled && "shadow-sm"
       )}>
-        <div className="container-custom flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 group py-4">
-            <div className="w-14 h-14 bg-brand-900 rounded-xl flex items-center justify-center group-hover:bg-brand-800 transition-colors p-2">
+        <div className="container-custom flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-2.5 group py-3.5">
+            <div className="w-11 h-11 bg-brand-900 rounded-xl flex items-center justify-center group-hover:bg-brand-800 transition-colors p-1.5">
               <Image
                 src={logoUrl || '/logo.png'}
                 alt="OFINA logo"
-                width={56}
-                height={56}
+                width={44}
+                height={44}
                 priority
                 unoptimized={!!logoUrl}
                 className="w-full h-full object-contain"
               />
             </div>
             <div className="flex flex-col justify-center">
-              <div className="font-bold text-2xl text-brand-900 leading-tight">OFINA</div>
-              <div className="text-xs text-gray-500 leading-tight">Nội thất văn phòng</div>
+              <div className="font-bold text-xl text-brand-900 leading-tight">OFINA</div>
+              <div className="text-[10px] text-gray-500 leading-tight uppercase tracking-wider">Nội thất văn phòng</div>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-0">
+          {/* Desktop Nav — gọn, không có SALE đỏ to */}
+          <nav className="hidden lg:flex items-center gap-1">
             {NAV_MENU.map((item) => (
               <div
                 key={item.label}
@@ -105,42 +105,36 @@ export function Header({
                 <Link
                   href={item.href}
                   className={cn(
-                    "px-4 py-6 font-bold text-sm tracking-wider uppercase transition-colors inline-flex items-center gap-1.5 whitespace-nowrap relative",
-                    item.label === 'MỚI 2026'
-                      ? "text-accent-600 hover:text-accent-700"
-                      : "text-gray-800 hover:text-brand-900",
-                    openMega === item.label && (item.label === 'MỚI 2026' ? "text-accent-700" : "text-brand-900")
+                    "px-3 py-5 text-sm font-semibold transition-colors inline-flex items-center gap-1 whitespace-nowrap relative text-gray-700 hover:text-brand-900",
+                    openMega === item.label && "text-brand-900",
                   )}
                 >
-                  {item.label === 'MỚI 2026' && <Sparkles className="w-4 h-4 inline animate-pulse" />}
                   {item.label}
                   {item.mega && (
                     <ChevronDown className={cn(
-                      "w-3.5 h-3.5 transition-transform",
-                      openMega === item.label && "rotate-180"
+                      "w-3 h-3 transition-transform opacity-60",
+                      openMega === item.label && "rotate-180 opacity-100"
                     )} />
                   )}
-                  {/* Underline animation */}
                   <span className={cn(
-                    "absolute bottom-4 left-4 right-4 h-0.5 transition-transform origin-left",
-                    item.label === 'MỚI 2026' ? "bg-accent-500" : "bg-brand-900",
+                    "absolute bottom-3 left-3 right-3 h-0.5 bg-brand-900 transition-transform origin-left",
                     openMega === item.label ? "scale-x-100" : "scale-x-0"
                   )} />
                 </Link>
                 {item.mega && openMega === item.label && (
-                  <div className="absolute top-full left-0 bg-white shadow-2xl rounded-xl border border-gray-100 animate-fade-in overflow-hidden">
-                    <div className="p-6 grid gap-6" style={{ gridTemplateColumns: `repeat(${item.mega.columns.length}, minmax(200px, 1fr))`, minWidth: `${item.mega.columns.length * 220}px` }}>
+                  <div className="absolute top-full left-0 bg-white shadow-lg rounded-xl border border-[#E5EAF1] animate-fade-in overflow-hidden">
+                    <div className="p-5 grid gap-5" style={{ gridTemplateColumns: `repeat(${item.mega.columns.length}, minmax(200px, 1fr))`, minWidth: `${item.mega.columns.length * 220}px` }}>
                       {item.mega.columns.map((col) => (
                         <div key={col.heading}>
-                          <h4 className="font-bold text-brand-900 text-xs uppercase tracking-wider mb-3 border-b border-gray-100 pb-2">
+                          <h4 className="font-semibold text-gray-500 text-[11px] uppercase tracking-wider mb-2.5">
                             {col.heading}
                           </h4>
-                          <ul className="space-y-1">
+                          <ul className="space-y-0.5">
                             {col.items.map((cat) => (
                               <li key={cat.slug}>
                                 <Link
                                   href={`/danh-muc/${cat.slug}`}
-                                  className="block text-sm text-gray-700 hover:text-brand-900 hover:bg-brand-50 rounded transition-colors py-1.5 px-2"
+                                  className="block text-sm text-gray-700 hover:text-brand-900 hover:bg-[#F7F9FC] rounded transition-colors py-1.5 px-2"
                                 >
                                   {cat.name}
                                 </Link>
@@ -150,10 +144,10 @@ export function Header({
                         </div>
                       ))}
                     </div>
-                    <div className="bg-brand-50 px-6 py-3 text-center">
+                    <div className="bg-[#F7F9FC] px-5 py-2.5 text-center border-t border-[#E5EAF1]">
                       <Link
                         href={item.href}
-                        className="text-sm font-semibold text-brand-900 hover:underline"
+                        className="text-sm font-medium text-brand-900 hover:underline"
                       >
                         Xem tất cả →
                       </Link>
@@ -162,12 +156,12 @@ export function Header({
                 )}
               </div>
             ))}
-            {/* CTA nổi bật */}
+            {/* Sale pill nhỏ — không quá nổi bật */}
             <Link
               href="/khuyen-mai"
-              className="ml-3 px-4 py-2 bg-sale text-white text-sm font-bold uppercase tracking-wider rounded-full hover:bg-red-700 transition-colors whitespace-nowrap"
+              className="ml-2 px-3 py-1.5 border border-red-200 text-red-600 text-xs font-semibold rounded-full hover:bg-red-50 transition-colors whitespace-nowrap"
             >
-              🔥 SALE
+              Ưu đãi
             </Link>
           </nav>
 
@@ -228,36 +222,54 @@ export function Header({
           </div>
         )}
 
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <div className="lg:hidden border-t bg-white max-h-[80vh] overflow-y-auto">
-            <div className="container-custom py-4 space-y-1">
+      </header>
+
+      {/* Mobile drawer 85% width */}
+      {mobileOpen && (
+        <div className="lg:hidden fixed inset-0 z-[60]">
+          <div
+            className="absolute inset-0 bg-black/40 animate-fade-in"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="absolute top-0 right-0 h-full w-[85%] max-w-[380px] bg-white shadow-2xl overflow-y-auto animate-slide-in-right">
+            <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 bg-white border-b border-[#E5EAF1]">
+              <div className="font-bold text-lg text-brand-900">Danh mục</div>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+                aria-label="Đóng menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <nav className="px-3 py-3 space-y-0.5">
               {NAV_MENU.map((item) => (
                 <div key={item.label}>
                   {item.mega ? (
                     <>
                       <button
                         onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
-                        className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-900 font-semibold hover:bg-brand-50"
+                        className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-900 font-semibold hover:bg-[#F7F9FC]"
                       >
-                        {item.label}
+                        <span>{item.label}</span>
                         <ChevronDown className={cn(
-                          "w-4 h-4 transition-transform",
-                          mobileExpanded === item.label && "rotate-180"
+                          "w-4 h-4 transition-transform text-gray-400",
+                          mobileExpanded === item.label && "rotate-180 text-brand-900"
                         )} />
                       </button>
                       {mobileExpanded === item.label && (
-                        <div className="pl-4 pb-2 space-y-2">
+                        <div className="pl-3 pr-1 pb-2 space-y-2 border-l-2 border-[#E5EAF1] ml-3 mt-1">
                           <Link
                             href={item.href}
                             onClick={() => setMobileOpen(false)}
-                            className="block px-3 py-1.5 text-sm font-semibold text-brand-900 hover:bg-brand-50 rounded"
+                            className="block px-3 py-1.5 text-sm font-medium text-brand-900 hover:bg-[#F7F9FC] rounded"
                           >
                             Xem tất cả →
                           </Link>
                           {item.mega.columns.map((col) => (
                             <div key={col.heading}>
-                              <div className="px-3 text-xs font-bold text-gray-500 uppercase mt-3 mb-1">
+                              <div className="px-3 text-[10px] font-bold text-gray-500 uppercase tracking-wider mt-2 mb-1">
                                 {col.heading}
                               </div>
                               {col.items.map((cat) => (
@@ -265,7 +277,7 @@ export function Header({
                                   key={cat.slug}
                                   href={`/danh-muc/${cat.slug}`}
                                   onClick={() => setMobileOpen(false)}
-                                  className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-900 rounded"
+                                  className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-[#F7F9FC] hover:text-brand-900 rounded"
                                 >
                                   {cat.name}
                                 </Link>
@@ -279,17 +291,31 @@ export function Header({
                     <Link
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-brand-50 hover:text-brand-900"
+                      className="block px-3 py-2.5 rounded-lg text-gray-900 font-semibold hover:bg-[#F7F9FC]"
                     >
                       {item.label}
                     </Link>
                   )}
                 </div>
               ))}
+            </nav>
+            <div className="px-5 py-4 border-t border-[#E5EAF1] mt-2 space-y-2">
+              <a
+                href={`tel:${CONTACT.branches[0].phones[0]}`}
+                className="flex items-center justify-center gap-2 w-full py-2.5 bg-brand-900 text-white rounded-lg text-sm font-semibold"
+              >
+                <Phone className="w-4 h-4" /> Gọi HN: {CONTACT.branches[0].phones[0]}
+              </a>
+              <a
+                href={`tel:${CONTACT.branches[1].phones[0]}`}
+                className="flex items-center justify-center gap-2 w-full py-2.5 bg-brand-50 text-brand-900 rounded-lg text-sm font-semibold border border-[#E5EAF1]"
+              >
+                <Phone className="w-4 h-4" /> Gọi HCM: {CONTACT.branches[1].phones[0]}
+              </a>
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
     </>
   )
 }

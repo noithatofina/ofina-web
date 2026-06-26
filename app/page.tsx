@@ -117,11 +117,11 @@ export default async function HomePage() {
   const featuredHeroProduct = heroProductFromCms || featured2026[0] || (newest || [])[0]
 
   // Hero text content: ưu tiên CMS, fallback hardcoded
-  const heroHeadline = heroSetting?.headline || 'Nội Thất Văn Phòng Cao Cấp.'
-  const heroSubheadline = heroSetting?.subheadline || 'Giảm đến 20% cho đơn đầu tiên'
-  const heroTagline = heroSetting?.tagline || '2,400+ sản phẩm tuyển chọn từ thương hiệu uy tín. Bảo hành 24 tháng · Miễn phí giao Hà Nội & HCM · Trả góp 0%.'
-  const heroCtaLabel = heroSetting?.cta_label || 'Khám phá sản phẩm'
-  const heroCtaHref = heroSetting?.cta_href || '/san-pham-moi-2026'
+  const heroHeadline = heroSetting?.headline || 'Ghế văn phòng hiện đại cho không gian làm việc chuyên nghiệp'
+  const heroSubheadline = heroSetting?.subheadline || ''
+  const heroTagline = heroSetting?.tagline || 'OFINA cung cấp ghế công thái học, ghế giám đốc, ghế nhân viên và giải pháp nội thất văn phòng cho cá nhân, doanh nghiệp và dự án.'
+  const heroCtaLabel = heroSetting?.cta_label || 'Xem sản phẩm'
+  const heroCtaHref = heroSetting?.cta_href || '/san-pham'
   const heroStats = (heroSetting?.stats && heroSetting.stats.length > 0)
     ? heroSetting.stats
     : [
@@ -152,44 +152,15 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ============ HERO 2026 — Editorial Bento + Depth ============ */}
-      <section className="relative overflow-hidden">
-        {/* Layer 1: Background 3D meeting room photo */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=85')" }}
-          role="presentation"
-          aria-hidden="true"
-        />
+      {/* ============ HERO — gradient nhẹ, 2 cột, clean ============ */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]">
+        <div className="container-custom relative py-14 md:py-20 lg:py-24">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[460px] md:min-h-[520px]">
 
-        {/* Layer 2: Blue gradient overlay (lighter — let photo show through clearly) */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-100/65 via-blue-50/55 to-white/50" aria-hidden="true" />
-
-        {/* Layer 3: Aurora blue blobs (subtle so không che ảnh) */}
-        <div className="absolute -top-32 -right-32 w-[800px] h-[800px] bg-blue-400/25 rounded-full blur-3xl" aria-hidden="true" />
-        <div className="absolute top-1/3 -left-48 w-[700px] h-[700px] bg-blue-300/20 rounded-full blur-3xl" aria-hidden="true" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-200/20 rounded-full blur-3xl" aria-hidden="true" />
-
-        <div className="container-custom relative z-10 py-12 md:py-16 lg:py-20">
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-
-            {/* LEFT: Editorial copy (col 1-7) */}
-            <div className="lg:col-span-7">
-              {/* Live pulse tagline */}
-              <div className="flex items-center gap-3 mb-6 flex-wrap">
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900 text-white rounded-full text-xs font-bold uppercase tracking-wider">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
-                  </span>
-                  Khai trương 2026
-                </span>
-                {heroSubheadline && <span className="text-sm text-gray-600">{heroSubheadline}</span>}
-              </div>
-
-              {/* Editorial display heading */}
+            {/* LEFT: copy + CTA + trust */}
+            <div>
               <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-gray-900 mb-6"
+                className="text-[34px] sm:text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.08] tracking-tight text-gray-900 mb-5"
                 dangerouslySetInnerHTML={{ __html: heroHeadline }}
               />
 
@@ -197,122 +168,58 @@ export default async function HomePage() {
                 {heroTagline}
               </p>
 
-              {/* CTA pill with floating arrow circle */}
-              <div className="flex flex-wrap items-center gap-4 mb-10">
+              <div className="flex flex-wrap items-center gap-3 mb-8">
                 <Link
                   href={heroCtaHref}
-                  className="group inline-flex items-center gap-3 pl-7 pr-3 py-3 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-800 transition-all shadow-2xl shadow-gray-900/20"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-900 text-white font-semibold rounded-xl hover:bg-brand-800 transition-colors"
                 >
                   {heroCtaLabel}
-                  <span className="w-9 h-9 bg-white text-gray-900 rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link href="/tu-van" className="text-gray-900 font-semibold underline underline-offset-4 decoration-2 hover:text-brand-900 transition-colors">
-                  Tư vấn miễn phí →
+                <Link
+                  href="/bao-gia-b2b"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#E5EAF1] text-gray-900 font-semibold rounded-xl hover:border-brand-900 hover:text-brand-900 transition-colors"
+                >
+                  Nhận tư vấn B2B
                 </Link>
               </div>
 
-              {/* Inline stats row — dynamic from CMS */}
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-4 pt-6 border-t border-gray-200">
-                {heroStats.slice(0, 4).map((s: { value: string; label: string }, i: number) => (
-                  <div key={`${s.label}-${i}`} className="flex items-center gap-2">
-                    {i === 0 && (
-                      <div className="flex -space-x-2 mr-1.5">
-                        {['#1A5FBF', '#F59E0B', '#10B981', '#6366F1'].map((c, j) => (
-                          <div key={j} className="w-8 h-8 rounded-full border-2 border-white shadow-sm" style={{ background: c }} aria-hidden="true" />
-                        ))}
-                      </div>
-                    )}
-                    <div>
-                      <div className="font-bold text-gray-900 text-sm leading-tight">{s.value}</div>
-                      <div className="text-xs text-gray-500 leading-tight">{s.label}</div>
-                    </div>
-                    {i < heroStats.slice(0, 4).length - 1 && (
-                      <div className="h-8 w-px bg-gray-200 ml-3" aria-hidden="true" />
-                    )}
-                  </div>
-                ))}
+              {/* Trust 3 points */}
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
+                <span className="inline-flex items-center gap-1.5">
+                  <Truck className="w-4 h-4 text-brand-900" /> Giao hàng HN/HCM
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Shield className="w-4 h-4 text-brand-900" /> Bảo hành 24 tháng
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <MessageSquare className="w-4 h-4 text-brand-900" /> Tư vấn chọn ghế miễn phí
+                </span>
               </div>
             </div>
 
-            {/* RIGHT: Featured product with depth + floating cards (col 8-12) */}
-            <div className="lg:col-span-5">
-              {featuredHeroProduct ? (
-                <div className="relative">
-                  <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
-                    <div className="aspect-[4/5] rounded-[2rem] bg-gradient-to-br from-gray-100 to-gray-50 overflow-hidden relative shadow-2xl shadow-gray-900/15 ring-1 ring-gray-900/5">
-                      {featuredHeroProduct.primary_image && (
-                        <Image
-                          src={featuredHeroProduct.primary_image}
-                          alt={featuredHeroProduct.name}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 40vw"
-                          className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
-                          priority
-                        />
-                      )}
-
-                      {/* Top badges */}
-                      <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
-                        <span className="px-3 py-1.5 rounded-full bg-gray-900/95 backdrop-blur text-white text-[11px] font-bold uppercase tracking-wider shadow-lg">
-                          Mới 2026
-                        </span>
-                        {featuredHeroProduct.compare_price && featuredHeroProduct.compare_price > featuredHeroProduct.price && (
-                          <span className="px-3 py-1.5 rounded-full bg-red-500 text-white text-[11px] font-bold shadow-lg">
-                            -{Math.round(((featuredHeroProduct.compare_price - featuredHeroProduct.price) / featuredHeroProduct.compare_price) * 100)}%
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Bottom info overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/85 via-black/40 to-transparent text-white">
-                        <div className="text-[10px] uppercase tracking-[0.2em] opacity-80 mb-1.5">Featured Product</div>
-                        <h2 className="font-bold text-base md:text-lg mb-2 line-clamp-1">{featuredHeroProduct.name}</h2>
-                        <div className="flex items-baseline justify-between gap-3">
-                          <div>
-                            <div className="text-2xl font-bold leading-tight">{formatPrice(featuredHeroProduct.price)}</div>
-                            {featuredHeroProduct.compare_price && featuredHeroProduct.compare_price > featuredHeroProduct.price && (
-                              <div className="text-xs line-through opacity-60">{formatPrice(featuredHeroProduct.compare_price)}</div>
-                            )}
-                          </div>
-                          <span className="text-sm font-semibold inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all bg-white/15 backdrop-blur px-3 py-1.5 rounded-full">
-                            Xem ngay <ArrowRight className="w-4 h-4" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-
-                  {/* Floating trust card 1 — top-right offset */}
-                  <div className="absolute -top-4 -right-3 md:-right-6 bg-white rounded-2xl shadow-2xl shadow-gray-900/10 p-3 flex items-center gap-2.5 border border-gray-100 rotate-[3deg]" aria-hidden="true">
-                    <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700">
-                      <Truck className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-xs text-gray-900 leading-tight">Giao 1-2 ngày</div>
-                      <div className="text-[10px] text-gray-500 leading-tight mt-0.5">Miễn phí HN/HCM</div>
-                    </div>
+            {/* RIGHT: featured product clean */}
+            <div className="relative order-first lg:order-last">
+              {featuredHeroProduct?.primary_image ? (
+                <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
+                  <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] rounded-2xl bg-white border border-[#E5EAF1] overflow-hidden">
+                    <Image
+                      src={featuredHeroProduct.primary_image}
+                      alt={featuredHeroProduct.name}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 45vw"
+                      className="object-contain p-6 group-hover:scale-[1.02] transition-transform duration-500"
+                      priority
+                    />
                   </div>
-
-                  {/* Floating trust card 2 — bottom-left offset */}
-                  <div className="absolute -bottom-3 -left-3 md:-left-6 bg-white rounded-2xl shadow-2xl shadow-gray-900/10 p-3 flex items-center gap-2.5 border border-gray-100 rotate-[-3deg]" aria-hidden="true">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-brand-900">
-                      <Shield className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-xs text-gray-900 leading-tight">Bảo hành 24 tháng</div>
-                      <div className="text-[10px] text-gray-500 leading-tight mt-0.5">1 đổi 1 nếu lỗi</div>
-                    </div>
-                  </div>
-                </div>
+                </Link>
               ) : (
-                <div className="bg-gray-50 rounded-[2rem] aspect-[4/5]" aria-hidden="true" />
+                <div className="aspect-[4/5] rounded-2xl bg-white border border-[#E5EAF1]" aria-hidden="true" />
               )}
             </div>
+
           </div>
         </div>
-
       </section>
 
       {/* ============ STICKY CATEGORY NAV ============ */}

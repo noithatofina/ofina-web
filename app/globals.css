@@ -99,6 +99,15 @@
   animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
+/* Slide-in drawer (mobile menu) */
+@keyframes slide-in-right {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Blog content — render HTML from CMS */
 /* Force font + clean inline styles from pasted ChatGPT/Word content */
 .blog-content, .blog-content * {

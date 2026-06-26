@@ -262,7 +262,6 @@ export const NAV_MENU: MenuItem[] = [
   },
 
   // ============ Links đơn ============
-  { label: 'Nâng hạ', href: '/danh-muc/ban-nang-ha-thong-minh' },
-  { label: 'MỚI 2026', href: '/san-pham-moi-2026' },
+  { label: 'Dự án', href: '/bao-gia-b2b' },
   { label: 'Blog', href: '/blog' },
 ]

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 import { Facebook, Mail, MapPin, Phone, Youtube } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { CONTACT } from '@/lib/utils'
+import { CONTACT, zaloUrl } from '@/lib/utils'
 import type { ContactInfo, Branch } from '@/lib/shop-chrome-context'
 
 export function Footer({
@@ -17,7 +17,14 @@ export function Footer({
   const hotline = contact?.hotline || CONTACT.hotline
   const email = contact?.email || CONTACT.email
   const facebookUrl = contact?.facebook_url || CONTACT.facebookUrl
-  const branches = cmsBranches && cmsBranches.length > 0 ? cmsBranches : CONTACT.branches
+  const branches: Branch[] = (cmsBranches && cmsBranches.length > 0
+    ? cmsBranches
+    : CONTACT.branches) as unknown as Branch[]
+  const branchPhones = (b: Branch): string[] => {
+    if (b.phones && b.phones.length > 0) return b.phones
+    if (b.phone) return [b.phone]
+    return [hotline]
+  }
   const [newsletterEmail, setNewsletterEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -112,21 +119,44 @@ export function Footer({
         {/* Liên hệ */}
         <div>
           <h3 className="text-white font-bold text-lg mb-4">Liên hệ</h3>
-          <ul className="space-y-3 text-sm">
-            {branches.map((b) => (
-              <li key={b.address} className="flex items-start gap-2">
-                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-accent-400" />
-                <span>
-                  <span className="block font-semibold text-white">{b.name}</span>
-                  <span className="block">{b.address}</span>
-                </span>
-              </li>
-            ))}
-            <li className="flex items-center gap-2">
-              <Phone className="w-5 h-5 text-accent-400" />
-              <a href={`tel:${hotline}`} className="hover:text-accent-400">Hotline: {hotline}</a>
-            </li>
-            <li className="flex items-center gap-2">
+          <ul className="space-y-4 text-sm">
+            {branches.map((b) => {
+              const phones = branchPhones(b)
+              return (
+                <li key={b.address} className="space-y-1.5">
+                  <div className="flex items-start gap-2">
+                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-accent-400" />
+                    <span>
+                      <span className="block font-semibold text-white">{b.name}</span>
+                      <span className="block">{b.address}</span>
+                    </span>
+                  </div>
+                  <div className="pl-7 space-y-1">
+                    {phones.map((p) => (
+                      <div key={p} className="flex items-center gap-3 flex-wrap">
+                        <a
+                          href={`tel:${p}`}
+                          className="inline-flex items-center gap-1.5 hover:text-accent-400"
+                        >
+                          <Phone className="w-4 h-4 text-accent-400" />
+                          <span>{p}</span>
+                        </a>
+                        <a
+                          href={zaloUrl(p)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#0068FF]/20 text-[#3b8cff] hover:bg-[#0068FF]/30 text-xs font-semibold"
+                          aria-label={`Zalo ${p}`}
+                        >
+                          Zalo
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </li>
+              )
+            })}
+            <li className="flex items-center gap-2 pt-2 border-t border-white/10">
               <Mail className="w-5 h-5 text-accent-400" />
               <a href={`mailto:${email}`} className="hover:text-accent-400">{email}</a>
             </li>

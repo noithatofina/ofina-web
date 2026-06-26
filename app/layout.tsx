@@ -11,7 +11,9 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
-const HOTLINE = '0325669996'
+const HN_PHONES = ['0325629996', '0325669996']
+const HCM_PHONES = ['0777569996', '0392869996']
+const toE164 = (p: string) => `+84${p.replace(/^0/, '')}`
 
 const beVietnam = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
@@ -62,14 +64,21 @@ const ORGANIZATION_LD = {
   description: 'Nội thất văn phòng cao cấp, chính hãng — ghế, bàn, tủ, sofa cho doanh nghiệp Việt Nam.',
   contactPoint: [{
     '@type': 'ContactPoint',
-    telephone: `+84${HOTLINE.slice(1)}`,
+    telephone: toE164(HN_PHONES[0]),
+    contactType: 'customer service',
+    areaServed: 'VN',
+    availableLanguage: ['Vietnamese'],
+  }, {
+    '@type': 'ContactPoint',
+    telephone: toE164(HCM_PHONES[0]),
     contactType: 'customer service',
     areaServed: 'VN',
     availableLanguage: ['Vietnamese'],
   }],
   sameAs: [
     'https://facebook.com/ofina.vn',
-    'https://zalo.me/0325669996',
+    `https://zalo.me/${HN_PHONES[0]}`,
+    `https://zalo.me/${HCM_PHONES[0]}`,
   ],
 }
 
@@ -99,7 +108,7 @@ const LOCAL_BUSINESS_LD = [
       addressRegion: 'Hà Nội',
       addressCountry: 'VN',
     },
-    telephone: `+84${HOTLINE.slice(1)}`,
+    telephone: HN_PHONES.map(toE164),
     url: `${SITE_URL}/showroom`,
     openingHours: 'Mo-Su 08:00-18:00',
     priceRange: '$$',
@@ -116,7 +125,7 @@ const LOCAL_BUSINESS_LD = [
       addressRegion: 'TP.HCM',
       addressCountry: 'VN',
     },
-    telephone: `+84${HOTLINE.slice(1)}`,
+    telephone: HCM_PHONES.map(toE164),
     url: `${SITE_URL}/showroom`,
     openingHours: 'Mo-Su 08:00-18:00',
     priceRange: '$$',

@@ -39,21 +39,34 @@ export function slugify(text: string): string {
 export const BRANCHES = [
   {
     name: 'Trụ sở Hà Nội',
+    region: 'HN' as const,
     address: '135 đường K2, Phường Phú Đô, Hà Nội',
     mapsQuery: '135 K2 Phú Đô Hà Nội',
+    phones: ['0325629996', '0325669996'],
   },
   {
     name: 'Chi nhánh TP.HCM',
+    region: 'HCM' as const,
     address: 'Tầng 2, số 36 Lương Định Của, Quận 2, TP.HCM',
     mapsQuery: '36 Lương Định Của Quận 2 TP HCM',
+    phones: ['0777569996', '0392869996'],
   },
 ] as const
 
+export function zaloUrl(phone: string): string {
+  return `https://zalo.me/${phone}`
+}
+
+/** "0325629996" → "+84325629996" cho schema.org telephone. */
+export function toE164VN(phone: string): string {
+  return `+84${phone.replace(/^0/, '')}`
+}
+
 export const CONTACT = {
-  hotline: process.env.NEXT_PUBLIC_HOTLINE || '0325669996',
+  hotline: process.env.NEXT_PUBLIC_HOTLINE || BRANCHES[0].phones[0],
   email: process.env.NEXT_PUBLIC_EMAIL || 'contact@ofina.vn',
   address: BRANCHES[0].address,
   branches: BRANCHES,
-  zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL || 'https://zalo.me/0325669996',
+  zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL || zaloUrl(BRANCHES[0].phones[0]),
   facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL || '#',
 }

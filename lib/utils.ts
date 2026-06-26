@@ -63,10 +63,10 @@ export function toE164VN(phone: string): string {
 }
 
 export const CONTACT = {
-  hotline: process.env.NEXT_PUBLIC_HOTLINE || BRANCHES[0].phones[0],
+  hotline: BRANCHES[0].phones[0],
   email: process.env.NEXT_PUBLIC_EMAIL || 'contact@ofina.vn',
   address: BRANCHES[0].address,
   branches: BRANCHES,
-  zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL || zaloUrl(BRANCHES[0].phones[0]),
+  zaloUrl: zaloUrl(BRANCHES[0].phones[0]),
   facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL || '#',
 }

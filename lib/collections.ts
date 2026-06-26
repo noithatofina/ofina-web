@@ -12,6 +12,8 @@
  * (đã kiểm tra count trước khi thêm). Trang nào ra < MIN_PRODUCTS sẽ 404.
  */
 
+import { CONTACT } from '@/lib/utils'
+
 export const MIN_PRODUCTS = 3
 
 export interface CollectionFilter {
@@ -41,7 +43,7 @@ export interface CollectionDef {
   sort?: string
 }
 
-const HOTLINE = '0325669996'
+const HOTLINE = CONTACT.hotline
 
 export const COLLECTIONS: CollectionDef[] = [
   {

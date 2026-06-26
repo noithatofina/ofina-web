@@ -112,46 +112,54 @@ export default async function HomePage() {
 
       {/* ============ HERO — Mobile banner + Desktop 2-col ============ */}
 
-      {/* MOBILE Hero — banner 4/3 + H1 nhỏ below */}
+      {/* MOBILE Hero — banner fixed + H1 section below */}
       <section className="md:hidden">
         {featuredHeroProduct?.primary_image ? (
-          <div className="relative aspect-[4/3] bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC] overflow-hidden">
-            <Image
-              src={featuredHeroProduct.primary_image}
-              alt={featuredHeroProduct.name}
-              fill
-              sizes="100vw"
-              className="object-contain p-6"
-              priority
-            />
-            {/* Text + CTA overlay đáy */}
-            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/55 via-black/15 to-transparent text-white">
-              <div className="text-[20px] font-bold leading-[1.15] mb-0.5">Ghế văn phòng hiện đại</div>
-              <div className="text-[13px] opacity-90 mb-2.5">Cho cá nhân, doanh nghiệp & dự án</div>
+          <div className="relative bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC] overflow-hidden" style={{ height: 400 }}>
+            {/* Ảnh sản phẩm — top portion, cân giữa, không dính đáy */}
+            <div className="absolute inset-x-0 top-0" style={{ bottom: 116 }}>
+              <Image
+                src={featuredHeroProduct.primary_image}
+                alt={featuredHeroProduct.name}
+                fill
+                sizes="100vw"
+                className="object-contain p-5"
+                priority
+              />
+            </div>
+            {/* Overlay gradient + text + CTA */}
+            <div
+              className="absolute inset-x-0 bottom-0 px-4 pt-10 pb-4 text-white"
+              style={{
+                background: 'linear-gradient(to top, rgba(15,23,42,0.55) 0%, rgba(15,23,42,0.25) 60%, rgba(15,23,42,0) 100%)',
+              }}
+            >
+              <div className="text-[18px] font-bold leading-[1.2] mb-0.5 drop-shadow">Ghế văn phòng hiện đại</div>
+              <div className="text-[13px] opacity-95 mb-2.5 drop-shadow">Cho cá nhân, doanh nghiệp & dự án</div>
               <Link
                 href="/san-pham"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-gray-900 text-[13px] font-semibold rounded-lg"
+                className="inline-flex items-center gap-1 px-3.5 py-1.5 bg-white text-gray-900 text-[12px] font-semibold rounded-md"
               >
-                Xem sản phẩm <ArrowRight className="w-3.5 h-3.5" />
+                Xem sản phẩm <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
           </div>
         ) : (
-          <div className="aspect-[4/3] bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]" aria-hidden="true" />
+          <div className="bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]" style={{ height: 400 }} aria-hidden="true" />
         )}
 
-        {/* H1 nhỏ below banner */}
-        <div className="container-custom pt-5 pb-2">
-          <h1 className="text-[26px] font-bold leading-[1.15] tracking-tight text-gray-900 mb-2">
+        {/* H1 section below banner */}
+        <div className="container-custom pt-6 pb-7">
+          <h1 className="text-[32px] font-bold leading-[1.12] tracking-tight text-gray-900 mb-2.5">
             Ghế & nội thất văn phòng OFINA
           </h1>
           <p className="text-[14px] text-gray-600 leading-relaxed mb-4">
             Ghế công thái học, ghế giám đốc, bàn làm việc và giải pháp nội thất cho cá nhân, doanh nghiệp và dự án.
           </p>
-          <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-[12px] text-gray-600">
-            <span className="inline-flex items-center gap-1"><Truck className="w-3.5 h-3.5 text-[#155EEF]" /> Giao HN/HCM</span>
-            <span className="inline-flex items-center gap-1"><Shield className="w-3.5 h-3.5 text-[#155EEF]" /> BH 24 tháng</span>
-            <span className="inline-flex items-center gap-1"><MessageSquare className="w-3.5 h-3.5 text-[#155EEF]" /> Tư vấn chọn ghế</span>
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-gray-600">
+            <span className="inline-flex items-center gap-1.5"><Truck className="w-3.5 h-3.5 text-[#155EEF]" /> Giao HN/HCM</span>
+            <span className="inline-flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-[#155EEF]" /> BH 24 tháng</span>
+            <span className="inline-flex items-center gap-1.5"><MessageSquare className="w-3.5 h-3.5 text-[#155EEF]" /> Tư vấn miễn phí</span>
           </div>
         </div>
       </section>

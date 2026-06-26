@@ -14,6 +14,7 @@ export function FloatingActions({ contact: _contact }: { contact?: ContactInfo }
     phones: [...b.phones],
   }))
   const [showTop, setShowTop] = useState(false)
+  const [showMobileBar, setShowMobileBar] = useState(false)
   const [zaloOpen, setZaloOpen] = useState(false)
   const [callOpen, setCallOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -21,8 +22,12 @@ export function FloatingActions({ contact: _contact }: { contact?: ContactInfo }
   const [mobileMenu, setMobileMenu] = useState<'zalo' | 'call' | null>(null)
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 600)
-    window.addEventListener('scroll', onScroll)
+    const onScroll = () => {
+      setShowTop(window.scrollY > 600)
+      setShowMobileBar(window.scrollY > 300)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -97,10 +102,12 @@ export function FloatingActions({ contact: _contact }: { contact?: ContactInfo }
         )}
       </div>
 
-      {/* ========= MOBILE: sticky bottom bar 56px + safe-area ========= */}
+      {/* ========= MOBILE: sticky bottom bar 56px + safe-area, slide up sau 300px scroll ========= */}
       <div
         ref={mobileRef}
-        className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-[#E5EAF1] shadow-[0_-4px_12px_rgba(0,0,0,0.04)]"
+        className={`md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-[#E5EAF1] shadow-[0_-4px_12px_rgba(0,0,0,0.04)] transition-transform duration-300 ${
+          showMobileBar ? 'translate-y-0' : 'translate-y-full'
+        }`}
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
         {mobileMenu && (

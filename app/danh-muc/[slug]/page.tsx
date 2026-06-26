@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
 import { CategoryFilters } from '@/components/product/CategoryFilters'
+import { CategoryMobileFilter } from '@/components/product/CategoryMobileFilter'
 import { getProductsByCategory, getCategoryInfo } from '@/lib/queries'
 import { ChevronRight } from 'lucide-react'
 import { CONTACT } from '@/lib/utils'
@@ -65,36 +66,40 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const pageNumbers = getPageNumbers(currentPage, totalPages)
 
   return (
-    <div className="container-custom py-8">
+    <div className="container-custom py-5 md:py-8">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:text-brand-900">Trang chủ</Link>
-        <ChevronRight className="w-4 h-4" />
-        <Link href="/san-pham" className="hover:text-brand-900">Sản phẩm</Link>
-        <ChevronRight className="w-4 h-4" />
-        <span className="text-brand-900 font-semibold">{cat.name}</span>
+      <nav className="flex items-center gap-1.5 text-[12px] md:text-sm text-gray-500 mb-3 md:mb-6 flex-wrap">
+        <Link href="/" className="hover:text-[#155EEF]">Trang chủ</Link>
+        <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+        <Link href="/san-pham" className="hover:text-[#155EEF]">Sản phẩm</Link>
+        <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+        <span className="text-gray-900 font-medium">{cat.name}</span>
       </nav>
 
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-950 mb-3">
+      {/* Header — gọn mobile */}
+      <div className="mb-4 md:mb-8">
+        <h1 className="text-[24px] md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-1 md:mb-3">
           {cat.name}
         </h1>
-        <p className="text-gray-600 text-lg">
-          <strong>{total.toLocaleString('vi-VN')}</strong> sản phẩm · Giao hàng toàn quốc · Bảo hành chính hãng
+        <p className="text-gray-500 text-[13px] md:text-lg">
+          <strong className="text-gray-900">{total.toLocaleString('vi-VN')}</strong> sản phẩm
+          <span className="hidden md:inline"> · Giao hàng toàn quốc · Bảo hành chính hãng</span>
         </p>
       </div>
 
       <div className="grid lg:grid-cols-[280px_1fr] gap-8">
-        {/* Sidebar Filters */}
-        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+        {/* Sidebar Filters — desktop only */}
+        <aside className="hidden lg:block space-y-6 lg:sticky lg:top-24 lg:self-start">
           <CategoryFilters />
         </aside>
 
         {/* Products */}
         <div>
-          {/* Toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6 p-4 bg-white rounded-lg border">
+          {/* MOBILE filter bar — Lọc + Sort */}
+          <CategoryMobileFilter />
+
+          {/* DESKTOP toolbar */}
+          <div className="hidden md:flex flex-wrap items-center justify-between gap-4 mb-6 p-4 bg-white rounded-lg border border-[#E5EAF1]">
             <span className="text-gray-600">
               Hiển thị <strong>{(currentPage - 1) * PER_PAGE + 1}–{Math.min(currentPage * PER_PAGE, total)}</strong> / <strong>{total}</strong> sản phẩm
             </span>
@@ -102,7 +107,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               <select
                 name="sort"
                 defaultValue={sort}
-                className="px-4 py-2 border rounded-lg focus:outline-none focus:border-brand-900"
+                className="px-4 py-2 border border-[#E5EAF1] rounded-lg focus:outline-none focus:border-[#155EEF]"
               >
                 <option value="newest">Mới nhất</option>
                 <option value="price-asc">Giá thấp → cao</option>

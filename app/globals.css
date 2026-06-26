@@ -118,6 +118,15 @@
   animation: slide-in-right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Bottom sheet — slide from bottom (mobile filter) */
+@keyframes slide-in-bottom {
+  0%   { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Blog content — render HTML from CMS */
 /* Force font + clean inline styles from pasted ChatGPT/Word content */
 .blog-content, .blog-content * {

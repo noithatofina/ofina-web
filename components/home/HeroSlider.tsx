@@ -18,29 +18,29 @@ const STORAGE = 'https://ivxdwqsqveqsjcsdvewq.supabase.co/storage/v1/object/publ
  */
 const SLIDES: Slide[] = [
   {
-    image: `${STORAGE}/khong-gian-van-phong-toi-gian-ofina.png`,
-    alt: 'Không gian văn phòng tối giản hiện đại — OFINA',
+    image: `${STORAGE}/noi-that-van-phong-chuan-ofina.png`,
+    alt: 'Nội thất văn phòng chuẩn — ghế công thái học, ghế giám đốc, bàn làm việc OFINA',
     href: '/san-pham',
   },
   {
-    image: `${STORAGE}/ghe-da-cao-cap-phong-cach-ofina.png`,
-    alt: 'Ghế da cao cấp — 5 phong cách không gian văn phòng — OFINA',
-    href: '/danh-muc/ghe-da-giam-doc',
+    image: `${STORAGE}/ghe-cong-thai-hoc-giam-doc-ofina.png`,
+    alt: 'Ghế công thái học và ghế giám đốc cao cấp — trải nghiệm làm việc tốt mỗi ngày — OFINA',
+    href: '/danh-muc/ghe-cong-thai-hoc',
   },
   {
-    image: `${STORAGE}/noi-that-van-phong-nghe-thuat-ofina.png`,
-    alt: 'Nội thất văn phòng nghệ thuật — Fashion Office & Art Office — OFINA',
+    image: `${STORAGE}/van-phong-chuyen-nghiep-ofina.png`,
+    alt: 'Văn phòng chuyên nghiệp — giải pháp nội thất cho cá nhân, doanh nghiệp và dự án — OFINA',
     href: '/bao-gia-b2b',
   },
   {
-    image: `${STORAGE}/phong-hop-hien-dai-noi-that-ofina.png`,
-    alt: 'Phòng họp hiện đại — giải pháp nội thất chuyên nghiệp — OFINA',
+    image: `${STORAGE}/giai-phap-van-phong-doanh-nghiep-ofina.png`,
+    alt: 'Đủ giải pháp nội thất văn phòng — bàn làm việc, tủ kệ, sofa văn phòng cho doanh nghiệp — OFINA',
+    href: '/bao-gia-b2b',
+  },
+  {
+    image: `${STORAGE}/phong-hop-noi-that-cao-cap-ofina.png`,
+    alt: 'Phòng họp nội thất cao cấp — không gian làm việc đẹp cho doanh nghiệp chuyên nghiệp — OFINA',
     href: '/danh-muc/ban-hop-van-phong-chan-sat',
-  },
-  {
-    image: `${STORAGE}/khong-gian-van-phong-hien-dai-ofina.png`,
-    alt: 'Không gian văn phòng hiện đại — giải pháp nội thất tối ưu — OFINA',
-    href: '/bao-gia-b2b',
   },
 ]
 

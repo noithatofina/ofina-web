@@ -76,12 +76,12 @@ export function Header({
       )}>
         <div className="container-custom flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2.5 group py-3.5">
-            <div className="w-11 h-11 bg-brand-900 rounded-xl flex items-center justify-center group-hover:bg-brand-800 transition-colors p-1.5">
+            <div className="w-10 h-10 bg-brand-900 rounded-xl flex items-center justify-center group-hover:bg-brand-800 transition-colors p-1.5">
               <Image
                 src={logoUrl || '/logo.png'}
                 alt="OFINA logo"
-                width={44}
-                height={44}
+                width={40}
+                height={40}
                 priority
                 unoptimized={!!logoUrl}
                 className="w-full h-full object-contain"

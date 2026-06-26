@@ -38,17 +38,20 @@ export function ProductTabs({ tabs }: Props) {
         />
       ))}
 
-      {/* Tab labels (clickable headers) */}
-      <div className="flex flex-wrap gap-1 md:gap-2 border-b mb-6 overflow-x-auto">
+      {/* Tab labels — scroll ngang 1 hàng, không wrap */}
+      <div
+        className="product-tabs-bar flex flex-nowrap gap-1 md:gap-2 border-b border-[#E5EAF1] mb-5 md:mb-6 overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0"
+        style={{ scrollbarWidth: 'none' }}
+      >
         {tabs.map((t) => (
           <label
             key={t.id}
             htmlFor={`${groupName}-${t.id}`}
-            className={`tab-label-${t.id} cursor-pointer px-4 md:px-5 py-3 font-semibold text-gray-500 border-b-2 border-transparent hover:text-brand-900 transition-colors text-sm md:text-base whitespace-nowrap flex items-center gap-2`}
+            className={`tab-label-${t.id} cursor-pointer flex-shrink-0 px-3 md:px-4 py-2.5 md:py-3 font-semibold text-gray-500 border-b-2 border-transparent hover:text-[#155EEF] transition-colors text-[13px] md:text-[15px] whitespace-nowrap flex items-center gap-1.5`}
           >
             <span>{t.label}</span>
             {t.badge && (
-              <span className="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-accent-500 text-white">
+              <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase rounded-full bg-[#155EEF] text-white">
                 {t.badge}
               </span>
             )}
@@ -82,12 +85,13 @@ export function ProductTabs({ tabs }: Props) {
       ))}
 
       <style>{`
+        .product-tabs-bar::-webkit-scrollbar { display: none; }
         ${tabs
           .map(
             (t) => `
           #${groupName}-${t.id}:checked ~ div .tab-label-${t.id} {
-            color: #1A5FBF;
-            border-color: #1A5FBF;
+            color: #155EEF;
+            border-color: #155EEF;
           }
           #${groupName}-${t.id}:checked ~ .tab-panel-${t.id} {
             display: block !important;

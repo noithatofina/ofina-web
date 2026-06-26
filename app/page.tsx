@@ -110,8 +110,54 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ============ HERO — gradient nhẹ, 2 cột, clean ============ */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]">
+      {/* ============ HERO — Mobile banner + Desktop 2-col ============ */}
+
+      {/* MOBILE Hero — banner 4/3 + H1 nhỏ below */}
+      <section className="md:hidden">
+        {featuredHeroProduct?.primary_image ? (
+          <div className="relative aspect-[4/3] bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC] overflow-hidden">
+            <Image
+              src={featuredHeroProduct.primary_image}
+              alt={featuredHeroProduct.name}
+              fill
+              sizes="100vw"
+              className="object-contain p-6"
+              priority
+            />
+            {/* Text + CTA overlay đáy */}
+            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/55 via-black/15 to-transparent text-white">
+              <div className="text-[20px] font-bold leading-[1.15] mb-0.5">Ghế văn phòng hiện đại</div>
+              <div className="text-[13px] opacity-90 mb-2.5">Cho cá nhân, doanh nghiệp & dự án</div>
+              <Link
+                href="/san-pham"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-gray-900 text-[13px] font-semibold rounded-lg"
+              >
+                Xem sản phẩm <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="aspect-[4/3] bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]" aria-hidden="true" />
+        )}
+
+        {/* H1 nhỏ below banner */}
+        <div className="container-custom pt-5 pb-2">
+          <h1 className="text-[26px] font-bold leading-[1.15] tracking-tight text-gray-900 mb-2">
+            Ghế & nội thất văn phòng OFINA
+          </h1>
+          <p className="text-[14px] text-gray-600 leading-relaxed mb-4">
+            Ghế công thái học, ghế giám đốc, bàn làm việc và giải pháp nội thất cho cá nhân, doanh nghiệp và dự án.
+          </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-[12px] text-gray-600">
+            <span className="inline-flex items-center gap-1"><Truck className="w-3.5 h-3.5 text-[#155EEF]" /> Giao HN/HCM</span>
+            <span className="inline-flex items-center gap-1"><Shield className="w-3.5 h-3.5 text-[#155EEF]" /> BH 24 tháng</span>
+            <span className="inline-flex items-center gap-1"><MessageSquare className="w-3.5 h-3.5 text-[#155EEF]" /> Tư vấn chọn ghế</span>
+          </div>
+        </div>
+      </section>
+
+      {/* DESKTOP Hero — 2-col layout với collage */}
+      <section className="hidden md:block relative overflow-hidden bg-gradient-to-br from-[#EFF4FB] via-white to-[#F7F9FC]">
         <div className="container-custom relative pt-10 pb-12 md:pt-12 md:pb-16 lg:pt-14 lg:pb-20">
           <div className="grid lg:grid-cols-[48fr_52fr] gap-8 lg:gap-12 items-center">
 

@@ -97,8 +97,12 @@ export function FloatingActions({ contact: _contact }: { contact?: ContactInfo }
         )}
       </div>
 
-      {/* ========= MOBILE: sticky bottom bar 64px ========= */}
-      <div ref={mobileRef} className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-[#E5EAF1] shadow-[0_-4px_12px_rgba(0,0,0,0.04)]">
+      {/* ========= MOBILE: sticky bottom bar 56px + safe-area ========= */}
+      <div
+        ref={mobileRef}
+        className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-[#E5EAF1] shadow-[0_-4px_12px_rgba(0,0,0,0.04)]"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
         {mobileMenu && (
           <div className="border-b border-[#E5EAF1] bg-white max-h-[60vh] overflow-y-auto">
             <div className="px-4 py-3">
@@ -132,7 +136,7 @@ export function FloatingActions({ contact: _contact }: { contact?: ContactInfo }
             </div>
           </div>
         )}
-        <div className="grid grid-cols-2 gap-2 px-3 py-2.5" style={{ height: 64 }}>
+        <div className="grid grid-cols-2 gap-2 px-3 py-1.5" style={{ height: 56 }}>
           <button
             onClick={() => setMobileMenu(mobileMenu === 'call' ? null : 'call')}
             className="flex items-center justify-center gap-2 bg-green-600 text-white rounded-xl font-semibold text-sm"

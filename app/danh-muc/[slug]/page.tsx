@@ -5,6 +5,7 @@ import { ProductCard } from '@/components/product/ProductCard'
 import { CategoryFilters } from '@/components/product/CategoryFilters'
 import { getProductsByCategory, getCategoryInfo } from '@/lib/queries'
 import { ChevronRight } from 'lucide-react'
+import { CONTACT } from '@/lib/utils'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cat = await getCategoryInfo(slug)
   const name = cat?.name || slug.replace(/-/g, ' ')
   const title = `${name} — chính hãng, giá tốt | OFINA`
-  const description = `${name} tại OFINA — đa dạng mẫu, giá cạnh tranh, bảo hành 24 tháng. Miễn phí giao Hà Nội & TP.HCM, lắp đặt tận nơi, trả góp 0%. Hotline 0325669996.`
+  const description = `${name} tại OFINA — đa dạng mẫu, giá cạnh tranh, bảo hành 24 tháng. Miễn phí giao Hà Nội & TP.HCM, lắp đặt tận nơi, trả góp 0%. Hotline HN ${CONTACT.hotline} · HCM ${CONTACT.branches[1].phones[0]}.`
   return {
     title: { absolute: title }, // bypass layout template
     description,

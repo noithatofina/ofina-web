@@ -23,7 +23,12 @@ export interface GeneratedPost {
   category: string
 }
 
-const SYSTEM_PROMPT = `Bạn là chuyên gia content SEO của OFINA — thương hiệu nội thất văn phòng cao cấp, chính hãng tại Việt Nam (website ofina.vn, hotline 0325669996, showroom Hà Nội & TP.HCM, bảo hành 24 tháng, giao lắp tận nơi).
+import { CONTACT } from '@/lib/utils'
+
+const HOTLINE_HN = CONTACT.hotline
+const HOTLINE_HCM = CONTACT.branches[1].phones[0]
+
+const SYSTEM_PROMPT = `Bạn là chuyên gia content SEO của OFINA — thương hiệu nội thất văn phòng cao cấp, chính hãng tại Việt Nam (website ofina.vn, hotline HN ${HOTLINE_HN} / HCM ${HOTLINE_HCM}, showroom Hà Nội & TP.HCM, bảo hành 24 tháng, giao lắp tận nơi).
 
 Nhiệm vụ: viết một bài blog tiếng Việt chuẩn SEO cho khách hàng đang tìm hiểu/mua nội thất văn phòng.
 

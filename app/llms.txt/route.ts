@@ -8,9 +8,11 @@
 
 import { createAdminClient } from '@/lib/supabase-admin'
 import { COLLECTIONS } from '@/lib/collections'
+import { CONTACT } from '@/lib/utils'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
-const HOTLINE = process.env.NEXT_PUBLIC_HOTLINE || '0325669996'
+const HOTLINE = CONTACT.hotline
+const HOTLINE_HCM = CONTACT.branches[1].phones[0]
 
 // Cache 6 giờ — danh mục thay đổi không thường xuyên
 export const revalidate = 21600
@@ -60,9 +62,8 @@ export async function GET() {
 ## Thông tin quan trọng
 
 - **Website:** ${SITE_URL}
-- **Hotline / Zalo:** ${HOTLINE}
-- **Showroom Hà Nội:** 135 đường K2, Phường Phú Đô, Hà Nội
-- **Showroom TP.HCM:** Tầng 2, số 36 Lương Định Của, Quận 2, TP.HCM
+- **Hotline / Zalo Hà Nội:** ${HOTLINE} (135 đường K2, Phường Phú Đô)
+- **Hotline / Zalo TP.HCM:** ${HOTLINE_HCM} (Tầng 2, số 36 Lương Định Của, Quận 2)
 - **Giờ mở cửa:** 08:00–18:00 tất cả các ngày trong tuần
 - **Bảo hành:** 24 tháng cho hầu hết sản phẩm
 - **Giao hàng:** Miễn phí nội thành Hà Nội & TP.HCM

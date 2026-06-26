@@ -4,10 +4,12 @@ import Link from 'next/link'
 import { ChevronRight, Shield, Truck, RefreshCw, Phone, MessageCircle, Award, BadgeCheck, Sparkles } from 'lucide-react'
 import { getProductBySlug, getRelatedProducts, getCategoryById } from '@/lib/queries'
 import { formatPrice, calcDiscountPercent, CONTACT } from '@/lib/utils'
+import { findVariantGroup } from '@/lib/variant-groups'
 import { ProductGallery } from '@/components/product/ProductGallery'
 import { ProductActions } from '@/components/product/ProductActions'
 import { ProductCard } from '@/components/product/ProductCard'
 import { StickyMobileBar } from '@/components/product/StickyMobileBar'
+import { VariantSwitcher } from '@/components/product/VariantSwitcher'
 import {
   parseDescription,
   HighlightsList,
@@ -62,6 +64,7 @@ export default async function ProductPage({ params }: Props) {
   const faq = meta.faq || []
 
   const category = product.category_id ? await getCategoryById(product.category_id) : null
+  const variantGroup = findVariantGroup(product.slug)
   const related = await getRelatedProducts({
     productId: product.id,
     categoryId: product.category_id,
@@ -223,6 +226,11 @@ export default async function ProductPage({ params }: Props) {
                 </>
               )}
             </div>
+
+            {/* Variant switcher (nếu SP thuộc nhóm phiên bản) */}
+            {variantGroup && (
+              <VariantSwitcher options={variantGroup.options} currentSlug={product.slug} />
+            )}
 
             {/* Highlights summary (top 3) */}
             {highlights.length > 0 && (

@@ -211,56 +211,6 @@ export const NAV_MENU: MenuItem[] = [
     },
   },
 
-  // ============ CAFE / BAR / HỘI TRƯỜNG ============
-  {
-    label: 'Cafe & Bar',
-    href: '/nhom/cafe-bar',
-    mega: {
-      title: 'Ghế Cafe, Bar & Hội trường',
-      columns: [
-        {
-          heading: 'Ghế cafe',
-          items: [
-            { slug: 'ghe-cafe', name: 'Ghế cafe' },
-            { slug: 'ghe-cafe-chan-co-dinh', name: 'Ghế cafe chân cố định' },
-            { slug: 'ghe-cafe-chan-xoay', name: 'Ghế cafe chân xoay' },
-            { slug: 'bo-ban-ghe-cafe', name: 'Bộ bàn ghế cafe' },
-            { slug: 'ban-ghe-cafe-ghe-bar', name: 'Bàn ghế cafe - bar' },
-          ],
-        },
-        {
-          heading: 'Bàn cafe & Ghế quầy bar',
-          items: [
-            { slug: 'ban-cafe', name: 'Bàn cafe' },
-            { slug: 'ban-cafe-chan-sat-mat-go-kinh-abs', name: 'Bàn cafe chân sắt mặt đá' },
-            { slug: 'ban-cafe-gap-gon', name: 'Bàn cafe gấp gọn' },
-            { slug: 'ghe-bar', name: 'Ghế bar' },
-            { slug: 'ghe-quay-bar-chan-sat', name: 'Ghế quầy bar chân sắt' },
-            { slug: 'ghe-quay-bar-chan-go', name: 'Ghế quầy bar chân gỗ' },
-          ],
-        },
-        {
-          heading: 'Hội trường & Phòng chờ',
-          items: [
-            { slug: 'ghe-hoi-truong', name: 'Ghế hội trường' },
-            { slug: 'ghe-rap-phim', name: 'Ghế rạp phim' },
-            { slug: 'ghe-bang-cho', name: 'Ghế băng chờ' },
-            { slug: 'ghe-phong-cho', name: 'Ghế phòng chờ' },
-            { slug: 'ghe-phong-cho-chan-co-dinh', name: 'Ghế phòng chờ chân cố định' },
-            { slug: 'ghe-phong-cho-chan-xoay', name: 'Ghế phòng chờ chân xoay' },
-          ],
-        },
-        {
-          heading: 'Đặc biệt',
-          items: [
-            { slug: 'ban-ghe-hoc-sinh', name: 'Bàn ghế học sinh' },
-            { slug: 'ban-hop-go-cong-nghiep', name: 'Bàn họp gỗ công nghiệp' },
-          ],
-        },
-      ],
-    },
-  },
-
   // ============ Links đơn ============
   { label: 'Dự án', href: '/bao-gia-b2b' },
   { label: 'Blog', href: '/blog' },

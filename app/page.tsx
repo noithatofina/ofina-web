@@ -58,13 +58,14 @@ const WHY_CHOOSE = [
 
 
 export default async function HomePage() {
-  // 1 fetch settings (cached 1h) + 5 product queries song song
-  const [{ newest, categories }, allSettings, ergonomicChairs, executiveDesks, executiveChairs, featured2026] = await Promise.all([
+  // 1 fetch settings (cached 1h) + 6 product queries song song
+  const [{ newest, categories }, allSettings, ergonomicChairs, staffChairs, executiveChairs, workDesks, featured2026] = await Promise.all([
     getHomepageData(),
     getAllSettings(),
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
-    getNewProductsByCategory(['ban-lanh-dao', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
+    getNewProductsByCategory(['ghe-xoay-van-phong', 'ghe-xoay-luoi', 'ghe-xoay-lung-cao'], 8),
     getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
+    getNewProductsByCategory(['ban-lam-viec-chan-sat', 'ban-lam-viec-chan-go', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
     getNewProductsByCategory(
       ['ghe-xoay-van-phong', 'ghe-da-giam-doc', 'ghe-cong-thai-hoc', 'ghe-xoay-luoi', 'ban-nang-ha-thong-minh', 'ban-lanh-dao'],
       1
@@ -80,6 +81,11 @@ export default async function HomePage() {
     ? await getProductBySlugPublic(heroSetting.featured_product_slug)
     : null
   const featuredHeroProduct = heroProductFromCms || featured2026[0] || (newest || [])[0]
+
+  // Strip 3 thumbnails dưới hero — đa danh mục, cảm giác catalog rộng
+  const heroStripProducts = (newest || [])
+    .filter((p: any) => p?.id !== featuredHeroProduct?.id && p?.primary_image)
+    .slice(0, 3)
 
   // Hero text content: ưu tiên CMS, fallback hardcoded
   const heroHeadline = heroSetting?.headline || 'Ghế văn phòng hiện đại cho không gian làm việc chuyên nghiệp'
@@ -149,32 +155,59 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* RIGHT: featured product — ảnh lớn, card rộng */}
+            {/* RIGHT: collage — main product + strip 3 thumbnails */}
             <div className="relative order-first lg:order-last">
               {featuredHeroProduct?.primary_image ? (
-                <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
-                  <div className="relative aspect-square sm:aspect-[5/6] lg:aspect-[4/5] rounded-[28px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1] overflow-hidden">
-                    <Image
-                      src={featuredHeroProduct.primary_image}
-                      alt={featuredHeroProduct.name}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-contain p-3 md:p-5 group-hover:scale-[1.03] transition-transform duration-500"
-                      priority
-                    />
-                    {/* Badges nhỏ */}
-                    <div className="absolute top-4 left-4 flex flex-col gap-1.5">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
-                        Ghế công thái học
-                      </span>
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
-                        Bảo hành 24 tháng
-                      </span>
+                <>
+                  <Link href={`/san-pham/${featuredHeroProduct.slug}`} className="block group">
+                    <div className="relative aspect-[5/4] sm:aspect-[5/4] rounded-[24px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1] overflow-hidden">
+                      <Image
+                        src={featuredHeroProduct.primary_image}
+                        alt={featuredHeroProduct.name}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="object-contain p-3 md:p-5 group-hover:scale-[1.03] transition-transform duration-500"
+                        priority
+                      />
+                      <div className="absolute top-4 left-4 flex flex-col gap-1.5">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
+                          Ghế công thái học
+                        </span>
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/95 backdrop-blur text-[11px] font-semibold text-gray-700 border border-[#E5EAF1]">
+                          Bảo hành 24 tháng
+                        </span>
+                      </div>
+                      <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur rounded-xl px-3 py-2 border border-[#E5EAF1]">
+                        <div className="text-[11px] text-gray-500 uppercase tracking-wider mb-0.5">Sản phẩm nổi bật</div>
+                        <div className="text-sm font-semibold text-gray-900 line-clamp-1">{featuredHeroProduct.name}</div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+
+                  {/* Strip 3 thumbnails — đa danh mục */}
+                  {heroStripProducts.length === 3 && (
+                    <div className="mt-3 grid grid-cols-3 gap-2">
+                      {heroStripProducts.map((p: any) => (
+                        <Link
+                          key={p.id}
+                          href={`/san-pham/${p.slug}`}
+                          className="group relative aspect-square rounded-[16px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1] overflow-hidden hover:border-[#155EEF]/40 transition-colors"
+                          title={p.name}
+                        >
+                          <Image
+                            src={p.primary_image}
+                            alt={p.name}
+                            fill
+                            sizes="(max-width: 1024px) 33vw, 18vw"
+                            className="object-contain p-2 group-hover:scale-[1.05] transition-transform duration-300"
+                          />
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </>
               ) : (
-                <div className="aspect-[4/5] rounded-[28px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1]" aria-hidden="true" />
+                <div className="aspect-[5/4] rounded-[24px] bg-gradient-to-br from-[#F7F9FC] to-white border border-[#E5EAF1]" aria-hidden="true" />
               )}
             </div>
 
@@ -234,10 +267,16 @@ export default async function HomePage() {
                 products: executiveChairs || [],
               },
               {
-                id: 'exec-desk',
+                id: 'staff-chair',
                 label: 'Ghế nhân viên',
                 cta: { label: 'Xem tất cả', href: '/danh-muc/ghe-xoay-van-phong' },
-                products: executiveDesks || [],
+                products: staffChairs || [],
+              },
+              {
+                id: 'work-desk',
+                label: 'Bàn làm việc',
+                cta: { label: 'Xem tất cả', href: '/danh-muc/ban-lam-viec-chan-sat' },
+                products: workDesks || [],
               },
               {
                 id: 'new',
@@ -250,52 +289,83 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ KHÁM PHÁ DANH MỤC CHÍNH (8 card, overlay nhẹ) ============ */}
+      {/* ============ GIẢI PHÁP NỘI THẤT VĂN PHÒNG CHO DOANH NGHIỆP ============ */}
       <section className="py-16 md:py-20 bg-[#F7F9FC]">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-            <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-3">
-              Khám phá danh mục chính
-            </h2>
-            <p className="text-gray-500 text-base md:text-lg">
-              Ghế, bàn, tủ và nội thất văn phòng cho cá nhân và doanh nghiệp.
-            </p>
-          </div>
+          <div className="grid lg:grid-cols-[52fr_48fr] gap-10 lg:gap-14 items-center max-w-6xl mx-auto">
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
-            {(categories.slice(0, 8) || []).map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/danh-muc/${cat.slug}`}
-                className="group relative aspect-[4/3] rounded-[20px] overflow-hidden bg-white border border-[#E5EAF1] hover:border-[#155EEF] transition-colors"
-              >
-                {cat.image && (
-                  <Image
-                    src={cat.image}
-                    alt={`Danh mục ${cat.name}`}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" aria-hidden="true" />
-                <div className="absolute inset-0 flex items-end p-4">
-                  <div className="text-white">
-                    <h3 className="font-semibold text-base md:text-[17px] leading-tight">{cat.name}</h3>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+            {/* LEFT: collage product grid (4 ô) — đại diện catalog OFINA cho doanh nghiệp */}
+            <div className="order-2 lg:order-1">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                {(newest || []).filter((p: any) => p?.primary_image).slice(0, 4).map((p: any) => (
+                  <Link
+                    key={p.id}
+                    href={`/san-pham/${p.slug}`}
+                    className="group relative aspect-square rounded-[18px] bg-white border border-[#E5EAF1] overflow-hidden hover:border-[#155EEF]/40 transition-colors"
+                  >
+                    <Image
+                      src={p.primary_image}
+                      alt={p.name}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                      className="object-contain p-3 group-hover:scale-[1.04] transition-transform duration-500"
+                    />
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-          <div className="text-center mt-10">
-            <Link
-              href="/san-pham"
-              className="inline-flex items-center gap-2 px-6 py-2.5 border border-[#E5EAF1] bg-white text-gray-900 font-medium rounded-xl hover:border-[#155EEF] hover:text-[#155EEF] transition-colors text-sm"
-            >
-              Xem toàn bộ danh mục
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {/* RIGHT: title + subtitle + checklist + CTA */}
+            <div className="order-1 lg:order-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#155EEF]/10 text-[#155EEF] text-xs font-semibold uppercase tracking-wider mb-4">
+                <MessageSquare className="w-3.5 h-3.5" strokeWidth={2} />
+                Doanh nghiệp & Dự án
+              </div>
+              <h2 className="text-[30px] md:text-[38px] font-bold text-gray-900 leading-[1.15] mb-4">
+                Giải pháp nội thất văn phòng cho doanh nghiệp
+              </h2>
+              <p className="text-gray-500 text-base md:text-[17px] mb-6 leading-relaxed">
+                OFINA hỗ trợ tư vấn, báo giá số lượng và gợi ý sản phẩm phù hợp cho văn phòng, phòng họp, phòng giám đốc và dự án.
+              </p>
+
+              <ul className="space-y-3 mb-7">
+                {[
+                  'Tư vấn chọn ghế, bàn, tủ theo không gian',
+                  'Báo giá theo số lượng',
+                  'Hỗ trợ giao hàng HN/HCM',
+                  'Có showroom trải nghiệm trực tiếp',
+                  'Phù hợp doanh nghiệp, coworking, văn phòng mới setup',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#155EEF]/10 text-[#155EEF] inline-flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.5 6.5l2.5 2.5L9.5 3.5" />
+                      </svg>
+                    </span>
+                    <span className="text-gray-700 text-[15px] md:text-base leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/bao-gia-b2b"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#155EEF] text-white font-semibold rounded-xl hover:bg-[#1D4ED8] transition-colors"
+                >
+                  Nhận báo giá doanh nghiệp
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <a
+                  href={`https://zalo.me/${CONTACT.branches[0].phones[0]}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[#E5EAF1] bg-white text-gray-900 font-semibold rounded-xl hover:border-[#155EEF] hover:text-[#155EEF] transition-colors"
+                >
+                  Liên hệ Zalo
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -331,52 +401,6 @@ export default async function HomePage() {
                 )
               })
             })()}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ SHOWROOM + B2B (compact, navy) ============ */}
-      <section className="py-14 md:py-16 bg-[#0F172A] text-white">
-        <div className="container-custom grid md:grid-cols-2 gap-5">
-          <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:p-7">
-            <div className="flex items-center gap-2 text-[#93C5FD] mb-3">
-              <MapPin className="w-4 h-4" strokeWidth={1.75} />
-              <span className="font-semibold uppercase tracking-wider text-[11px]">Showroom OFINA</span>
-            </div>
-            <h2 className="text-[22px] md:text-2xl font-bold mb-4">Trải nghiệm tại showroom</h2>
-            <ul className="mb-5 space-y-3">
-              {CONTACT.branches.map((b) => (
-                <li key={b.address} className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 text-[#93C5FD] flex-shrink-0 mt-0.5" strokeWidth={1.75} aria-hidden="true" />
-                  <span>
-                    <span className="block font-semibold text-sm">{b.name}</span>
-                    <span className="block text-sm text-gray-300 leading-snug">{b.address}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/showroom"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-white border-b border-[#93C5FD] hover:border-white pb-0.5"
-            >
-              Xem đường đi <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-          <div className="bg-[#155EEF] rounded-[20px] p-6 md:p-7">
-            <div className="flex items-center gap-2 text-white/80 mb-3">
-              <MessageSquare className="w-4 h-4" strokeWidth={1.75} />
-              <span className="font-semibold uppercase tracking-wider text-[11px]">Doanh nghiệp / Dự án</span>
-            </div>
-            <h2 className="text-[22px] md:text-2xl font-bold mb-3">Báo giá B2B</h2>
-            <p className="mb-5 opacity-90 text-sm md:text-[15px] leading-relaxed">
-              Báo giá ưu đãi cho đơn lớn, setup văn phòng, phòng họp và dự án. Hoá đơn VAT đầy đủ, hỗ trợ thiết kế bố trí và lắp đặt.
-            </p>
-            <Link
-              href="/bao-gia-b2b"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#155EEF] font-semibold rounded-xl hover:bg-gray-100 text-sm"
-            >
-              Nhận báo giá B2B <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>

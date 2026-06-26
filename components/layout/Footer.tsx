@@ -1,9 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { FormEvent, useState } from 'react'
 import { Facebook, Mail, MapPin, Phone, Youtube } from 'lucide-react'
-import toast from 'react-hot-toast'
 import { CONTACT, zaloUrl } from '@/lib/utils'
 import type { ContactInfo, Branch } from '@/lib/shop-chrome-context'
 
@@ -24,33 +22,6 @@ export function Footer({
     if (b.phones && b.phones.length > 0) return b.phones
     if (b.phone) return [b.phone]
     return [hotline]
-  }
-  const [newsletterEmail, setNewsletterEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  async function handleNewsletter(e: FormEvent) {
-    e.preventDefault()
-    if (!newsletterEmail) return
-    setLoading(true)
-    try {
-      const res = await fetch('/api/contacts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: newsletterEmail,
-          source: 'newsletter',
-          subject: 'Đăng ký nhận tin',
-        }),
-      })
-      if (res.ok) {
-        toast.success('Đã đăng ký nhận tin từ OFINA! 🎉')
-        setNewsletterEmail('')
-      } else toast.error('Có lỗi, vui lòng thử lại')
-    } catch {
-      toast.error('Lỗi kết nối')
-    } finally {
-      setLoading(false)
-    }
   }
   return (
     <footer className="bg-brand-950 text-gray-300 mt-20">
@@ -161,26 +132,6 @@ export function Footer({
               <a href={`mailto:${email}`} className="hover:text-accent-400">{email}</a>
             </li>
           </ul>
-          <div className="mt-6">
-            <h4 className="text-white font-semibold mb-2">Nhận ưu đãi</h4>
-            <form onSubmit={handleNewsletter} className="flex gap-2">
-              <input
-                type="email"
-                required
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                placeholder="Email của bạn"
-                className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:border-accent-400"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-4 py-2 bg-accent-500 rounded-lg text-white font-semibold text-sm hover:bg-accent-600 disabled:opacity-50"
-              >
-                {loading ? '...' : 'Đăng ký'}
-              </button>
-            </form>
-          </div>
         </div>
       </div>
 

@@ -29,6 +29,7 @@ import { sendTelegram } from '@/lib/telegram'
 import { extractProduct } from '@/lib/product-extractor'
 import { generateProductPage } from '@/lib/product-writer'
 import { approveToken } from '@/lib/approve-token'
+import { matchCategory } from '@/lib/category-matcher'
 
 export const maxDuration = 120
 
@@ -134,24 +135,32 @@ async function handle(req: NextRequest, urlInput?: string) {
 
   const admin = createAdminClient()
 
-  // 4. Lookup category dựa trên categoryHint (best-effort)
+  // 4. Auto detect category bằng rule-based matcher (xem lib/category-matcher.ts)
+  const urlSlugFromSource = (() => {
+    try { return new URL(sourceUrl).pathname.replace(/\/+$/, '').split('/').pop() } catch { return undefined }
+  })()
+  const matched = matchCategory(generated.name, urlSlugFromSource, extracted.categoryHint)
   let categoryId: string | null = null
-  if (extracted.categoryHint) {
-    const { data: cats } = await admin
-      .from('categories')
-      .select('id, name')
-      .ilike('name', `%${extracted.categoryHint.slice(0, 30)}%`)
-      .limit(1)
-    if (cats && cats[0]) categoryId = cats[0].id
-  }
-  if (!categoryId) {
-    // Fallback: ghế công thái học (đa số import là ghế)
+  let matchedCategorySlug: string | null = null
+  if (matched) {
     const { data: cat } = await admin
       .from('categories')
-      .select('id')
-      .eq('slug', 'ghe-cong-thai-hoc')
+      .select('id, slug, name')
+      .eq('slug', matched.slug)
       .maybeSingle()
-    if (cat) categoryId = cat.id
+    if (cat) {
+      categoryId = cat.id
+      matchedCategorySlug = cat.slug
+    }
+  }
+  if (!categoryId) {
+    // Fallback cuối: ghế văn phòng (rộng nhất)
+    const { data: cat } = await admin
+      .from('categories')
+      .select('id, slug')
+      .eq('slug', 'ghe-van-phong')
+      .maybeSingle()
+    if (cat) { categoryId = cat.id; matchedCategorySlug = cat.slug }
   }
 
   // 5. Đảm bảo slug + SKU duy nhất
@@ -213,11 +222,14 @@ async function handle(req: NextRequest, urlInput?: string) {
     ? `${extracted.price.toLocaleString('vi-VN')}đ${extracted.originalPrice ? ` (gốc ${extracted.originalPrice.toLocaleString('vi-VN')}đ)` : ''}`
     : '— (chưa extract được)'
 
+  const categoryStr = matchedCategorySlug ? `📁 Danh mục: ${matchedCategorySlug}` : '📁 Danh mục: (chưa khớp — fallback)'
+
   if (fromTelegram) {
     // Workflow tích hợp: user sẽ gửi ảnh tiếp + /done
     await sendTelegram(
       `✅ CONTENT XONG\n\n` +
         `📝 ${generated.name}\n` +
+        `${categoryStr}\n` +
         `💰 ${priceStr}\n` +
         `🔗 Nguồn: ${sourceUrl}\n\n` +
         `📸 Giờ gửi 5-6 ảnh sản phẩm:\n` +

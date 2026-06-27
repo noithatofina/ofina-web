@@ -25,30 +25,57 @@ export interface ExtractedProduct {
 
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
 
-async function fetchText(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url, {
-      headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml' },
-      signal: AbortSignal.timeout(15000),
-    })
-    if (!res.ok) return null
-    return await res.text()
-  } catch {
-    return null
+/** Browser-like headers để vượt Cloudflare bot detection */
+function browserHeaders(url: string, accept: string): Record<string, string> {
+  const u = new URL(url)
+  return {
+    'User-Agent': UA,
+    Accept: accept,
+    'Accept-Language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache',
+    'Sec-Ch-Ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+    'Sec-Ch-Ua-Mobile': '?0',
+    'Sec-Ch-Ua-Platform': '"macOS"',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Sec-Fetch-User': '?1',
+    Referer: `${u.origin}/`,
+    'Upgrade-Insecure-Requests': '1',
   }
 }
 
-async function fetchJson(url: string): Promise<any | null> {
-  try {
-    const res = await fetch(url, {
-      headers: { 'User-Agent': UA, Accept: 'application/json' },
-      signal: AbortSignal.timeout(15000),
-    })
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
-    return null
+async function fetchWithRetry(url: string, accept: string, retries = 2): Promise<Response | null> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url, {
+        headers: browserHeaders(url, accept),
+        signal: AbortSignal.timeout(25000),
+        redirect: 'follow',
+      })
+      if (res.ok) return res
+      if (res.status === 404) return null // không cần retry 404
+      // 403/429/5xx → retry
+      if (attempt < retries) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)))
+    } catch {
+      if (attempt < retries) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)))
+    }
   }
+  return null
+}
+
+async function fetchText(url: string): Promise<string | null> {
+  const res = await fetchWithRetry(url, 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+  if (!res) return null
+  try { return await res.text() } catch { return null }
+}
+
+async function fetchJson(url: string): Promise<any | null> {
+  const res = await fetchWithRetry(url, 'application/json')
+  if (!res) return null
+  try { return await res.json() } catch { return null }
 }
 
 function parseVnPrice(s: string): number | undefined {

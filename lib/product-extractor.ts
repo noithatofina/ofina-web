@@ -56,8 +56,7 @@ async function fetchWithRetry(url: string, accept: string, retries = 2): Promise
         redirect: 'follow',
       })
       if (res.ok) return res
-      if (res.status === 404) return null // không cần retry 404
-      // 403/429/5xx → retry
+      if (res.status === 404) return null
       if (attempt < retries) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)))
     } catch {
       if (attempt < retries) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)))
@@ -66,10 +65,35 @@ async function fetchWithRetry(url: string, accept: string, retries = 2): Promise
   return null
 }
 
+/** Fetch HTML qua Jina Reader (vượt Cloudflare). Jina render JS + trả full HTML. */
+async function fetchViaJina(url: string): Promise<string | null> {
+  try {
+    const jinaUrl = `https://r.jina.ai/${url}`
+    const res = await fetch(jinaUrl, {
+      headers: {
+        'X-Return-Format': 'html',
+        'X-Timeout': '20',
+        Accept: 'text/html',
+        'User-Agent': UA,
+      },
+      signal: AbortSignal.timeout(30000),
+    })
+    if (!res.ok) return null
+    return await res.text()
+  } catch {
+    return null
+  }
+}
+
 async function fetchText(url: string): Promise<string | null> {
+  // 1. Direct
   const res = await fetchWithRetry(url, 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-  if (!res) return null
-  try { return await res.text() } catch { return null }
+  if (res) {
+    try { return await res.text() } catch {}
+  }
+  // 2. Fallback Jina Reader (bypass Cloudflare)
+  console.log(`[extractor] direct fail, fallback Jina cho ${url}`)
+  return await fetchViaJina(url)
 }
 
 async function fetchJson(url: string): Promise<any | null> {

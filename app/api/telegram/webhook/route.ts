@@ -11,6 +11,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendTelegram } from '@/lib/telegram'
 
+export const maxDuration = 120
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
 export async function POST(req: NextRequest) {
@@ -65,12 +67,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true })
   }
 
-  // Fire-and-forget — Telegram cần 200 nhanh
+  // Await call để Vercel không kill function. Claude ~30-40s vẫn dưới 60s timeout của Telegram.
+  // Note: phải set maxDuration ≥ 60 ở đầu file.
   const importUrl = `${SITE_URL}/api/seo/import-product?key=${cronSecret}&url=${encodeURIComponent(sourceUrl)}`
-  // Không await — chạy background, kết quả sẽ ra qua sendTelegram trong handler
-  fetch(importUrl).catch((err) => {
-    sendTelegram(`❌ Import lỗi mạng: ${err instanceof Error ? err.message : err}`).catch(() => {})
-  })
+  try {
+    const res = await fetch(importUrl, { signal: AbortSignal.timeout(110000) })
+    if (!res.ok) {
+      const txt = await res.text().catch(() => '')
+      await sendTelegram(`❌ Import lỗi HTTP ${res.status}: ${txt.slice(0, 300)}`)
+    }
+  } catch (err) {
+    await sendTelegram(`❌ Import lỗi: ${err instanceof Error ? err.message : err}`)
+  }
 
   return NextResponse.json({ ok: true })
 }

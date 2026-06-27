@@ -39,12 +39,28 @@ export async function updateProductAction(id: string, formData: FormData) {
     is_sale: asBool(formData.get('is_sale')),
   }
 
+  // Load slug + category để revalidate đúng path public
+  const { data: before } = await admin.from('products').select('slug, category_id').eq('id', id).maybeSingle()
+
   const { error } = await admin.from('products').update(patch).eq('id', id)
   if (error) throw new Error(error.message)
 
+  // Revalidate admin
   revalidatePath(`/admin/products/${id}`)
   revalidatePath('/admin/products')
-  revalidatePath(`/san-pham`)
+
+  // Revalidate ALL public pages có thể hiển thị giá/info SP này
+  revalidatePath('/')                            // homepage (featured/bestseller/new)
+  revalidatePath('/san-pham')                    // tất cả SP list
+  revalidatePath('/san-pham-moi-2026')           // landing trang SP mới
+  if (before?.slug) {
+    revalidatePath(`/san-pham/${before.slug}`)   // trang chi tiết SP
+  }
+  if (before?.category_id) {
+    // Tìm slug category để revalidate trang danh mục
+    const { data: cat } = await admin.from('categories').select('slug').eq('id', before.category_id).maybeSingle()
+    if (cat?.slug) revalidatePath(`/danh-muc/${cat.slug}`)
+  }
 }
 
 export async function uploadImageAction(productId: string, govi_sku: string, formData: FormData) {

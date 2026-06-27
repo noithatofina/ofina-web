@@ -208,7 +208,6 @@ async function handle(req: NextRequest, urlInput?: string) {
   const previewUrl = `${SITE_URL}/api/seo/preview-product?id=${created.id}&t=${tok}`
   const approveUrl = `${SITE_URL}/api/seo/approve-product?id=${created.id}&t=${tok}`
   const adminUrl = `${SITE_URL}/admin/products/${created.id}`
-  const fromTelegram = req.nextUrl.searchParams.get('from') === 'telegram'
 
   const priceStr = extracted.price
     ? `${extracted.price.toLocaleString('vi-VN')}đ${extracted.originalPrice ? ` (gốc ${extracted.originalPrice.toLocaleString('vi-VN')}đ)` : ''}`

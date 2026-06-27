@@ -39,7 +39,7 @@ export function ProductImage({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover"
+          className="object-contain"
         />
       ) : (
         <Image
@@ -48,7 +48,7 @@ export function ProductImage({
           width={width || 500}
           height={height || 500}
           priority={priority}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
       )}
     </div>

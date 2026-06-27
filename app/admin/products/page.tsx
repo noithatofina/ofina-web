@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase-admin'
+import { DeleteProductButton } from './delete-button'
 
 export const dynamic = 'force-dynamic'
 
-type SP = { q?: string; status?: string; page?: string }
+type SP = { q?: string; status?: string; page?: string; ok?: string; name?: string; error?: string; msg?: string }
 
 const PER_PAGE = 30
 
@@ -49,6 +50,17 @@ export default async function AdminProductsPage({
         </Link>
       </div>
 
+      {sp.ok === 'deleted' && (
+        <div className="p-3 bg-green-50 border border-green-200 text-green-700 rounded mb-4 text-sm">
+          ✅ Đã xoá: <strong>{decodeURIComponent(sp.name || '')}</strong>
+        </div>
+      )}
+      {sp.error && (
+        <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded mb-4 text-sm">
+          ❌ Lỗi: {sp.error}{sp.msg ? ` — ${decodeURIComponent(sp.msg)}` : ''}
+        </div>
+      )}
+
       <form className="flex gap-3 mb-4" method="get">
         <input
           name="q"
@@ -87,6 +99,7 @@ export default async function AdminProductsPage({
               <th className="text-right px-3 py-2">Giá</th>
               <th className="text-center px-3 py-2">Status</th>
               <th className="text-center px-3 py-2">Flags</th>
+              <th className="text-center px-3 py-2 w-32">Hành động</th>
             </tr>
           </thead>
           <tbody>
@@ -123,6 +136,17 @@ export default async function AdminProductsPage({
                     {p.is_bestseller && <span className="inline-block px-1.5 py-0.5 bg-orange-100 text-orange-700 rounded">Bán chạy</span>}
                     {p.is_new && <span className="inline-block px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded">Mới</span>}
                     {p.is_sale && <span className="inline-block px-1.5 py-0.5 bg-red-100 text-red-700 rounded">Sale</span>}
+                  </td>
+                  <td className="px-3 py-2 text-center">
+                    <div className="flex items-center justify-center gap-1">
+                      <Link
+                        href={`/admin/products/${p.id}`}
+                        className="px-2 py-1 text-xs bg-blue-50 text-blue-700 hover:bg-blue-100 rounded"
+                      >
+                        Sửa
+                      </Link>
+                      <DeleteProductButton id={p.id} name={p.name} />
+                    </div>
                   </td>
                 </tr>
               )

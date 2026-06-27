@@ -33,7 +33,7 @@ import { approveToken } from '@/lib/approve-token'
 export const maxDuration = 120
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
-const RATE_LIMIT_PER_HOUR = 5
+const RATE_LIMIT_PER_HOUR = 30
 
 function unauthorized() {
   return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
@@ -69,11 +69,41 @@ async function handle(req: NextRequest, urlInput?: string) {
 
   const sourceUrl = urlInput || req.nextUrl.searchParams.get('url') || ''
   if (!sourceUrl) return NextResponse.json({ error: 'Thiếu tham số url' }, { status: 400 })
+  const fromTelegram = req.nextUrl.searchParams.get('from') === 'telegram'
 
-  // 1. Rate limit
+  // 1a. Dedup: cùng source_url đã có draft trong 1h qua → reuse, không tạo mới
+  const adminDedup = createAdminClient()
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+  const { data: existing } = await adminDedup
+    .from('products')
+    .select('id, slug, name')
+    .eq('source_url', sourceUrl)
+    .eq('status', 'draft')
+    .gte('imported_at', oneHourAgo)
+    .order('imported_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  if (existing) {
+    const tok = approveToken(existing.id)
+    if (fromTelegram) {
+      await sendTelegram(
+        `♻️ ĐÃ CÓ DRAFT URL NÀY\n\n📝 ${existing.name}\n\nGửi ảnh tiếp, hoặc /done để duyệt.`,
+        { buttons: [[{ text: '👀 Xem content', url: `${SITE_URL}/api/seo/preview-product?id=${existing.id}&t=${tok}` }]] },
+      )
+    }
+    return NextResponse.json({
+      ok: true,
+      reused: true,
+      id: existing.id,
+      slug: existing.slug,
+      name: existing.name,
+    })
+  }
+
+  // 1b. Rate limit (chỉ tính khi tạo NEW draft)
   const rl = await checkRateLimit()
   if (!rl.ok) {
-    await sendTelegram(`🤖⏱️ Auto Import bị chặn rate limit: đã import ${rl.count} SP trong 1 giờ qua (max ${RATE_LIMIT_PER_HOUR}). Đợi 1 giờ.`)
+    await sendTelegram(`🤖⏱️ Auto Import bị chặn rate limit: đã import ${rl.count} SP trong 1 giờ (max ${RATE_LIMIT_PER_HOUR}). Đợi 1 giờ hoặc xoá draft cũ.`)
     return NextResponse.json({ error: `rate-limit: ${rl.count}/${RATE_LIMIT_PER_HOUR}/giờ` }, { status: 429 })
   }
 

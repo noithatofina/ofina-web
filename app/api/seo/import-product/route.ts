@@ -173,37 +173,49 @@ async function handle(req: NextRequest, urlInput?: string) {
     return NextResponse.json({ error: msg }, { status: 500 })
   }
 
-  // 8. Báo Telegram với list ảnh URL + nút approve
+  // 8. Báo Telegram
   const tok = approveToken(created.id)
   const previewUrl = `${SITE_URL}/api/seo/preview-product?id=${created.id}&t=${tok}`
   const approveUrl = `${SITE_URL}/api/seo/approve-product?id=${created.id}&t=${tok}`
   const adminUrl = `${SITE_URL}/admin/products/${created.id}`
+  const fromTelegram = req.nextUrl.searchParams.get('from') === 'telegram'
 
-  const imgList = (extracted.imageUrls || [])
-    .slice(0, 8)
-    .map((u, i) => `${i + 1}. ${u}`)
-    .join('\n')
   const priceStr = extracted.price
     ? `${extracted.price.toLocaleString('vi-VN')}đ${extracted.originalPrice ? ` (gốc ${extracted.originalPrice.toLocaleString('vi-VN')}đ)` : ''}`
     : '— (chưa extract được)'
 
-  await sendTelegram(
-    `🤖📦 SP MỚI ĐÃ VIẾT (DRAFT)\n\n` +
-      `📝 ${generated.name}\n` +
-      `💰 ${priceStr}\n` +
-      `🔗 Nguồn: ${sourceUrl}\n\n` +
-      `🖼️ Ảnh từ nguồn (download tay, upload qua admin):\n${imgList || '(không có)'}\n\n` +
-      `• "Đọc trước" để xem nội dung trước khi đăng\n` +
-      `• "Duyệt & Đăng" sau khi bạn đã upload ảnh trong admin\n` +
-      `• "Sửa trong admin" để edit chi tiết`,
-    {
-      buttons: [
-        [{ text: '👀 Đọc trước', url: previewUrl }],
-        [{ text: '✅ Duyệt & Đăng', url: approveUrl }],
-        [{ text: '✏️ Sửa trong admin', url: adminUrl }],
-      ],
-    },
-  )
+  if (fromTelegram) {
+    // Workflow tích hợp: user sẽ gửi ảnh tiếp + /done
+    await sendTelegram(
+      `✅ CONTENT XONG\n\n` +
+        `📝 ${generated.name}\n` +
+        `💰 ${priceStr}\n` +
+        `🔗 Nguồn: ${sourceUrl}\n\n` +
+        `📸 Giờ gửi 5-6 ảnh sản phẩm:\n` +
+        `  📷 Photo  = nén (nhanh)\n` +
+        `  📎 File   = chất lượng gốc (recommended)\n\n` +
+        `Khi xong gõ /done để show nút Duyệt & Đăng.`,
+      { buttons: [[{ text: '👀 Xem content trước', url: previewUrl }]] },
+    )
+  } else {
+    // Workflow cũ (trigger qua URL/curl): show full approve buttons ngay
+    const imgList = (extracted.imageUrls || []).slice(0, 8).map((u, i) => `${i + 1}. ${u}`).join('\n')
+    await sendTelegram(
+      `🤖📦 SP MỚI ĐÃ VIẾT (DRAFT)\n\n` +
+        `📝 ${generated.name}\n` +
+        `💰 ${priceStr}\n` +
+        `🔗 Nguồn: ${sourceUrl}\n\n` +
+        `🖼️ Ảnh từ nguồn:\n${imgList || '(không có)'}\n\n` +
+        `Upload ảnh qua admin rồi bấm Duyệt.`,
+      {
+        buttons: [
+          [{ text: '👀 Đọc trước', url: previewUrl }],
+          [{ text: '✅ Duyệt & Đăng', url: approveUrl }],
+          [{ text: '✏️ Sửa trong admin', url: adminUrl }],
+        ],
+      },
+    )
+  }
 
   return NextResponse.json({
     ok: true,

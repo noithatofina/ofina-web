@@ -11,7 +11,7 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
-const HN_PHONES = ['0325629996', '0325669996']
+const HN_PHONES = ['0325669996']
 const HCM_PHONES = ['0777569996', '0392869996']
 const toE164 = (p: string) => `+84${p.replace(/^0/, '')}`
 

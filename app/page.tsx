@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 const HOMEPAGE_FAQ = [
   {
     q: 'OFINA có showroom để xem trực tiếp không?',
-    a: 'Có. OFINA có 2 showroom trải nghiệm trực tiếp: Trụ sở Hà Nội — 135 đường K2, Phường Phú Đô; Chi nhánh TP.HCM — Tầng 2, số 36 Lương Định Của, Quận 2. Mở cửa 8h-18h hàng ngày. Gọi 0325629996 (HN) hoặc 0777569996 (HCM) để đặt lịch.',
+    a: 'Có. OFINA có 2 showroom trải nghiệm trực tiếp: Trụ sở Hà Nội — 135 đường K2, Phường Phú Đô; Chi nhánh TP.HCM — Tầng 2, số 36 Lương Định Của, Quận 2. Mở cửa 8h-18h hàng ngày. Gọi 0325669996 (HN) hoặc 0777569996 (HCM) để đặt lịch.',
   },
   {
     q: 'Có hỗ trợ báo giá cho doanh nghiệp không?',
@@ -44,7 +44,7 @@ const HOMEPAGE_FAQ = [
   },
   {
     q: 'Tôi chưa biết chọn ghế nào thì có được tư vấn không?',
-    a: 'Có. OFINA tư vấn miễn phí qua hotline (HN 0325629996 / HCM 0777569996) hoặc Zalo. Đội ngũ tư vấn sẽ hỏi về dáng người, thời gian ngồi mỗi ngày, ngân sách và không gian làm việc để gợi ý mẫu ghế phù hợp nhất.',
+    a: 'Có. OFINA tư vấn miễn phí qua hotline (HN 0325669996 / HCM 0777569996) hoặc Zalo. Đội ngũ tư vấn sẽ hỏi về dáng người, thời gian ngồi mỗi ngày, ngân sách và không gian làm việc để gợi ý mẫu ghế phù hợp nhất.',
   },
 ]
 

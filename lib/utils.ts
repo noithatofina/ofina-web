@@ -42,7 +42,7 @@ export const BRANCHES = [
     region: 'HN' as const,
     address: '135 đường K2, Phường Phú Đô, Hà Nội',
     mapsQuery: '135 K2 Phú Đô Hà Nội',
-    phones: ['0325629996', '0325669996'],
+    phones: ['0325669996'],
   },
   {
     name: 'Chi nhánh TP.HCM',
@@ -57,7 +57,7 @@ export function zaloUrl(phone: string): string {
   return `https://zalo.me/${phone}`
 }
 
-/** "0325629996" → "+84325629996" cho schema.org telephone. */
+/** "0325669996" → "+84325669996" cho schema.org telephone. */
 export function toE164VN(phone: string): string {
   return `+84${phone.replace(/^0/, '')}`
 }

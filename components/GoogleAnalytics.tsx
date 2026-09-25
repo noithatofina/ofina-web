@@ -2,11 +2,12 @@ import Script from 'next/script'
 
 /**
  * Google Analytics 4 tracking.
- * Chỉ render khi có env NEXT_PUBLIC_GA_ID (dạng G-XXXXXXXXXX).
+ * Ưu tiên env NEXT_PUBLIC_GA_ID (dạng G-XXXXXXXXXX); mặc định property OFINA
+ * (tạo 25/09/2026, tài khoản GA của chủ site) vì Vercel env chưa truy cập được.
  * Không track trên /admin/* (lọc bên trong gtag config).
  */
 export function GoogleAnalytics() {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID
+  const gaId = process.env.NEXT_PUBLIC_GA_ID || 'G-E21KNR2D3J'
   if (!gaId || !gaId.startsWith('G-')) return null
 
   return (

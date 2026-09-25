@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendNotifyEmail, orderEmailHtml } from '@/lib/email'
+import { sendTelegram } from '@/lib/telegram'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -83,20 +84,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: itemsError.message }, { status: 500 })
     }
 
-    // Telegram notify
-    if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-      const msg = `🛒 ĐƠN HÀNG MỚI #${orderNumber}\n\n` +
+    // Telegram notify (gửi tới mọi chat quản trị — xem lib/telegram.ts)
+    await sendTelegram(
+      `🛒 ĐƠN HÀNG MỚI #${orderNumber}\n\n` +
         `👤 ${customer_name}\n📞 ${customer_phone}\n📍 ${address_line}, ${city}\n\n` +
         `💰 Tổng: ${total.toLocaleString('vi-VN')}đ\n💳 ${payment_method}\n\n` +
         items.map((i: any) => `- ${i.name} ×${i.quantity}`).join('\n')
-      try {
-        await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text: msg }),
-        })
-      } catch {}
-    }
+    )
 
     // Email notify
     await sendNotifyEmail(

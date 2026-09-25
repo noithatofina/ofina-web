@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendNotifyEmail, contactEmailHtml } from '@/lib/email'
+import { sendTelegram } from '@/lib/telegram'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -40,22 +41,15 @@ export async function POST(req: NextRequest) {
 
     // Skip notifications for newsletter subscribe (nhiều, không cần alert)
     if (!isNewsletter) {
-      // Telegram notify
-      if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-        const msg = `📬 YÊU CẦU LIÊN HỆ MỚI\n\n` +
+      // Telegram notify (gửi tới mọi chat quản trị — xem lib/telegram.ts)
+      await sendTelegram(
+        `📬 YÊU CẦU LIÊN HỆ MỚI\n\n` +
           (name ? `👤 ${name}\n` : '') +
           (phone ? `📞 ${phone}\n` : '') +
           (email ? `📧 ${email}\n` : '') +
           `📝 Nguồn: ${source || 'general'}\n` +
           (message ? `\n💬 ${message}` : '')
-        try {
-          await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text: msg }),
-          })
-        } catch {}
-      }
+      )
 
       // Email notify
       await sendNotifyEmail(

@@ -50,38 +50,64 @@ function topicSlug(t: SeoTopic): string {
     .replace(/\s+/g, '-')
 }
 
+/** Sổ cái chủ đề đã viết — nguồn sự thật duy nhất, lưu site_settings. */
+const USED_TOPICS_KEY = 'seo.bot.used_topics'
+/** Quá ngưỡng nháp tồn đọng thì dừng sinh bài (chống chất đống khi không ai duyệt). */
+const MAX_PENDING_DRAFTS = 10
+
 async function handle(req: NextRequest) {
   if (!isAuthed(req)) return unauthorized()
-
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return NextResponse.json({ error: 'Chưa cấu hình ANTHROPIC_API_KEY' }, { status: 500 })
-  }
 
   const admin = createAdminClient()
   const sp = req.nextUrl.searchParams
   const shouldPublish = sp.get('publish') === '1'
   const forcedIdx = sp.get('topic') ? parseInt(sp.get('topic')!, 10) : null
+  const dryRun = sp.get('dry') === '1'
+  const force = sp.get('force') === '1'
 
-  // 1. Chọn chủ đề chưa viết
+  // 0. Van an toàn: nháp tồn quá nhiều nghĩa là không ai duyệt — viết thêm chỉ chất đống
+  const { count: pendingDrafts } = await admin
+    .from('blog_posts')
+    .select('*', { count: 'exact', head: true })
+    .eq('is_published', false)
+  if (!force && !dryRun && (pendingDrafts ?? 0) >= MAX_PENDING_DRAFTS) {
+    await sendTelegram(
+      `🤖⏸ OFINA Content Bot TẠM DỪNG: đang tồn ${pendingDrafts} bài nháp chưa duyệt (ngưỡng ${MAX_PENDING_DRAFTS}). Duyệt/dọn bớt nháp rồi bot tự chạy lại, hoặc chạy tay với &force=1.`
+    )
+    return NextResponse.json({ skipped: true, reason: 'quá nhiều nháp chưa duyệt', pendingDrafts })
+  }
+
+  // 1. Chọn chủ đề chưa viết — đối chiếu sổ cái, KHÔNG so slug mờ
+  //    (bug cũ: so 30 ký tự đầu keyword slug-hoá với slug do AI tự đặt → lệch
+  //     chuỗi → topic đầu không bao giờ bị đánh dấu đã viết → 42 bài trùng)
+  const { data: ledgerRow } = await admin
+    .from('site_settings')
+    .select('value')
+    .eq('key', USED_TOPICS_KEY)
+    .maybeSingle()
+  const usedKeys = new Set<string>(((ledgerRow?.value as any)?.keys as string[]) || [])
+
   let topic: SeoTopic | undefined
   if (forcedIdx !== null && SEO_TOPICS[forcedIdx]) {
     topic = SEO_TOPICS[forcedIdx]
   } else {
-    const { data: existing } = await admin.from('blog_posts').select('slug')
-    const usedSlugs = new Set((existing || []).map((r: any) => r.slug))
-    // chủ đề coi như "đã viết" nếu slug-hoá keyword trùng tiền tố slug đã có
-    topic = SEO_TOPICS.find((t) => {
-      const ts = topicSlug(t)
-      for (const s of usedSlugs) {
-        if (s === ts || s.startsWith(ts.slice(0, 30))) return false
-      }
-      return true
-    })
+    topic = SEO_TOPICS.find((t) => !usedKeys.has(topicSlug(t)))
   }
 
   if (!topic) {
     await sendTelegram('🤖 OFINA Content Bot: đã viết hết chủ đề trong hàng đợi. Thêm chủ đề mới vào lib/seo-topics.ts nhé.')
     return NextResponse.json({ message: 'Hết chủ đề trong hàng đợi' })
+  }
+
+  // Chế độ xem trước: trả về chủ đề sẽ viết, không gọi AI, không ghi gì
+  if (dryRun) {
+    return NextResponse.json({
+      dry: true,
+      wouldWrite: topic.keyword,
+      topicKey: topicSlug(topic),
+      pendingDrafts,
+      usedTopicCount: usedKeys.size,
+    })
   }
 
   // 2. Sinh bài
@@ -123,6 +149,12 @@ async function handle(req: NextRequest) {
     await sendTelegram(`🤖 OFINA Content Bot: viết xong nhưng LƯU LỖI: ${msg}`)
     return NextResponse.json({ error: msg }, { status: 500 })
   }
+
+  // 4b. Ghi sổ cái chủ đề đã viết (kể cả khi chạy ép topic= để khỏi viết lại)
+  const newKeys = [...usedKeys, topicSlug(topic)].filter((v, i, a) => a.indexOf(v) === i)
+  await admin
+    .from('site_settings')
+    .upsert({ key: USED_TOPICS_KEY, value: { keys: newKeys } }, { onConflict: 'key' })
 
   const adminUrl = `${SITE_URL}/admin/blog/${created.id}`
   const liveUrl = `${SITE_URL}/blog/${created.slug}`

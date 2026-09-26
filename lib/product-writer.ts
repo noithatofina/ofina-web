@@ -7,6 +7,7 @@
  */
 
 import Anthropic from '@anthropic-ai/sdk'
+import { getAnthropicKey } from './anthropic-key'
 import { CONTACT } from '@/lib/utils'
 import type { ExtractedProduct } from './product-extractor'
 
@@ -115,8 +116,8 @@ function normalizeSlug(s: string): string {
 }
 
 export async function generateProductPage(input: ExtractedProduct): Promise<GeneratedProduct> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) throw new Error('Thiếu ANTHROPIC_API_KEY')
+  const apiKey = await getAnthropicKey()
+  if (!apiKey) throw new Error('Thiếu Anthropic API key (site_settings secrets.anthropic_api_key hoặc env ANTHROPIC_API_KEY)')
   const client = new Anthropic({ apiKey })
 
   const userPayload = {

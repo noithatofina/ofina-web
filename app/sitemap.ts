@@ -22,6 +22,12 @@ const STATIC_PAGES: { path: string; priority: number; changeFrequency: MetadataR
   { path: '/chinh-sach/thanh-toan', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/chinh-sach/bao-mat', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/chinh-sach/dieu-khoan', priority: 0.4, changeFrequency: 'yearly' },
+  // 5 trang nhóm sản phẩm — sống, tự canonical, index/follow nhưng từng vắng mặt trong sitemap
+  { path: '/nhom/ghe', priority: 0.8, changeFrequency: 'weekly' },
+  { path: '/nhom/ban', priority: 0.8, changeFrequency: 'weekly' },
+  { path: '/nhom/tu-ke', priority: 0.8, changeFrequency: 'weekly' },
+  { path: '/nhom/sofa', priority: 0.8, changeFrequency: 'weekly' },
+  { path: '/nhom/cafe-bar', priority: 0.8, changeFrequency: 'weekly' },
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -67,6 +73,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [cats, prods] = await Promise.all([fetchAll('categories'), fetchAll('products')])
 
+  // Bài blog đã đăng (thêm 26/09/2026 SAU khi dọn bài trùng — trước đó blog vắng mặt trong sitemap)
+  const { data: posts } = await supabase
+    .from('blog_posts')
+    .select('slug, updated_at, published_at')
+    .eq('is_published', true)
+  const blogEntries: MetadataRoute.Sitemap = (posts || []).map((b) => ({
+    url: `${SITE_URL}/blog/${b.slug}`,
+    lastModified: b.updated_at ? new Date(b.updated_at) : b.published_at ? new Date(b.published_at) : now,
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }))
+
   const categoryEntries: MetadataRoute.Sitemap = cats.map((c) => ({
     url: `${SITE_URL}/danh-muc/${c.slug}`,
     lastModified: c.updated_at ? new Date(c.updated_at) : now,
@@ -81,5 +99,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticEntries, ...collectionEntries, ...categoryEntries, ...productEntries]
+  return [...staticEntries, ...collectionEntries, ...categoryEntries, ...productEntries, ...blogEntries]
 }

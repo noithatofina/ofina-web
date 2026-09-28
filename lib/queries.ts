@@ -98,8 +98,11 @@ function mapProduct(p: any) {
   if (!p) return p
   const imgs = (p.product_images || []).sort((a: any, b: any) => a.position - b.position)
   const primary = imgs.find((i: any) => i.is_primary)?.url || imgs[0]?.url || null
+  // bỏ product_images thô: URL Supabase gốc không dùng tới nhưng vẫn bị đẩy
+  // nguyên vào payload RSC, vừa nặng trang vừa lộ URL bị chặn index
+  const { product_images: _raw, ...rest } = p
   return {
-    ...p,
+    ...rest,
     // qua proxy /img để Google Images không bị Supabase chặn bằng x-robots-tag
     images: imgs.map((i: any) => publicImageUrl(i.url)),
     primary_image: primary ? publicImageUrl(primary) : null,

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
 import { createClient } from '@supabase/supabase-js'
 import { getSetting } from '@/lib/site-settings'
+import { publicImageUrl } from '@/lib/image-url'
 
 export const metadata = {
   alternates: { canonical: '/khuyen-mai' },
@@ -34,10 +35,12 @@ async function getSaleProducts() {
     .filter((p: any) => p.compare_price && p.compare_price > p.price)
     .map((p: any) => {
       const imgs = (p.product_images || []).sort((a: any, b: any) => a.position - b.position)
+      const primary = imgs.find((i: any) => i.is_primary)?.url || imgs[0]?.url || null
+      const { product_images: _raw, ...rest } = p
       return {
-        ...p,
-        images: imgs.map((i: any) => i.url),
-        primary_image: imgs.find((i: any) => i.is_primary)?.url || imgs[0]?.url || null,
+        ...rest,
+        images: imgs.map((i: any) => publicImageUrl(i.url)),
+        primary_image: primary ? publicImageUrl(primary) : null,
       }
     })
 

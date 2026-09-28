@@ -76,10 +76,12 @@ export default async function BlogPostPage({
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt || post.seo_description || undefined,
-    image: post.cover_image || `${SITE_URL}/og-image.jpg`,
+    image: post.cover_image || `${SITE_URL}/logo.png`,
     datePublished: post.published_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,
-    author: { '@type': post.author && post.author !== 'OFINA Team' ? 'Person' : 'Organization', name: post.author || 'OFINA' },
+    // Tác giả là thương hiệu, không phải người thật → luôn Organization.
+    // (Bug cũ: so chuỗi cứng với 'OFINA Team' nên author='OFINA' bị gán Person.)
+    author: { '@type': 'Organization', name: post.author || 'OFINA' },
     publisher: {
       '@type': 'Organization',
       name: 'OFINA',

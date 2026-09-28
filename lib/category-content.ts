@@ -299,6 +299,267 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
       },
     ],
   },
+
+  'ban-hop-lon': {
+    intro:
+      '<p><strong>Bàn họp lớn</strong> phục vụ phòng họp từ 12 chỗ trở lên — nơi diễn ra họp ban lãnh đạo, họp toàn phòng ban hoặc tiếp đối tác. Ở quy mô này, bài toán không còn là chọn một cái bàn mà là thiết kế cả không gian: đường điện, tầm nhìn tới màn hình trình chiếu, lối đi và cách vận chuyển bàn vào phòng.</p>' +
+      '<p>OFINA có sẵn các mẫu bàn liền tấm và bàn ghép module cho phòng họp lớn, kèm tư vấn bố trí theo mặt bằng thực tế.</p>',
+    sections: [
+      {
+        h2: 'Bàn liền tấm hay bàn ghép module?',
+        body:
+          '<ul>' +
+          '<li><strong>Bàn liền tấm:</strong> mặt bàn liền mạch, nhìn sang và chắc chắn. Nhược điểm là khó vận chuyển — bàn dài trên 3m thường không qua được thang máy dân dụng, phải tính đường đi từ trước.</li>' +
+          '<li><strong>Bàn ghép module:</strong> gồm nhiều phần lắp lại, dễ đưa vào phòng và có thể tách ra khi cần đổi bố cục hoặc chia phòng. Đường ghép nhìn kỹ vẫn thấy, nhưng đổi lại linh hoạt hơn hẳn.</li>' +
+          '</ul>' +
+          '<p>Nếu phòng họp của bạn cũng dùng để đào tạo hoặc tổ chức sự kiện nội bộ, module gần như luôn là lựa chọn đúng.</p>',
+      },
+      {
+        h2: 'Ba thứ phải tính trước khi đặt bàn họp lớn',
+        body:
+          '<ul>' +
+          '<li><strong>Đường điện:</strong> phòng 12–20 người cần nhiều ổ cắm hơn bạn nghĩ. Hộp điện âm bàn giúp tránh dây chạy ngang sàn — vốn vừa xấu vừa dễ vấp.</li>' +
+          '<li><strong>Tầm nhìn màn hình:</strong> người ngồi hai đầu bàn dài thường bị lệch góc nhìn. Bàn hình thuyền hoặc bo góc cải thiện đáng kể so với bàn chữ nhật thẳng.</li>' +
+          '<li><strong>Lối vận chuyển:</strong> đo cửa phòng, hành lang và thang máy trước khi chốt kích thước. Đây là lý do phổ biến nhất khiến đơn bàn lớn phải đổi mẫu giữa chừng.</li>' +
+          '</ul>',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Phòng họp 30m² kê được bàn bao nhiêu chỗ?',
+        a: 'Phòng khoảng 30m² thường phù hợp bàn 4m8 đến 5m, tương ứng 16–18 chỗ, vẫn đủ lối đi 1m quanh bàn. Nếu phòng có bục thuyết trình hoặc tủ tài liệu dọc tường, nên giảm một cỡ bàn để không bị chật.',
+      },
+      {
+        q: 'Bàn họp lớn có đưa được lên tầng cao không?',
+        a: 'Với bàn liền tấm dài, cần kiểm tra kích thước thang máy và hành lang trước. Nếu không đưa được nguyên tấm, phương án thay thế là bàn ghép module lắp tại phòng. Hãy báo trước tầng, tình trạng thang máy và lối vào khi đặt hàng để OFINA chuẩn bị phương án phù hợp.',
+      },
+      {
+        q: 'Có làm được hộp điện âm bàn không?',
+        a: 'Nhiều mẫu bàn họp lớn có sẵn vị trí lắp hộp điện hoặc lỗ luồn dây. Bạn nên nêu rõ nhu cầu về số ổ cắm và cổng mạng khi liên hệ để được tư vấn mẫu phù hợp ngay từ đầu, thay vì khoan bổ sung sau khi lắp.',
+      },
+      {
+        q: 'Mua bàn họp lớn kèm ghế có được tư vấn trọn bộ không?',
+        a: 'Có. OFINA nhận khảo sát mặt bằng và đề xuất phương án trọn bộ gồm bàn, ghế và số lượng phù hợp với diện tích phòng. Gửi yêu cầu qua trang báo giá B2B hoặc gọi hotline để được tính phương án.',
+      },
+    ],
+  },
+
+  'ban-training': {
+    intro:
+      '<p><strong>Bàn training</strong> (bàn đào tạo, bàn hội thảo) khác bàn làm việc ở một điểm cốt lõi: phòng đào tạo phải đổi bố cục thường xuyên — hôm nay xếp hàng ngang nghe giảng, mai ghép chữ U thảo luận, ngày kia dẹp gọn lấy chỗ.</p>' +
+      '<p>Vì vậy tiêu chí số một là dễ di chuyển và ghép nối, không phải mặt bàn rộng.</p>',
+    sections: [
+      {
+        h2: 'Bàn training nên có những gì?',
+        body:
+          '<ul>' +
+          '<li><strong>Bánh xe có khoá:</strong> một người đẩy được bàn, khoá lại thì đứng yên khi viết. Đây là tính năng tạo khác biệt lớn nhất trong phòng đào tạo.</li>' +
+          '<li><strong>Mặt bàn gập:</strong> gập dựng đứng để xếp chồng sát tường, giải phóng diện tích khi phòng dùng cho việc khác.</li>' +
+          '<li><strong>Tấm chắn phía trước:</strong> giúp người ngồi kín đáo hơn khi bàn xếp thành hàng đối diện.</li>' +
+          '<li><strong>Cạnh thẳng, góc vuông:</strong> để ghép nhiều bàn thành dãy dài hoặc chữ U mà không hở khe.</li>' +
+          '</ul>',
+      },
+      {
+        h2: 'Xếp bàn theo mục đích buổi học',
+        body:
+          '<ul>' +
+          '<li><strong>Hàng ngang hướng bảng:</strong> hợp buổi giảng một chiều, sức chứa cao nhất trên cùng diện tích.</li>' +
+          '<li><strong>Chữ U:</strong> mọi người nhìn thấy nhau, hợp buổi thảo luận và đào tạo kỹ năng dưới 20 người.</li>' +
+          '<li><strong>Cụm đảo 4–6 người:</strong> hợp buổi làm bài nhóm, nhưng tốn diện tích hơn và cần lối đi giữa các cụm.</li>' +
+          '</ul>' +
+          '<p>Dù chọn kiểu nào, chừa tối thiểu 90cm giữa các hàng để người phía trong ra vào không phải kéo cả dãy bàn.</p>',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Bàn training có gập và xếp chồng được không?',
+        a: 'Tuỳ mẫu. Loại mặt gập cho phép dựng đứng và xếp sát nhau để cất gọn; loại mặt cố định thì không. Nếu phòng của bạn dùng chung cho nhiều mục đích, hãy nói rõ nhu cầu này khi liên hệ để chọn đúng mẫu.',
+      },
+      {
+        q: 'Một người ngồi cần bao nhiêu chiều dài bàn?',
+        a: 'Khoảng 60cm cho buổi học chỉ ghi chép, và 70–75cm nếu học viên dùng laptop kèm tài liệu. Bàn training dài 1m2 thường xếp 2 chỗ, bàn 1m8 xếp 2–3 chỗ tuỳ cách bố trí.',
+      },
+      {
+        q: 'Bàn training dùng làm bàn làm việc hàng ngày được không?',
+        a: 'Được, nhưng mặt bàn training thường hẹp hơn bàn làm việc tiêu chuẩn nên phù hợp với công việc dùng laptop hơn là setup hai màn hình. Nếu cần bàn cho nhân viên ngồi cả ngày, bàn làm việc chuyên dụng sẽ thoải mái hơn.',
+      },
+      {
+        q: 'Đặt số lượng lớn cho phòng đào tạo có hỗ trợ gì thêm?',
+        a: 'OFINA nhận khảo sát phòng, đề xuất số lượng và sơ đồ xếp bàn theo diện tích, kèm báo giá theo số lượng cho doanh nghiệp qua trang báo giá B2B.',
+      },
+    ],
+  },
+
+  'ban-giam-doc-chan-sat': {
+    intro:
+      '<p><strong>Bàn giám đốc chân sắt</strong> là lựa chọn của những phòng làm việc theo hướng hiện đại, tối giản: khung sắt sơn tĩnh điện mảnh mà chắc, mặt gỗ công nghiệp phủ chống xước, tổng thể nhẹ nhõm hơn bàn khung gỗ bề thế truyền thống.</p>' +
+      '<p>So với bàn lãnh đạo khung gỗ cùng kích thước, dòng chân sắt thường gọn hơn về thị giác và dễ phối với nội thất văn phòng chung của công ty.</p>',
+    sections: [
+      {
+        h2: 'Khi nào nên chọn chân sắt thay vì chân gỗ?',
+        body:
+          '<ul>' +
+          '<li><strong>Phòng diện tích vừa:</strong> chân sắt mảnh tạo cảm giác thoáng hơn, phòng không bị nặng nề.</li>' +
+          '<li><strong>Văn phòng phong cách hiện đại:</strong> dễ đồng bộ với bàn nhân viên chân sắt để cả văn phòng nhìn cùng một ngôn ngữ thiết kế.</li>' +
+          '<li><strong>Cần di chuyển, sắp xếp lại:</strong> khung sắt nhẹ hơn khối gỗ, tháo lắp nhanh hơn khi đổi bố cục.</li>' +
+          '</ul>' +
+          '<p>Ngược lại, nếu phòng giám đốc thiên hướng cổ điển hoặc cần cảm giác bề thế khi tiếp đối tác, bàn khung gỗ vẫn là lựa chọn hợp hơn.</p>',
+      },
+      {
+        h2: 'Phối bàn chân sắt với phần còn lại của phòng',
+        body:
+          '<p>Chọn màu mặt bàn trước, rồi mới chọn tủ tài liệu và ghế theo nó. Mặt gỗ tông sáng hợp phòng nhỏ và ánh sáng yếu; tông walnut hoặc óc chó tạo chiều sâu cho phòng rộng.</p>' +
+          '<p>Chân sắt thường có hai lựa chọn màu phổ biến là đen và trắng — chọn trùng tông với chân ghế và chân tủ sẽ gọn mắt hơn là để mỗi món một màu. ' +
+          'Bảo hành theo chính sách OFINA: khung kim loại và khung gỗ 24 tháng.</p>',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Bàn giám đốc chân sắt có chắc chắn không?',
+        a: 'Khung sắt hộp sơn tĩnh điện chịu tải tốt và ít cong vênh theo độ ẩm hơn gỗ. Điều nên kiểm tra là bàn có thanh giằng ngang không và chân có nút cân bằng không — hai chi tiết này quyết định bàn có rung khi gõ phím hay không.',
+      },
+      {
+        q: 'Bàn có kèm hộc kéo hoặc tủ phụ không?',
+        a: 'Tuỳ mẫu: một số cấu hình kèm hộc di động hoặc tủ phụ chữ L, một số chỉ có phần bàn. Thông tin cấu hình ghi trong trang từng sản phẩm; nếu cần xác nhận trước khi đặt, bạn có thể gọi hotline.',
+      },
+      {
+        q: 'Kích thước nào phù hợp cho phòng giám đốc 15m²?',
+        a: 'Phòng khoảng 15m² thường vừa với bàn 1m6–1m8 kèm một tủ thấp, vẫn còn chỗ cho 2 ghế tiếp khách. Bàn lớn hơn sẽ khiến lối đi quanh bàn chật.',
+      },
+      {
+        q: 'Mặt bàn có chống xước không?',
+        a: 'Mặt gỗ công nghiệp phủ melamine hoặc laminate có khả năng chống xước tốt trong sử dụng thường ngày. Vẫn nên dùng lót chuột và tránh kéo lê vật kim loại sắc trên mặt bàn.',
+      },
+    ],
+  },
+
+  'cum-ban-lam-viec-4-nguoi': {
+    intro:
+      '<p><strong>Cụm bàn làm việc 4 người</strong> là đơn vị bố trí phổ biến nhất trong văn phòng hiện nay: gom bốn chỗ ngồi vào một khối, dùng chung chân bàn và vách ngăn, tiết kiệm diện tích rõ rệt so với kê bốn bàn rời.</p>' +
+      '<p>Cụm 4 người cũng là kích thước dễ nhân bản — văn phòng 16 người xếp 4 cụm, 24 người xếp 6 cụm, lối đi giữa các cụm vẫn thông thoáng.</p>',
+    sections: [
+      {
+        h2: 'Cụm bàn tiết kiệm diện tích như thế nào?',
+        body:
+          '<p>Bốn bàn rời 1m2 kê riêng cần khoảng lùi ghế cho từng bàn, tổng diện tích chiếm thường lớn hơn 25–30% so với một cụm 4 người cùng kích thước mặt làm việc.</p>' +
+          '<p>Cụm còn gom được đường dây điện và mạng vào một trục chung, thay vì mỗi bàn kéo một đường riêng ra ổ tường — vừa gọn vừa an toàn hơn.</p>',
+      },
+      {
+        h2: 'Vách ngăn: nên cao bao nhiêu?',
+        body:
+          '<ul>' +
+          '<li><strong>Vách thấp 30–40cm:</strong> chỉ phân định chỗ ngồi, giữ được không khí cởi mở, hợp đội nhóm trao đổi liên tục.</li>' +
+          '<li><strong>Vách trung 50–60cm:</strong> che tầm nhìn khi ngồi nhưng vẫn thấy nhau khi đứng — mức cân bằng được dùng nhiều nhất.</li>' +
+          '<li><strong>Vách cao trên 1m:</strong> tập trung tốt, phù hợp công việc cần yên tĩnh, nhưng khiến không gian bí và khó giao tiếp.</li>' +
+          '</ul>' +
+          '<p>Vách nỉ tiêu âm tốt hơn vách kính hoặc mica; vách kính sáng hơn nhưng không giảm ồn.</p>',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Cụm bàn 4 người chiếm bao nhiêu diện tích?',
+        a: 'Tuỳ kích thước từng chỗ ngồi, nhưng cụm 4 người phổ biến chiếm khoảng 4–6 m² cho phần bàn, cộng thêm khoảng lùi ghế mỗi phía. Khi tính phòng, nên dự trù 1m lối đi giữa các cụm.',
+      },
+      {
+        q: 'Có thể mở rộng cụm khi tuyển thêm người không?',
+        a: 'Nhiều mẫu cụm bàn thiết kế nối dài thêm module. Nếu bạn dự kiến tăng nhân sự, hãy nói rõ khi đặt để chọn mẫu có khả năng mở rộng, tránh trường hợp sau này phải mua cụm mới không khớp kiểu dáng.',
+      },
+      {
+        q: 'Cụm bàn có sẵn hộp điện và lỗ luồn dây không?',
+        a: 'Tuỳ mẫu. Một số cụm có máng đi dây dọc trục giữa và lỗ khoét trên mặt bàn, một số không. Đây là chi tiết nên hỏi rõ trước khi đặt vì bổ sung sau sẽ khó gọn.',
+      },
+      {
+        q: 'Lắp đặt cụm bàn mất bao lâu?',
+        a: 'Tại Hà Nội và TP.HCM, OFINA giao và lắp đặt tận nơi; một cụm 4 người thường lắp trong khoảng một giờ. Với đơn nhiều cụm, đội ngũ sẽ hẹn lịch để lắp gọn trong ngày, hạn chế ảnh hưởng công việc của văn phòng.',
+      },
+    ],
+  },
+
+  'ghe-cafe-chan-co-dinh': {
+    intro:
+      '<p><strong>Ghế cafe chân cố định</strong> dùng cho quán cà phê, trà sữa, khu pantry công ty và không gian ăn uống. Khác ghế văn phòng, ghế cafe không cần điều chỉnh độ cao hay xoay — đổi lại phải chịu được tần suất ngồi xuống đứng lên rất cao và dễ xếp dọn cuối ngày.</p>' +
+      '<p>Danh mục này gồm nhiều kiểu dáng và chất liệu để phối theo phong cách quán, từ mẫu gỗ mộc đến khung sắt tối giản.</p>',
+    sections: [
+      {
+        h2: 'Chọn ghế cafe theo loại quán',
+        body:
+          '<ul>' +
+          '<li><strong>Quán lượt khách nhanh:</strong> ưu tiên ghế nhẹ, xếp chồng được, mặt ngồi dễ lau — khách ngồi ngắn nên độ êm không quan trọng bằng độ bền.</li>' +
+          '<li><strong>Quán khách ngồi lâu, làm việc:</strong> chọn ghế có tựa lưng cong ôm và mặt ngồi rộng hơn, tránh ghế đẩu không tựa.</li>' +
+          '<li><strong>Khu pantry công ty:</strong> ghế dễ vệ sinh và chịu được va chạm hàng ngày quan trọng hơn thẩm mỹ cầu kỳ.</li>' +
+          '</ul>',
+      },
+      {
+        h2: 'Chiều cao ghế phải khớp chiều cao bàn',
+        body:
+          '<p>Khoảng cách hợp lý giữa mặt ngồi và mặt bàn là 27–30cm. Bàn cafe cao khoảng 72–75cm đi với ghế mặt ngồi 43–45cm; bàn bar cao 100–110cm cần ghế bar 65–75cm.</p>' +
+          '<p>Đây là lỗi hay gặp nhất khi mua lẻ từng món: ghế đẹp, bàn đẹp, nhưng ngồi vào thì mặt bàn quá cao so với tay. Nếu mua cả bộ, hãy kiểm tra hai con số này trước.</p>',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Ghế cafe chân cố định có xếp chồng được không?',
+        a: 'Một số mẫu thiết kế xếp chồng để cất gọn khi dọn quán hoặc khi cần trống mặt bằng; nhiều mẫu có tựa lưng tạo dáng thì không xếp được. Nếu quán cần dọn dẹp mỗi tối, hãy nêu nhu cầu này khi chọn mẫu.',
+      },
+      {
+        q: 'Ghế dùng ngoài trời được không?',
+        a: 'Ghế khung sắt sơn tĩnh điện và mặt nhựa chịu được hiên có mái che, nhưng để mưa nắng trực tiếp lâu ngày sẽ bong sơn và han gỉ. Với khu vực ngoài trời hoàn toàn, nên chọn chất liệu chuyên dụng và hỏi rõ trước khi đặt.',
+      },
+      {
+        q: 'Mua số lượng lớn cho quán có chính sách riêng không?',
+        a: 'Có. OFINA nhận báo giá theo số lượng cho quán và doanh nghiệp. Bạn có thể gửi số lượng và mẫu quan tâm qua trang báo giá B2B để được tính phương án.',
+      },
+      {
+        q: 'Ghế cafe bảo hành thế nào?',
+        a: 'Khung kim loại và khung gỗ bảo hành 24 tháng; phần đệm và bọc 12 tháng, theo chính sách bảo hành chung của OFINA. Không áp dụng cho hư hỏng do va đập hoặc sử dụng sai mục đích.',
+      },
+    ],
+  },
+
+  'ban-cafe-chan-sat-mat-go-kinh-abs': {
+    intro:
+      '<p><strong>Bàn cafe chân sắt</strong> với mặt gỗ, kính hoặc ABS là dòng bàn được dùng nhiều nhất ở quán cà phê, trà sữa và khu vực tiếp khách: chân sắt gọn, chịu lực tốt, mặt bàn có nhiều lựa chọn chất liệu để hợp phong cách và ngân sách.</p>' +
+      '<p>Chọn đúng mặt bàn quan trọng hơn chọn kiểu chân, vì mặt bàn là thứ chịu đựng vết nước, nhiệt từ cốc nóng và việc lau chùi hàng chục lần mỗi ngày.</p>',
+    sections: [
+      {
+        h2: 'Mặt gỗ, mặt kính hay mặt ABS?',
+        body:
+          '<ul>' +
+          '<li><strong>Mặt gỗ công nghiệp:</strong> ấm, hợp quán phong cách mộc. Cần lau khô ngay khi đổ nước vì mép bàn là chỗ dễ ngấm nhất.</li>' +
+          '<li><strong>Mặt kính cường lực:</strong> sang và cực dễ lau, nhưng hiện rõ dấu vân tay và vết nước, nên quán đông khách phải lau liên tục.</li>' +
+          '<li><strong>Mặt ABS hoặc nhựa nén:</strong> chịu nước và chịu va đập tốt nhất, nhẹ, phù hợp quán lượt khách cao hoặc khu vực ngoài hiên có mái che.</li>' +
+          '</ul>',
+      },
+      {
+        h2: 'Kích thước và số chỗ ngồi',
+        body:
+          '<ul>' +
+          '<li><strong>Bàn tròn 60cm hoặc vuông 60×60:</strong> 2 chỗ, phù hợp quán nhỏ cần tối đa số bàn.</li>' +
+          '<li><strong>Bàn 70×70 đến 80×80:</strong> 2–4 chỗ, cỡ linh hoạt nhất cho quán cà phê.</li>' +
+          '<li><strong>Bàn chữ nhật 120×60:</strong> 4 chỗ, hợp nhóm khách hoặc khách ngồi làm việc với laptop.</li>' +
+          '</ul>' +
+          '<p>Chừa lối đi tối thiểu 90cm giữa các dãy bàn để nhân viên bưng bê không phải lách qua lưng khách.</p>',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Mặt bàn nào bền nhất cho quán đông khách?',
+        a: 'Mặt ABS hoặc nhựa nén chịu nước, chịu va đập và ít để lại vết nhất, nên phù hợp quán có lượt khách cao. Mặt kính dễ lau nhưng lộ vết; mặt gỗ đẹp nhưng cần xử lý vết nước nhanh, đặc biệt ở phần mép.',
+      },
+      {
+        q: 'Chân bàn có bị lung lay trên sàn gạch không?',
+        a: 'Mẫu có đế tròn hoặc đế chữ thập rộng và nút cân bằng dưới chân sẽ đứng vững kể cả khi sàn hơi lệch. Nếu sàn quán không phẳng, nên ưu tiên mẫu có nút chỉnh cao thấp từng chân.',
+      },
+      {
+        q: 'Bàn cafe có dùng cho khu pantry văn phòng được không?',
+        a: 'Được, và là lựa chọn phổ biến vì dễ lau và không chiếm nhiều diện tích. Với pantry, mặt ABS hoặc laminate thường thực tế hơn mặt kính.',
+      },
+      {
+        q: 'Đặt nhiều bàn cho quán có được tư vấn bố trí không?',
+        a: 'Có. Bạn gửi diện tích và sơ đồ mặt bằng qua trang báo giá B2B hoặc hotline, OFINA sẽ đề xuất số lượng bàn, kích thước và cách xếp để tối ưu số chỗ ngồi mà vẫn giữ lối đi hợp lý.',
+      },
+    ],
+  },
 }
 
 export function getCategoryContent(slug: string): CategoryContent | null {

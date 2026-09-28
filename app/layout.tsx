@@ -31,7 +31,6 @@ export const metadata: Metadata = {
   keywords: ['nội thất văn phòng', 'ghế văn phòng', 'ghế công thái học', 'bàn làm việc', 'tủ hồ sơ', 'sofa văn phòng', 'nội thất văn phòng giá rẻ', 'OFINA'],
   authors: [{ name: 'OFINA' }],
   metadataBase: new URL(SITE_URL),
-  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'vi_VN',

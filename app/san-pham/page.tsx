@@ -3,7 +3,8 @@ import { ProductCard } from '@/components/product/ProductCard'
 import { getAllProducts, getHomepageData } from '@/lib/queries'
 
 export const metadata = {
-  title: 'Tất cả sản phẩm | OFINA',
+  alternates: { canonical: '/san-pham' },
+  title: { absolute: 'Tất cả sản phẩm nội thất văn phòng | OFINA' },
   description: 'Danh sách tất cả sản phẩm nội thất văn phòng tại OFINA.',
 }
 

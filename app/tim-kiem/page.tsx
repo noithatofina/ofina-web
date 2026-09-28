@@ -12,6 +12,9 @@ export async function generateMetadata({ searchParams }: Props) {
   return {
     title: q ? `Tìm kiếm: "${q}" | OFINA` : 'Tìm kiếm sản phẩm | OFINA',
     description: `Kết quả tìm kiếm cho "${q || ''}" tại OFINA.`,
+    // Trang kết quả tìm kiếm nội bộ: không cho index (chống phình index bằng URL ?q=...)
+    robots: { index: false, follow: true },
+    alternates: { canonical: '/tim-kiem' },
   }
 }
 

@@ -3,6 +3,7 @@ import { Award, Users, Package, MapPin } from 'lucide-react'
 import { getSetting } from '@/lib/site-settings'
 
 export const metadata = {
+  alternates: { canonical: '/gioi-thieu' },
   title: 'Về OFINA — Nội Thất Văn Phòng Việt Nam',
   description: 'OFINA là thương hiệu nội thất văn phòng chuyên cung cấp giải pháp toàn diện cho doanh nghiệp Việt Nam. Chuẩn quốc tế, giá hợp lý.',
 }

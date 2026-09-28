@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import { getSetting } from '@/lib/site-settings'
 
 export const metadata = {
+  alternates: { canonical: '/khuyen-mai' },
   title: 'Khuyến mãi - Giảm đến 20% | OFINA',
   description: 'Các sản phẩm nội thất văn phòng đang khuyến mãi tại OFINA. Giảm giá đến 20%, miễn phí giao hàng.',
 }

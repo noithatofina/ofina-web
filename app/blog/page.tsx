@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase-admin'
 
 export const metadata = {
+  alternates: { canonical: '/blog' },
   title: 'Blog — Kiến thức nội thất văn phòng | OFINA',
   description: 'Cẩm nang chọn nội thất văn phòng, mẹo setup không gian làm việc, xu hướng thiết kế 2026.',
 }

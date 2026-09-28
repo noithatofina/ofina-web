@@ -25,7 +25,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const p = await getPolicy(slug)
   if (!p) return {}
-  return { title: `${p.title} | OFINA`, description: p.title }
+  return {
+    title: `${p.title} | OFINA`,
+    description: p.title,
+    alternates: { canonical: `/chinh-sach/${slug}` },
+  }
 }
 
 export default async function PolicyPage({

@@ -48,6 +48,14 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         ],
       },
+      {
+        // ảnh hero đổi rất hiếm; mặc định của public/ là max-age=0 nên khách
+        // quay lại vẫn phải hỏi server từng ảnh. Đổi ảnh thì đổi luôn tên file.
+        source: '/hero/:file*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=86400' },
+        ],
+      },
     ]
   },
 }

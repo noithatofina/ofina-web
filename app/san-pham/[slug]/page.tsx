@@ -176,17 +176,28 @@ export default async function ProductPage({ params }: Props) {
               <p className="text-gray-600 mb-4 leading-relaxed">{product.short_description}</p>
             )}
 
-            {/* Rating + stock */}
+            {/* Rating + stock — chỉ hiện sao khi CÓ đánh giá thật, tuyệt đối không gắn số bịa */}
             <div className="flex items-center gap-3 mb-5 text-sm">
-              <div className="flex items-center gap-1 text-accent-500">
-                {[1,2,3,4,5].map((i) => (
-                  <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                  </svg>
-                ))}
-                <span className="ml-1 font-semibold text-gray-900">5.0</span>
-              </div>
-              <span className="text-gray-300">|</span>
+              {(product.review_count ?? 0) > 0 && (
+                <>
+                  <div className="flex items-center gap-1 text-accent-500">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <svg
+                        key={i}
+                        className={`w-4 h-4 ${i <= Math.round(product.avg_rating ?? 0) ? 'fill-current' : 'fill-gray-200'}`}
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                    ))}
+                    <span className="ml-1 font-semibold text-gray-900">
+                      {Number(product.avg_rating ?? 0).toFixed(1)}
+                    </span>
+                    <span className="ml-1 text-gray-500">({product.review_count} đánh giá)</span>
+                  </div>
+                  <span className="text-gray-300">|</span>
+                </>
+              )}
               {product.in_stock ? (
                 <span className="text-green-700 font-semibold flex items-center gap-1">
                   <BadgeCheck className="w-4 h-4" /> Còn hàng

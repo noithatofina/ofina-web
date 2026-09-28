@@ -6,6 +6,8 @@
  * resize. Khi upgrade Supabase Pro, đổi `ENABLE_TRANSFORM = true`.
  */
 
+import { publicImageUrl } from './image-url'
+
 const ENABLE_TRANSFORM = false
 
 export default function supabaseImageLoader({
@@ -29,5 +31,7 @@ export default function supabaseImageLoader({
     })
     return `${transformed}?${params.toString()}`
   }
-  return src
+  // Lưới an toàn: URL Supabase lọt qua đây (không đi qua mapProduct) vẫn được
+  // đổi sang proxy /img để không dính x-robots-tag: none.
+  return publicImageUrl(src)
 }

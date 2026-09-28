@@ -13,7 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ivxdwqsqveqsjcsdvewq.supabase.co'
-const ALLOWED_BUCKETS = new Set(['products'])
+const ALLOWED_BUCKETS = new Set(['products', 'branding'])
 const ALLOWED_EXT = /\.(webp|jpg|jpeg|png|avif|gif|svg)$/i
 
 export const revalidate = 86400

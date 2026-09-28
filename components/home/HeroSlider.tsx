@@ -16,7 +16,8 @@ type Slide = {
   bgPosition?: string
 }
 
-const STORAGE = 'https://ivxdwqsqveqsjcsdvewq.supabase.co/storage/v1/object/public/branding/hero-slider'
+// qua proxy /img: Supabase Storage gắn x-robots-tag: none nên ảnh bị chặn index
+const STORAGE = '/img/branding/hero-slider'
 
 /**
  * 5 slide. Ảnh CHỈ làm background, không có chữ trong ảnh.

@@ -173,7 +173,7 @@ export async function getHomepageData() {
       if (!c) return null
       return {
         ...c,
-        image: c.image || categoryImageFallback[c.slug] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
+        image: publicImageUrl(c.image) || categoryImageFallback[c.slug] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
         product_count: counts[c.id] || 0,
       }
     })
@@ -359,6 +359,7 @@ export async function getCategoryInfo(slug: string) {
   }
   const supabase = createPublicSupabase()
   const { data } = await supabase.from('categories').select('*').eq('slug', slug).maybeSingle()
+  if (data) return { ...data, image: publicImageUrl((data as any).image) || (data as any).image }
   return data
 }
 

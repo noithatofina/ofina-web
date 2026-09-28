@@ -312,7 +312,7 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
           '<li><strong>Bàn liền tấm:</strong> mặt bàn liền mạch, nhìn sang và chắc chắn. Nhược điểm là khó vận chuyển — bàn dài trên 3m thường không qua được thang máy dân dụng, phải tính đường đi từ trước.</li>' +
           '<li><strong>Bàn ghép module:</strong> gồm nhiều phần lắp lại, dễ đưa vào phòng và có thể tách ra khi cần đổi bố cục hoặc chia phòng. Đường ghép nhìn kỹ vẫn thấy, nhưng đổi lại linh hoạt hơn hẳn.</li>' +
           '</ul>' +
-          '<p>Nếu phòng họp của bạn cũng dùng để đào tạo hoặc tổ chức sự kiện nội bộ, module gần như luôn là lựa chọn đúng.</p>',
+          '<p>Nếu phòng họp của bạn cũng dùng để đào tạo hoặc tổ chức sự kiện nội bộ, module gần như luôn là lựa chọn đúng.</p><p>Trường hợp phòng họp lớn thường xuyên bị đặt kín chỉ để một vài người họp trực tuyến, cân nhắc thêm <a href="/danh-muc/cabin-cach-am-di-dong">cabin cách âm</a> làm phòng họp phụ — rẻ và nhanh hơn ngăn thêm phòng.</p>',
       },
       {
         h2: 'Ba thứ phải tính trước khi đặt bàn họp lớn',
@@ -452,7 +452,7 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
           '<li><strong>Vách trung 50–60cm:</strong> che tầm nhìn khi ngồi nhưng vẫn thấy nhau khi đứng — mức cân bằng được dùng nhiều nhất.</li>' +
           '<li><strong>Vách cao trên 1m:</strong> tập trung tốt, phù hợp công việc cần yên tĩnh, nhưng khiến không gian bí và khó giao tiếp.</li>' +
           '</ul>' +
-          '<p>Vách nỉ tiêu âm tốt hơn vách kính hoặc mica; vách kính sáng hơn nhưng không giảm ồn.</p>',
+          '<p>Vách nỉ tiêu âm tốt hơn vách kính hoặc mica; vách kính sáng hơn nhưng không giảm ồn.</p><p>Lưu ý: vách ngăn chỉ giảm ồn phần nào, không tạo được sự riêng tư khi gọi điện. Văn phòng có nhiều cuộc gọi khách hàng hoặc họp trực tuyến thường bổ sung thêm <a href="/danh-muc/cabin-cach-am-di-dong">cabin cách âm di động</a> đặt cạnh khu làm việc.</p>',
       },
     ],
     faqs: [

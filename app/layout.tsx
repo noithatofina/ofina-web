@@ -99,7 +99,9 @@ const LOCAL_BUSINESS_LD = [
     '@context': 'https://schema.org',
     '@type': 'FurnitureStore',
     name: 'OFINA — Trụ sở Hà Nội',
-    image: `${SITE_URL}/showroom-hn.jpg`,
+    // TODO: thay bằng ảnh chụp showroom thật khi có; tạm dùng logo vì
+    // showroom-hn.jpg không tồn tại và ảnh dựng 3D sản phẩm sẽ gây hiểu nhầm
+    image: `${SITE_URL}/logo.png`,
     address: {
       '@type': 'PostalAddress',
       streetAddress: '135 đường K2',
@@ -116,7 +118,7 @@ const LOCAL_BUSINESS_LD = [
     '@context': 'https://schema.org',
     '@type': 'FurnitureStore',
     name: 'OFINA — Chi nhánh TP.HCM',
-    image: `${SITE_URL}/showroom-hcm.jpg`,
+    image: `${SITE_URL}/logo.png`,
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Tầng 2, số 36 Lương Định Của',

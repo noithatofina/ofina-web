@@ -575,7 +575,6 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
           '<li><strong>Giảm 25–30 dB:</strong> tiếng nói bên ngoài còn nghe lờ mờ nhưng không rõ từ. Đủ cho gọi điện và họp trực tuyến thông thường.</li>' +
           '<li><strong>Giảm 35–40 dB:</strong> gần như tách biệt hẳn. Đây là mức của cabin vách nhiều lớp (khung thép, bông tiêu âm, ván tiêu âm, tấm polyester) — cần thiết khi đặt sát khu vực đông người hoặc dùng để phỏng vấn, ghi âm.</li>' +
           '</ul>' +
-          '</ul>' +
           '<p>Lưu ý quan trọng: cách âm là <strong>hai chiều</strong>. Người bên ngoài cũng không nghe được nội dung bên trong — đây mới là lý do chính khiến bộ phận nhân sự, pháp chế và ban giám đốc cần cabin thay vì chỉ một góc yên tĩnh.</p>' +
           '<p><strong>Khi hỏi giá, hãy hỏi luôn vách gồm mấy lớp và vật liệu gì</strong>, kèm điều kiện đo ra con số dB. Hai cabin cùng tầm giá có thể chênh nhau tới 20 dB — khác biệt giữa “vẫn nghe thấy loáng thoáng” và “không nghe được gì”.</p>',
       },

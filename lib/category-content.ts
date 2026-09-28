@@ -569,13 +569,15 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
       {
         h2: 'Hiểu đúng con số cách âm trước khi so sánh giá',
         body:
-          '<p>Mức cách âm được tính bằng decibel (dB) giảm được so với bên ngoài. Trên thị trường, cabin văn phòng thường nằm trong khoảng <strong>25–35 dB</strong>. Con số này nghĩa là gì trong thực tế:</p>' +
+          '<p>Mức cách âm được tính bằng decibel (dB) giảm được so với bên ngoài. Khoảng cách giữa các sản phẩm trên thị trường <strong>rất lớn — từ khoảng 15 dB đến 40 dB</strong> — và chênh lệch đó đến từ cấu tạo vách chứ không phải từ giá:</p>' +
           '<ul>' +
-          '<li><strong>Giảm 25–28 dB:</strong> tiếng nói chuyện bên ngoài còn nghe thấy lờ mờ nhưng không rõ từ. Đủ cho gọi điện và họp trực tuyến thông thường.</li>' +
-          '<li><strong>Giảm 30–35 dB:</strong> gần như tách biệt hoàn toàn với tiếng ồn văn phòng. Cần thiết nếu cabin đặt sát khu vực đông người hoặc dùng để ghi âm, phỏng vấn.</li>' +
+          '<li><strong>Giảm khoảng 15–20 dB:</strong> thường là cabin vách một lớp. Chặn bớt tiếng ồn nền nhưng người bên ngoài vẫn nghe loáng thoáng được nội dung. Chỉ hợp khi cần giảm ồn, không phải khi cần riêng tư.</li>' +
+          '<li><strong>Giảm 25–30 dB:</strong> tiếng nói bên ngoài còn nghe lờ mờ nhưng không rõ từ. Đủ cho gọi điện và họp trực tuyến thông thường.</li>' +
+          '<li><strong>Giảm 35–40 dB:</strong> gần như tách biệt hẳn. Đây là mức của cabin vách nhiều lớp (khung thép, bông tiêu âm, ván tiêu âm, tấm polyester) — cần thiết khi đặt sát khu vực đông người hoặc dùng để phỏng vấn, ghi âm.</li>' +
+          '</ul>' +
           '</ul>' +
           '<p>Lưu ý quan trọng: cách âm là <strong>hai chiều</strong>. Người bên ngoài cũng không nghe được nội dung bên trong — đây mới là lý do chính khiến bộ phận nhân sự, pháp chế và ban giám đốc cần cabin thay vì chỉ một góc yên tĩnh.</p>' +
-          '<p>Khi so giá giữa các nhà cung cấp, hãy hỏi rõ con số dB và cách đo. Chênh lệch 5 dB tưởng nhỏ nhưng là khác biệt rõ rệt khi ngồi bên trong.</p>',
+          '<p><strong>Khi hỏi giá, hãy hỏi luôn vách gồm mấy lớp và vật liệu gì</strong>, kèm điều kiện đo ra con số dB. Hai cabin cùng tầm giá có thể chênh nhau tới 20 dB — khác biệt giữa “vẫn nghe thấy loáng thoáng” và “không nghe được gì”.</p>',
       },
       {
         h2: 'Chọn kích cỡ theo cách dùng thực tế',

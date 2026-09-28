@@ -560,6 +560,90 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
       },
     ],
   },
+
+  'cabin-cach-am-di-dong': {
+    intro:
+      '<p><strong>Cabin cách âm di động</strong> (phone booth, acoustic pod) là buồng làm việc khép kín đặt ngay trong văn phòng, dùng cho việc cần yên tĩnh: gọi điện quan trọng, họp trực tuyến, phỏng vấn, hoặc đơn giản là tập trung làm việc giữa không gian mở ồn ào.</p>' +
+      '<p>Điểm khác biệt so với xây phòng kín: cabin lắp trong vài giờ, không đụng tới kết cấu toà nhà, và <strong>tháo ra mang đi được khi công ty chuyển văn phòng</strong> — thứ mà một bức tường xây không làm được. OFINA có 11 mẫu Silence Booth từ cỡ S đến XL.</p>',
+    sections: [
+      {
+        h2: 'Hiểu đúng con số cách âm trước khi so sánh giá',
+        body:
+          '<p>Mức cách âm được tính bằng decibel (dB) giảm được so với bên ngoài. Trên thị trường, cabin văn phòng thường nằm trong khoảng <strong>25–35 dB</strong>. Con số này nghĩa là gì trong thực tế:</p>' +
+          '<ul>' +
+          '<li><strong>Giảm 25–28 dB:</strong> tiếng nói chuyện bên ngoài còn nghe thấy lờ mờ nhưng không rõ từ. Đủ cho gọi điện và họp trực tuyến thông thường.</li>' +
+          '<li><strong>Giảm 30–35 dB:</strong> gần như tách biệt hoàn toàn với tiếng ồn văn phòng. Cần thiết nếu cabin đặt sát khu vực đông người hoặc dùng để ghi âm, phỏng vấn.</li>' +
+          '</ul>' +
+          '<p>Lưu ý quan trọng: cách âm là <strong>hai chiều</strong>. Người bên ngoài cũng không nghe được nội dung bên trong — đây mới là lý do chính khiến bộ phận nhân sự, pháp chế và ban giám đốc cần cabin thay vì chỉ một góc yên tĩnh.</p>' +
+          '<p>Khi so giá giữa các nhà cung cấp, hãy hỏi rõ con số dB và cách đo. Chênh lệch 5 dB tưởng nhỏ nhưng là khác biệt rõ rệt khi ngồi bên trong.</p>',
+      },
+      {
+        h2: 'Chọn kích cỡ theo cách dùng thực tế',
+        body:
+          '<p>Dòng Silence Booth ký hiệu cỡ ngay trong mã sản phẩm — S, M, SL, L, XL. Cách chọn theo nhu cầu:</p>' +
+          '<ul>' +
+          '<li><strong>Cỡ S:</strong> một người đứng hoặc ngồi ghế nhỏ, dùng cho cuộc gọi ngắn. Chiếm ít diện tích nhất, hợp văn phòng chật.</li>' +
+          '<li><strong>Cỡ M:</strong> một người ngồi làm việc thoải mái với laptop, hoặc hai người trao đổi nhanh.</li>' +
+          '<li><strong>Cỡ L và XL:</strong> họp nhóm nhỏ 3–6 người, phỏng vấn có hội đồng, hoặc làm phòng họp phụ khi phòng họp chính kín lịch.</li>' +
+          '</ul>' +
+          '<p>Kinh nghiệm bố trí: đừng chọn cỡ lớn nhất nếu 90% nhu cầu là gọi điện một mình. Hai cabin cỡ S phục vụ được nhiều lượt hơn một cabin cỡ L với cùng ngân sách và diện tích.</p>',
+      },
+      {
+        h2: 'Bảy câu phải hỏi trước khi đặt cabin',
+        body:
+          '<p>Vì đây là khoản đầu tư lớn và dùng nhiều năm, nên hỏi kỹ những điểm sau với bất kỳ nhà cung cấp nào:</p>' +
+          '<ul>' +
+          '<li><strong>Thông gió:</strong> cabin có quạt hút và cấp khí không, ồn bao nhiêu, thay khí mấy lần mỗi giờ? Cabin kín mà thông gió kém sẽ bí sau 15 phút — lỗi khiến nhiều cabin bị bỏ không.</li>' +
+          '<li><strong>Điện và mạng:</strong> có sẵn ổ cắm, cổng USB, đèn chưa? Nguồn điện lấy từ đâu và đi dây thế nào?</li>' +
+          '<li><strong>Kính và cửa:</strong> kính cường lực dày bao nhiêu, cửa đóng có kín khít không? Khe cửa là chỗ rò âm nhiều nhất.</li>' +
+          '<li><strong>Sàn và chống rung:</strong> cabin đặt trực tiếp lên sàn hay có đệm chống rung? Thiếu lớp này thì tiếng bước chân vẫn truyền vào.</li>' +
+          '<li><strong>Lắp đặt:</strong> mất bao lâu, cần bao nhiêu người, có phải khoan vào sàn hoặc trần không?</li>' +
+          '<li><strong>Di chuyển về sau:</strong> tháo lắp lại được mấy lần, chi phí di dời khi chuyển văn phòng?</li>' +
+          '<li><strong>Bảo hành và linh kiện:</strong> quạt và đèn là bộ phận hao mòn — có sẵn linh kiện thay thế không?</li>' +
+          '</ul>' +
+          '<p>Thông số chi tiết của từng mẫu Silence Booth được ghi trong trang sản phẩm tương ứng. Nếu cần bản thông số đầy đủ để so sánh hoặc trình duyệt ngân sách, liên hệ OFINA để nhận hồ sơ kỹ thuật của mẫu bạn quan tâm.</p>',
+      },
+      {
+        h2: 'Cabin hay xây phòng kín: cái nào hợp hơn?',
+        body:
+          '<table>' +
+          '<tr><th>Tiêu chí</th><th>Cabin cách âm</th><th>Xây phòng kín</th></tr>' +
+          '<tr><td>Thời gian có phòng dùng</td><td>Vài giờ lắp đặt</td><td>Nhiều ngày đến vài tuần thi công</td></tr>' +
+          '<tr><td>Ảnh hưởng công việc</td><td>Gần như không</td><td>Bụi, tiếng ồn, phải che chắn khu vực</td></tr>' +
+          '<tr><td>Khi chuyển văn phòng</td><td>Tháo mang theo</td><td>Bỏ lại toàn bộ</td></tr>' +
+          '<tr><td>Giấy phép, kết cấu</td><td>Không đụng kết cấu</td><td>Thường cần xin phép ban quản lý toà nhà</td></tr>' +
+          '<tr><td>Thay đổi bố trí sau này</td><td>Di dời được</td><td>Cố định</td></tr>' +
+          '</table>' +
+          '<p>Với văn phòng thuê — chiếm phần lớn doanh nghiệp tại Hà Nội và TP.HCM — khả năng mang theo khi hết hạn hợp đồng thuê thường là yếu tố quyết định.</p>',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Cabin cách âm di động giá bao nhiêu?',
+        a: 'Giá phụ thuộc kích cỡ và mức cách âm. Dải sản phẩm Silence Booth tại OFINA hiện từ khoảng 89 triệu cho mẫu cỡ S đến trên 230 triệu cho mẫu cỡ XL. Giá từng mẫu hiển thị trực tiếp trên trang sản phẩm; với đơn nhiều cabin, liên hệ để nhận báo giá theo số lượng.',
+      },
+      {
+        q: 'Lắp cabin có phải khoan đục hay xin phép toà nhà không?',
+        a: 'Cabin được lắp ghép tại chỗ và đặt trên sàn, không can thiệp kết cấu nên thường không cần xin phép cải tạo. Tuy nhiên bạn vẫn nên báo ban quản lý toà nhà về việc vận chuyển thiết bị lớn và tải trọng sàn tại vị trí đặt.',
+      },
+      {
+        q: 'Bên trong cabin có bí không khi ngồi lâu?',
+        a: 'Phụ thuộc hoàn toàn vào hệ thống thông gió. Cabin tốt có quạt cấp và hút khí hoạt động êm, giúp ngồi 30–60 phút vẫn thoải mái. Đây là câu nên hỏi kỹ trước khi mua, vì cabin thông gió kém thường bị nhân viên bỏ không sau vài tuần.',
+      },
+      {
+        q: 'Cabin có chuyển được sang văn phòng mới không?',
+        a: 'Có — đây là ưu điểm lớn nhất so với xây phòng kín. Cabin tháo rời và lắp lại tại địa điểm mới. Nên hỏi trước về quy trình và chi phí di dời để chủ động khi hết hạn hợp đồng thuê văn phòng.',
+      },
+      {
+        q: 'Một văn phòng nên có bao nhiêu cabin?',
+        a: 'Tham khảo phổ biến là một cabin cho mỗi 15–25 nhân sự làm việc trong không gian mở, tuỳ đặc thù công việc. Công ty có nhiều cuộc gọi khách hàng hoặc họp trực tuyến sẽ cần tỉ lệ cao hơn. Nếu gửi sơ đồ mặt bằng và số nhân sự, OFINA có thể đề xuất số lượng và vị trí đặt.',
+      },
+      {
+        q: 'Thời gian giao và lắp đặt mất bao lâu?',
+        a: 'Với mẫu có sẵn, thời gian giao trong nội thành Hà Nội và TP.HCM thường tính bằng ngày; việc lắp đặt tại chỗ thường hoàn tất trong vài giờ. Hãy xác nhận tình trạng hàng và lịch lắp cụ thể khi đặt, đặc biệt nếu bạn cần cabin cho một mốc thời gian cố định.',
+      },
+    ],
+  },
 }
 
 export function getCategoryContent(slug: string): CategoryContent | null {

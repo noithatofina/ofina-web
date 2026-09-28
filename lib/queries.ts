@@ -10,6 +10,7 @@
  */
 
 import type { Product, Category } from './supabase'
+import { unstable_cache } from 'next/cache'
 import { createPublicSupabase } from './supabase-public'
 import { publicImageUrl } from './image-url'
 import type { CollectionFilter } from './collections'
@@ -231,18 +232,43 @@ export async function getCollectionProducts(
   return { products: (data || []).map(mapProduct), total: count || 0 }
 }
 
-export async function getProductBySlug(slug: string) {
-  if (!USE_SUPABASE) {
-    return SAMPLE_PRODUCTS.find(p => p.slug === slug) || null
-  }
+/**
+ * Trang sản phẩm chi tiết là 2.664 URL — nếu mỗi lượt Googlebot cào đều
+ * truy vấn DB thì trang trả no-store, CDN luôn MISS và ngân sách cào bị
+ * bào mòn. Bọc unstable_cache (cách đã dùng cho site-settings) để route
+ * được prerender + ISR. Sửa sản phẩm trong /admin có gọi /api/revalidate
+ * nên vẫn hiện ngay.
+ */
+const PRODUCT_CACHE_TTL = 3600
+
+async function fetchProductBySlug(slug: string) {
   const supabase = createPublicSupabase()
   const { data } = await supabase.from('products').select(PRODUCT_SELECT).eq('slug', slug).eq('status', 'active').maybeSingle()
   return mapProduct(data)
 }
 
+export async function getProductBySlug(slug: string) {
+  if (!USE_SUPABASE) {
+    return SAMPLE_PRODUCTS.find(p => p.slug === slug) || null
+  }
+  return unstable_cache(
+    () => fetchProductBySlug(slug),
+    ['product-by-slug', slug],
+    { revalidate: PRODUCT_CACHE_TTL, tags: ['products'] },
+  )()
+}
+
 export async function getRelatedProducts(opts: { productId: string; categoryId?: string | null; limit?: number }) {
   const { productId, categoryId, limit = 8 } = opts
   if (!USE_SUPABASE) return SAMPLE_PRODUCTS.slice(0, limit)
+  return unstable_cache(
+    () => fetchRelatedProducts(productId, categoryId, limit),
+    ['related-products', productId, String(categoryId), String(limit)],
+    { revalidate: PRODUCT_CACHE_TTL, tags: ['products'] },
+  )()
+}
+
+async function fetchRelatedProducts(productId: string, categoryId: string | null | undefined, limit: number) {
   const supabase = createPublicSupabase()
 
   let q = supabase
@@ -261,9 +287,15 @@ export async function getRelatedProducts(opts: { productId: string; categoryId?:
 
 export async function getCategoryById(id: string) {
   if (!USE_SUPABASE) return null
-  const supabase = createPublicSupabase()
-  const { data } = await supabase.from('categories').select('id, slug, name').eq('id', id).maybeSingle()
-  return data
+  return unstable_cache(
+    async () => {
+      const supabase = createPublicSupabase()
+      const { data } = await supabase.from('categories').select('id, slug, name').eq('id', id).maybeSingle()
+      return data
+    },
+    ['category-by-id', id],
+    { revalidate: PRODUCT_CACHE_TTL, tags: ['categories'] },
+  )()
 }
 
 export async function getNewProductsByCategory(categorySlugs: string[], limit = 8) {

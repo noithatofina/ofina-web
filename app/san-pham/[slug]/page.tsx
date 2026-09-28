@@ -19,6 +19,29 @@ import {
 
 export const revalidate = 3600
 
+/**
+ * Prerender sẵn một phần trang sản phẩm để Next xếp route này vào nhóm
+ * được đệm (ISR) thay vì render theo yêu cầu mỗi lượt. Không dựng sẵn cả
+ * 2.664 trang vì build sẽ rất lâu — phần còn lại sinh ở lần truy cập đầu
+ * rồi được đệm lại, nhờ dynamicParams mặc định bật.
+ */
+export async function generateStaticParams() {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return []
+  try {
+    const { createPublicSupabase } = await import('@/lib/supabase-public')
+    const { data } = await createPublicSupabase()
+      .from('products')
+      .select('slug')
+      .eq('status', 'active')
+      .gt('price', 0)
+      .order('created_at', { ascending: false })
+      .limit(100)
+    return (data || []).map((p: { slug: string }) => ({ slug: p.slug }))
+  } catch {
+    return []
+  }
+}
+
 interface Props {
   params: Promise<{ slug: string }>
 }

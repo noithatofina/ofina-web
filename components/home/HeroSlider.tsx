@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 
 type Slide = {
@@ -16,8 +15,8 @@ type Slide = {
   bgPosition?: string
 }
 
-// qua proxy /img: Supabase Storage gắn x-robots-tag: none nên ảnh bị chặn index
-const STORAGE = '/img/branding/hero-slider'
+// ảnh hero WebP nằm trong public/ — phục vụ thẳng từ CDN Vercel, không qua Supabase
+const STORAGE = '/hero'
 
 /**
  * 5 slide. Ảnh CHỈ làm background, không có chữ trong ảnh.
@@ -25,7 +24,7 @@ const STORAGE = '/img/branding/hero-slider'
  */
 const SLIDES: Slide[] = [
   {
-    image: `${STORAGE}/noi-that-van-phong-cao-cap-ofina.png`,
+    image: `${STORAGE}/noi-that-van-phong-cao-cap-ofina`,
     alt: 'Nội thất văn phòng cao cấp — phòng giám đốc OFINA với view thành phố',
     title: 'Nội thất văn phòng chuẩn',
     subtitle: 'Ghế công thái học, ghế giám đốc, bàn làm việc và giải pháp cho cá nhân, doanh nghiệp, dự án.',
@@ -33,7 +32,7 @@ const SLIDES: Slide[] = [
     ctaHref: '/san-pham',
   },
   {
-    image: `${STORAGE}/ghe-cong-thai-hoc-da-mau-ofina.png`,
+    image: `${STORAGE}/ghe-cong-thai-hoc-da-mau-ofina`,
     alt: 'Ghế công thái học đa màu — xanh mint, xám, đen — OFINA',
     title: 'Ghế công thái học',
     subtitle: 'Đa dạng phong cách và màu sắc — bảo vệ cột sống cho dân văn phòng ngồi 8+ giờ/ngày.',
@@ -41,7 +40,7 @@ const SLIDES: Slide[] = [
     ctaHref: '/danh-muc/ghe-cong-thai-hoc',
   },
   {
-    image: `${STORAGE}/ghe-giam-doc-van-phong-cao-cap-ofina.png`,
+    image: `${STORAGE}/ghe-giam-doc-van-phong-cao-cap-ofina`,
     alt: 'Ghế giám đốc cao cấp — đẳng cấp phòng giám đốc — OFINA',
     title: 'Ghế giám đốc cao cấp',
     subtitle: 'Da chính hãng, khung bền — đẳng cấp sang trọng cho phòng giám đốc.',
@@ -49,7 +48,7 @@ const SLIDES: Slide[] = [
     ctaHref: '/danh-muc/ghe-da-giam-doc',
   },
   {
-    image: `${STORAGE}/giai-phap-noi-that-van-phong-ofina.png`,
+    image: `${STORAGE}/giai-phap-noi-that-van-phong-ofina`,
     alt: 'Đủ giải pháp nội thất văn phòng cho doanh nghiệp — collage không gian OFINA',
     title: 'Đủ giải pháp cho doanh nghiệp',
     subtitle: 'Bàn làm việc, tủ kệ, sofa văn phòng đồng bộ cho dự án và setup văn phòng quy mô.',
@@ -57,7 +56,7 @@ const SLIDES: Slide[] = [
     ctaHref: '/bao-gia-b2b',
   },
   {
-    image: `${STORAGE}/phong-hop-noi-that-doanh-nghiep-ofina.png`,
+    image: `${STORAGE}/phong-hop-noi-that-doanh-nghiep-ofina`,
     alt: 'Phòng họp nội thất cao cấp cho doanh nghiệp — OFINA',
     title: 'Phòng họp cao cấp',
     subtitle: 'Bàn họp, ghế hội nghị và không gian phòng họp chuyên nghiệp cho doanh nghiệp hiện đại.',
@@ -119,14 +118,17 @@ export function HeroSlider() {
           aria-hidden={i !== index}
         >
           {/* Layer 1: Background image */}
-          <Image
-            src={slide.image}
-            alt={slide.alt}
-            fill
+          <img
+            src={`${slide.image}.webp`}
+            srcSet={`${slide.image}-m.webp 828w, ${slide.image}.webp 1672w`}
             sizes="100vw"
-            priority={i === 0}
-            unoptimized
-            className="object-cover"
+            alt={slide.alt}
+            width={1672}
+            height={941}
+            fetchPriority={i === 0 ? 'high' : undefined}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding={i === 0 ? 'sync' : 'async'}
+            className="absolute inset-0 w-full h-full object-cover"
             style={{ objectPosition: slide.bgPosition || 'center right' }}
           />
 

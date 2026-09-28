@@ -7,6 +7,7 @@ import { CategoryMobileFilter } from '@/components/product/CategoryMobileFilter'
 import { getProductsByCategory, getCategoryInfo } from '@/lib/queries'
 import { ChevronRight } from 'lucide-react'
 import { CONTACT } from '@/lib/utils'
+import { publicImageUrl } from '@/lib/image-url'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       url: `https://ofina.vn/danh-muc/${slug}`,
       images: [{
-        url: cat?.image || 'https://ofina.vn/logo.png',
+        url: publicImageUrl(cat?.image) || 'https://ofina.vn/logo.png',
         width: 800,
         height: 800,
         alt: name,

@@ -8,6 +8,7 @@ import { getProductsByCategory, getCategoryInfo } from '@/lib/queries'
 import { ChevronRight } from 'lucide-react'
 import { CONTACT } from '@/lib/utils'
 import { publicImageUrl } from '@/lib/image-url'
+import { getCategoryContent } from '@/lib/category-content'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -66,8 +67,57 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE))
   const pageNumbers = getPageNumbers(currentPage, totalPages)
 
+  const content = getCategoryContent(slug)
+  const SITE_URL = 'https://ofina.vn'
+  const catUrl = `${SITE_URL}/danh-muc/${slug}`
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Sản phẩm', item: `${SITE_URL}/san-pham` },
+      { '@type': 'ListItem', position: 3, name: cat.name, item: catUrl },
+    ],
+  }
+
+  const collectionLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: cat.name,
+    url: catUrl,
+    inLanguage: 'vi-VN',
+    isPartOf: { '@type': 'WebSite', name: 'OFINA', url: SITE_URL },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: total,
+      itemListElement: products.slice(0, 24).map((p: any, i: number) => ({
+        '@type': 'ListItem',
+        position: (currentPage - 1) * PER_PAGE + i + 1,
+        url: `${SITE_URL}/san-pham/${p.slug}`,
+        name: p.name,
+      })),
+    },
+  }
+
+  const faqLd = content?.faqs.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: content.faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }
+    : null
+
   return (
     <div className="container-custom py-5 md:py-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }} />
+      {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
+
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-[12px] md:text-sm text-gray-500 mb-3 md:mb-6 flex-wrap">
         <Link href="/" className="hover:text-[#155EEF]">Trang chủ</Link>
@@ -86,6 +136,12 @@ export default async function CategoryPage({ params, searchParams }: Props) {
           <strong className="text-gray-900">{total.toLocaleString('vi-VN')}</strong> sản phẩm
           <span className="hidden md:inline"> · Giao hàng toàn quốc · Bảo hành chính hãng</span>
         </p>
+        {content && (
+          <div
+            className="blog-content mt-4 md:mt-5 max-w-3xl text-[14px] md:text-base text-gray-700"
+            dangerouslySetInnerHTML={{ __html: content.intro }}
+          />
+        )}
       </div>
 
       <div className="grid lg:grid-cols-[280px_1fr] gap-8">
@@ -174,6 +230,39 @@ export default async function CategoryPage({ params, searchParams }: Props) {
           )}
         </div>
       </div>
+
+      {content && (
+        <div className="mt-12 md:mt-16 max-w-3xl">
+          {content.sections.map((sec, i) => (
+            <section key={i} className="mb-8">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{sec.h2}</h2>
+              <div
+                className="blog-content text-[14px] md:text-base text-gray-700"
+                dangerouslySetInnerHTML={{ __html: sec.body }}
+              />
+            </section>
+          ))}
+
+          {content.faqs.length > 0 && (
+            <section className="mt-10">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+                Câu hỏi thường gặp về {cat.name.toLowerCase()}
+              </h2>
+              <div className="space-y-3">
+                {content.faqs.map((f, i) => (
+                  <details key={i} className="group border border-[#E5EAF1] rounded-xl bg-white p-4">
+                    <summary className="cursor-pointer list-none font-semibold text-gray-900 flex items-start justify-between gap-3">
+                      <span>{f.q}</span>
+                      <ChevronRight className="w-4 h-4 mt-1 flex-shrink-0 text-gray-400 transition-transform group-open:rotate-90" />
+                    </summary>
+                    <p className="mt-3 text-[14px] md:text-base text-gray-700 leading-relaxed">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
     </div>
   )
 }

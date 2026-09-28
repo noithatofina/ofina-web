@@ -17,21 +17,27 @@ interface Props {
 
 export const revalidate = 3600
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { slug } = await params
+  const sp = await searchParams
+  const page = Math.max(1, parseInt(sp.page || '1', 10))
   const cat = await getCategoryInfo(slug)
   const name = cat?.name || slug.replace(/-/g, ' ')
-  const title = `${name} — chính hãng, giá tốt | OFINA`
+  // Trang 2+ phải tự khai canonical của chính nó, nếu không Google coi
+  // chúng là bản sao trang 1 và bỏ qua toàn bộ sản phẩm ở các trang sau.
+  const pageSuffix = page > 1 ? ` — trang ${page}` : ''
+  const canonical = page > 1 ? `/danh-muc/${slug}?page=${page}` : `/danh-muc/${slug}`
+  const title = `${name}${pageSuffix} — chính hãng, giá tốt | OFINA`
   const description = `${name} tại OFINA — đa dạng mẫu, giá cạnh tranh, bảo hành 24 tháng. Miễn phí giao Hà Nội & TP.HCM, lắp đặt tận nơi, trả góp 0%. Hotline HN ${CONTACT.hotline} · HCM ${CONTACT.branches[1].phones[0]}.`
   return {
     title: { absolute: title }, // bypass layout template
     description,
-    alternates: { canonical: `/danh-muc/${slug}` },
+    alternates: { canonical },
     openGraph: {
       type: 'website',
       title,
       description,
-      url: `https://ofina.vn/danh-muc/${slug}`,
+      url: `https://ofina.vn${canonical}`,
       images: [{
         url: publicImageUrl(cat?.image) || 'https://ofina.vn/logo.png',
         width: 800,

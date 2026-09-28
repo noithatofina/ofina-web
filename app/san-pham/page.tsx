@@ -8,6 +8,8 @@ export const metadata = {
   description: 'Danh sách tất cả sản phẩm nội thất văn phòng tại OFINA.',
 }
 
+export const revalidate = 3600
+
 const PER_PAGE = 24
 
 export default async function AllProductsPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {

@@ -17,6 +17,8 @@ import {
   FaqAccordion,
 } from '@/components/product/ProductDescription'
 
+export const revalidate = 3600
+
 interface Props {
   params: Promise<{ slug: string }>
 }

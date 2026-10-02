@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight, Shield, Truck, RefreshCw, Phone, MessageCircle, Award, BadgeCheck, Sparkles } from 'lucide-react'
+import { ChevronRight, Shield, Truck, RefreshCw, Phone, MessageCircle, Award, BadgeCheck, Sparkles, FileCheck } from 'lucide-react'
 import { getProductBySlug, getRelatedProducts, getCategoryById } from '@/lib/queries'
 import { formatPrice, calcDiscountPercent, CONTACT } from '@/lib/utils'
 import { findVariantGroup } from '@/lib/variant-groups'
@@ -301,14 +301,22 @@ export default async function ProductPage({ params }: Props) {
               primary_image: mainImage,
             }} />
 
-            {/* Trust signals */}
+            {/* Trust signals — hàng giá trị lớn không giao theo lịch bán lẻ */}
             <div className="grid grid-cols-2 gap-3 mb-6">
-              {[
-                { icon: Truck, title: 'Giao 2-3 ngày', desc: 'Miễn phí HN/HCM' },
-                { icon: Shield, title: 'Bảo hành 24 tháng', desc: '1 đổi 1 nếu lỗi' },
-                { icon: RefreshCw, title: 'Đổi trả 7 ngày', desc: 'Không cần lý do' },
-                { icon: Award, title: 'Lắp đặt miễn phí', desc: 'Nội thành HN/HCM' },
-              ].map((item) => (
+              {(isHighValue
+                ? [
+                    { icon: Truck, title: 'Giao và lắp tận nơi', desc: 'Miễn phí với đơn lớn' },
+                    { icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Khung và kết cấu' },
+                    { icon: FileCheck, title: 'Hoá đơn VAT', desc: 'Đầy đủ cho doanh nghiệp' },
+                    { icon: Award, title: 'Khảo sát mặt bằng', desc: 'Trước khi chốt đơn' },
+                  ]
+                : [
+                    { icon: Truck, title: 'Giao 2-3 ngày', desc: 'Miễn phí HN/HCM' },
+                    { icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Khung và phần gỗ' },
+                    { icon: RefreshCw, title: 'Đổi trả 7 ngày', desc: 'Theo chính sách' },
+                    { icon: Award, title: 'Lắp đặt miễn phí', desc: 'Nội thành HN/HCM' },
+                  ]
+              ).map((item) => (
                 <div key={item.title} className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
                   <item.icon className="w-5 h-5 text-brand-900 flex-shrink-0 mt-0.5" />
                   <div className="min-w-0">

@@ -7,7 +7,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Showroom OFINA — Hà Nội & TP.HCM | Nội Thất Văn Phòng' },
-  description: 'Ghé 2 showroom OFINA tại 135 K2 Phú Đô (Hà Nội) và 36 Lương Định Của Q2 (TP.HCM) để trải nghiệm trực tiếp 2,400+ sản phẩm nội thất văn phòng. Mở 8h-18h hàng ngày.',
+  description: 'Ghé 2 showroom OFINA tại 135 K2 Phú Đô (Hà Nội) và 36 Lương Định Của Q2 (TP.HCM) để trải nghiệm trực tiếp 2.664 sản phẩm nội thất văn phòng. Mở 8h-18h hàng ngày.',
   alternates: { canonical: '/showroom' },
 }
 

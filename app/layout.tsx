@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     default: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng',
     template: '%s | OFINA'
   },
-  description: 'OFINA cung cấp 2,400+ sản phẩm nội thất văn phòng chính hãng: ghế công thái học, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
+  description: 'OFINA cung cấp 2.664 sản phẩm nội thất văn phòng: ghế công thái học, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
   keywords: ['nội thất văn phòng', 'ghế văn phòng', 'ghế công thái học', 'bàn làm việc', 'tủ hồ sơ', 'sofa văn phòng', 'nội thất văn phòng giá rẻ', 'OFINA'],
   authors: [{ name: 'OFINA' }],
   metadataBase: new URL(SITE_URL),
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: 'OFINA',
     title: 'OFINA — Nội Thất Văn Phòng Cao Cấp Cho Doanh Nghiệp Việt',
-    description: '2,400+ sản phẩm nội thất văn phòng chính hãng — bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
+    description: '2.664 sản phẩm nội thất văn phòng — bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'OFINA Nội thất văn phòng' }],
   },
   twitter: {

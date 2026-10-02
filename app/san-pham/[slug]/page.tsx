@@ -48,6 +48,13 @@ interface Props {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
+/**
+ * Trên ngưỡng này thì điều khoản bán lẻ không còn đúng: hàng đóng theo đơn,
+ * lắp đặt tại chỗ, phải khảo sát mặt bằng trước khi giao. Đo ngày 02/10/2026:
+ * 142 trong 2.664 sản phẩm đang bán nằm trên ngưỡng, gồm toàn bộ 11 cabin cách âm.
+ */
+const HIGH_VALUE_THRESHOLD = 20_000_000
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const product = await getProductBySlug(slug)
@@ -87,6 +94,9 @@ export default async function ProductPage({ params }: Props) {
   const highlights = meta.highlights || []
   const specs = meta.specs || {}
   const faq = meta.faq || []
+
+  /** Hàng giá trị lớn dùng điều khoản khác: đóng theo đơn, lắp tại chỗ, cần khảo sát mặt bằng. */
+  const isHighValue = price >= HIGH_VALUE_THRESHOLD
 
   const category = product.category_id ? await getCategoryById(product.category_id) : null
   const variantGroup = findVariantGroup(product.slug)
@@ -360,27 +370,49 @@ export default async function ProductPage({ params }: Props) {
           </section>
         )}
 
-        {/* Bảo hành & Vận chuyển */}
+        {/* Bảo hành & Vận chuyển.
+            Điều khoản bán lẻ (đổi trả 7 ngày, ship 100k-500k, giao 1-2 ngày) không áp
+            được cho hàng giá trị lớn như cabin cách âm 89-231tr: hàng đóng theo đơn,
+            lắp đặt tại chỗ, cần khảo sát mặt bằng. 142/2.664 sản phẩm thuộc nhóm này. */}
         <section id="bao-hanh" className="bg-white rounded-2xl border p-6 md:p-10 mb-10 scroll-mt-32">
           <h2 className="text-xl md:text-2xl font-bold mb-6 text-brand-950">Bảo hành & Vận chuyển</h2>
           <div className="grid md:grid-cols-2 gap-6 text-gray-700">
             <div>
               <h3 className="font-bold text-brand-900 mb-2 flex items-center gap-2"><Shield className="w-5 h-5" /> Chính sách bảo hành</h3>
               <ul className="space-y-1.5 text-sm list-disc list-outside ml-5">
-                <li>Bảo hành <strong>24 tháng</strong> chính hãng từ ngày mua</li>
+                <li>Khung kim loại và phần gỗ: bảo hành <strong>24 tháng</strong></li>
+                <li>Đệm mút, da, nỉ, cơ xoay, piston: bảo hành <strong>12 tháng</strong></li>
                 <li>1 đổi 1 nếu lỗi do nhà sản xuất trong 30 ngày đầu</li>
-                <li>Sửa chữa miễn phí tại nhà (nội thành HN & HCM)</li>
-                <li>Đổi trả miễn phí trong 7 ngày, không cần lý do</li>
+                {isHighValue ? (
+                  <li>Hạng mục lắp đặt tại chỗ: bảo trì tại nơi sử dụng, xem{' '}
+                    <Link href="/chinh-sach/doi-tra" className="text-brand-900 underline">chính sách đổi trả</Link> để biết điều kiện áp dụng</li>
+                ) : (
+                  <>
+                    <li>Sửa chữa miễn phí tại nhà (nội thành HN &amp; HCM)</li>
+                    <li>Đổi trả trong 7 ngày theo{' '}
+                      <Link href="/chinh-sach/doi-tra" className="text-brand-900 underline">chính sách đổi trả</Link></li>
+                  </>
+                )}
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-brand-900 mb-2 flex items-center gap-2"><Truck className="w-5 h-5" /> Vận chuyển & Lắp đặt</h3>
-              <ul className="space-y-1.5 text-sm list-disc list-outside ml-5">
-                <li><strong>Miễn phí</strong> giao hàng + lắp đặt nội thành HN/HCM (đơn từ 500k)</li>
-                <li>Ngoại thành: phí 50k–200k tuỳ khu vực</li>
-                <li>Toàn quốc: 100k–500k qua đơn vị vận chuyển</li>
-                <li>Thời gian giao: 1-2 ngày HN/HCM, 3-7 ngày tỉnh khác</li>
-              </ul>
+              {isHighValue ? (
+                <ul className="space-y-1.5 text-sm list-disc list-outside ml-5">
+                  <li><strong>Miễn phí</strong> vận chuyển và lắp đặt tận nơi</li>
+                  <li>Khảo sát mặt bằng trước khi giao: lối vào, chiều cao trần và thang máy quyết định cấu kiện đưa vào được hay không</li>
+                  <li>Thời gian giao thống nhất khi chốt đơn — hạng mục này không giao theo lịch bán lẻ</li>
+                  <li>Xuất hoá đơn VAT đầy đủ, nhận{' '}
+                    <Link href="/bao-gia-b2b" className="text-brand-900 underline">báo giá theo số lượng</Link> nếu mua nhiều</li>
+                </ul>
+              ) : (
+                <ul className="space-y-1.5 text-sm list-disc list-outside ml-5">
+                  <li><strong>Miễn phí</strong> giao hàng + lắp đặt nội thành HN/HCM (đơn từ 500k)</li>
+                  <li>Ngoại thành: phí 50k–200k tuỳ khu vực</li>
+                  <li>Toàn quốc: 100k–500k qua đơn vị vận chuyển</li>
+                  <li>Thời gian giao: 1-2 ngày HN/HCM, 3-7 ngày tỉnh khác</li>
+                </ul>
+              )}
             </div>
           </div>
         </section>

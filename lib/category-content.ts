@@ -569,14 +569,18 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
       {
         h2: 'Hiểu đúng con số cách âm trước khi so sánh giá',
         body:
-          '<p>Mức cách âm được tính bằng decibel (dB) giảm được so với bên ngoài. Khoảng cách giữa các sản phẩm trên thị trường <strong>rất lớn — từ khoảng 15 dB đến 40 dB</strong> — và chênh lệch đó đến từ cấu tạo vách chứ không phải từ giá:</p>' +
-          '<ul>' +
-          '<li><strong>Giảm khoảng 15–20 dB:</strong> thường là cabin vách một lớp. Chặn bớt tiếng ồn nền nhưng người bên ngoài vẫn nghe loáng thoáng được nội dung. Chỉ hợp khi cần giảm ồn, không phải khi cần riêng tư.</li>' +
-          '<li><strong>Giảm 25–30 dB:</strong> tiếng nói bên ngoài còn nghe lờ mờ nhưng không rõ từ. Đủ cho gọi điện và họp trực tuyến thông thường.</li>' +
-          '<li><strong>Giảm 35–40 dB:</strong> gần như tách biệt hẳn. Đây là mức của cabin vách nhiều lớp (khung thép, bông tiêu âm, ván tiêu âm, tấm polyester) — cần thiết khi đặt sát khu vực đông người hoặc dùng để phỏng vấn, ghi âm.</li>' +
-          '</ul>' +
-          '<p>Lưu ý quan trọng: cách âm là <strong>hai chiều</strong>. Người bên ngoài cũng không nghe được nội dung bên trong — đây mới là lý do chính khiến bộ phận nhân sự, pháp chế và ban giám đốc cần cabin thay vì chỉ một góc yên tĩnh.</p>' +
-          '<p><strong>Khi hỏi giá, hãy hỏi luôn vách gồm mấy lớp và vật liệu gì</strong>, kèm điều kiện đo ra con số dB. Hai cabin cùng tầm giá có thể chênh nhau tới 20 dB — khác biệt giữa “vẫn nghe thấy loáng thoáng” và “không nghe được gì”.</p>',
+          '<p>Có một tiêu chuẩn quốc tế dành riêng cho buồng cách âm văn phòng: <strong>ISO 23351-1:2020</strong>. Tiêu chuẩn này không đo “cách âm” chung chung mà đo đúng thứ người mua quan tâm — <strong>mức giảm tiếng nói</strong> (ký hiệu DS,A): tiếng người nói bên trong lọt ra ngoài còn bao nhiêu. Kết quả được xếp hạng:</p>' +
+          '<table>' +
+          '<tr><th>Hạng</th><th>Mức giảm tiếng nói</th><th>Ý nghĩa thực tế</th></tr>' +
+          '<tr><td><strong>A</strong></td><td>trên 30 dB</td><td>Riêng tư gần như tuyệt đối, kể cả trong văn phòng yên tĩnh</td></tr>' +
+          '<tr><td><strong>B</strong></td><td>25–30 dB</td><td>Đủ riêng tư cho hầu hết văn phòng — mức được xem là cân bằng nhất giữa hiệu quả và chi phí</td></tr>' +
+          '<tr><td><strong>C</strong></td><td>20–25 dB</td><td>Chỉ đủ khi văn phòng vốn đã ồn; phòng yên thì bên ngoài vẫn nghe loáng thoáng</td></tr>' +
+          '<tr><td><strong>D</strong></td><td>15–20 dB</td><td>Giảm ồn là chính, không đảm bảo riêng tư</td></tr>' +
+          '</table>' +
+          '<p>Mốc cần nhớ: <strong>khoảng 25 dB là ngưỡng tối thiểu để có riêng tư lời nói</strong> trong một văn phòng bình thường. Dưới mức đó, cabin chỉ giúp bớt ồn chứ không giúp giữ kín nội dung cuộc gọi.</p>' +
+          '<p><strong>Một lưu ý dễ bị đánh lừa:</strong> nhiều bảng thông số ghi con số cách âm rất cao (35–40 dB) nhưng đó là mức cách âm chung đo trong phòng thí nghiệm, không phải mức giảm tiếng nói DS,A theo ISO 23351-1. Hai con số khác nhau. Khi so sánh sản phẩm, hãy hỏi thẳng: <em>“Cabin này đạt hạng mấy theo ISO 23351-1, và có chứng nhận đo không?”</em> — câu hỏi đó lọc được rất nhanh giữa hàng có kiểm định và hàng chỉ nói miệng.</p>' +
+          '<p>Mức cách âm đến từ cấu tạo vách chứ không phải từ giá. Vách một lớp ván tiêu âm cho kết quả thấp; vách nhiều lớp (khung thép, bông tiêu âm, ván tiêu âm, tấm sợi polyester) mới đạt hạng cao. Vì vậy khi hỏi giá, hãy hỏi luôn <strong>vách gồm mấy lớp và vật liệu từng lớp</strong>.</p>' +
+          '<p>Lưu ý cuối: cách âm là <strong>hai chiều</strong>. Người bên ngoài cũng không nghe được nội dung bên trong — đây mới là lý do bộ phận nhân sự, pháp chế và ban giám đốc cần cabin thay vì chỉ một góc yên tĩnh.</p>',
       },
       {
         h2: 'Chọn kích cỡ theo cách dùng thực tế',

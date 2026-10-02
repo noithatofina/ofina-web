@@ -583,15 +583,37 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
           '<p>Lưu ý cuối: cách âm là <strong>hai chiều</strong>. Người bên ngoài cũng không nghe được nội dung bên trong — đây mới là lý do bộ phận nhân sự, pháp chế và ban giám đốc cần cabin thay vì chỉ một góc yên tĩnh.</p>',
       },
       {
-        h2: 'Chọn kích cỡ theo cách dùng thực tế',
+        h2: 'So 11 mẫu Silence Booth theo số chỗ ngồi',
         body:
-          '<p>Dòng Silence Booth ký hiệu cỡ ngay trong mã sản phẩm — S, M, SL, L, XL. Cách chọn theo nhu cầu:</p>' +
+          '<p>Chọn sai cỡ là cách nhanh nhất để cabin bị bỏ không. Bảng dưới xếp đủ 11 mẫu OFINA đang bán theo giá, kèm cấu hình nội thất giao theo máy — <strong>đọc trực tiếp từ ảnh sản phẩm của từng mẫu</strong>:</p>' +
+          '<table>' +
+          '<tr><th>Mẫu</th><th>Giá</th><th>Chỗ ngồi</th><th>Nội thất kèm theo</th></tr>' +
+          '<tr><td><strong>SN-01S</strong></td><td>88,91tr</td><td>1 người</td><td>Ghế cao + kệ làm việc hẹp</td></tr>' +
+          '<tr><td><strong>SN-02M</strong></td><td>114,18tr</td><td>1 người</td><td>Bàn làm việc + 1 ghế xoay</td></tr>' +
+          '<tr><td><strong>ZUM-01S</strong></td><td>114,23tr</td><td>1 người</td><td>Ghế cao + kệ tròn</td></tr>' +
+          '<tr><td><strong>SN-03SL</strong></td><td>131,04tr</td><td>2 người</td><td>2 băng ghế đối diện + bàn tròn</td></tr>' +
+          '<tr><td><strong>SN-04L</strong></td><td>140,04tr</td><td>4 người</td><td>2 băng sofa đối diện + bàn giữa</td></tr>' +
+          '<tr><td><strong>ZB-01P</strong></td><td>140,72tr</td><td>1 người</td><td>Ghế cao + kệ làm việc</td></tr>' +
+          '<tr><td><strong>ZUM-02M</strong></td><td>143,81tr</td><td>1–2 người</td><td>Đôn ngồi + bàn cao</td></tr>' +
+          '<tr><td><strong>ZB-03SL</strong></td><td>159,19tr</td><td>2 người</td><td>2 ghế đơn đối diện + bàn tròn</td></tr>' +
+          '<tr><td><strong>ZB-04L</strong></td><td>179,10tr</td><td>4 người</td><td>2 băng sofa đối diện + bàn giữa</td></tr>' +
+          '<tr><td><strong>SN-05XL</strong></td><td>186,99tr</td><td>4 người</td><td>Bàn tròn + 4 ghế xoay</td></tr>' +
+          '<tr><td><strong>ZB-05XL</strong></td><td>231,20tr</td><td>6 người</td><td>Bàn họp dài + 6 ghế xoay</td></tr>' +
+          '</table>' +
+          '<p><strong>Ba điều rút ra từ bảng.</strong> Thứ nhất, giá không đi đôi với số chỗ: ZB-01P 140,72tr chỉ một chỗ, trong khi SN-04L rẻ hơn một chút lại được bốn chỗ — chênh lệch nằm ở cấu tạo vách và phụ kiện, nên phải so bảng thông số chứ đừng so giá. Thứ hai, ba dòng SN, ZB và ZUM có mẫu trùng mã cỡ mà khác giá (SN-01S 88,91tr và ZUM-01S 114,23tr cùng là một chỗ). Thứ ba, mọi mẫu đều có đèn báo trạng thái xanh ở góc nóc, đèn LED gắn trần, khe thông gió ở mép trên vách sau, và <strong>8 màu lớp trong</strong> để chọn.</p>' +
+          '<p><strong>Kinh nghiệm bố trí:</strong> đừng chọn cỡ lớn nhất nếu 90% nhu cầu là gọi điện một mình. Hai cabin một chỗ phục vụ được nhiều lượt hơn một cabin bốn chỗ với cùng ngân sách.</p>',
+      },
+      {
+        h2: 'Áng diện tích sàn cần chừa',
+        body:
+          '<p>Trước khi hỏi giá, nên biết cabin sẽ chiếm bao nhiêu sàn. Các con số dưới đây là <strong>mức thường gặp của buồng cách âm văn phòng trên thị trường</strong> — dùng để áng chỗ khi vẽ mặt bằng, <em>không phải thông số của sản phẩm OFINA</em>; kích thước chính xác từng mẫu OFINA gửi kèm báo giá:</p>' +
           '<ul>' +
-          '<li><strong>Cỡ S:</strong> một người đứng hoặc ngồi ghế nhỏ, dùng cho cuộc gọi ngắn. Chiếm ít diện tích nhất, hợp văn phòng chật.</li>' +
-          '<li><strong>Cỡ M:</strong> một người ngồi làm việc thoải mái với laptop, hoặc hai người trao đổi nhanh.</li>' +
-          '<li><strong>Cỡ L và XL:</strong> họp nhóm nhỏ 3–6 người, phỏng vấn có hội đồng, hoặc làm phòng họp phụ khi phòng họp chính kín lịch.</li>' +
+          '<li><strong>Buồng 1 người:</strong> thường khoảng 1,3 × 1,2 m phủ bì, cao 2,2 m — chừng 1,6 m² sàn.</li>' +
+          '<li><strong>Buồng 2–4 người:</strong> thường khoảng 1,8 × 1,5 m, cao 2,3 m — chừng 2,7 m² sàn.</li>' +
+          '<li><strong>Buồng 6 người:</strong> thường khoảng 1,8 × 1,8 m trở lên — từ 3,2 m² sàn.</li>' +
           '</ul>' +
-          '<p>Kinh nghiệm bố trí: đừng chọn cỡ lớn nhất nếu 90% nhu cầu là gọi điện một mình. Hai cabin cỡ S phục vụ được nhiều lượt hơn một cabin cỡ L với cùng ngân sách và diện tích.</p>',
+          '<p>Hai điều hay bị bỏ sót khi tính chỗ. Một, <strong>kích thước lòng trong nhỏ hơn phủ bì khoảng 10–17 cm mỗi chiều</strong> vì vách nhiều lớp — nên đừng lấy số phủ bì ra tính chỗ ngồi. Hai, phải chừa thêm khoảng mở cửa và lối đi phía trước, thực tế thường cộng thêm 0,8–1 m chiều sâu.</p>' +
+          '<p>Quan trọng không kém: đo lối vận chuyển. Chiều rộng cửa chính, chiều cao trần và kích thước lọt lòng thang máy quyết định cấu kiện có đưa lên được tầng của bạn hay không. Đây là lý do OFINA khảo sát mặt bằng trước khi chốt đơn cabin.</p>',
       },
       {
         h2: 'Bảy câu phải hỏi trước khi đặt cabin',

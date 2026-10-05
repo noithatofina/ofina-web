@@ -24,7 +24,7 @@ const beVietnam = Be_Vietnam_Pro({
 
 export const metadata: Metadata = {
   title: {
-    default: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng',
+    default: 'OFINA — Nội thất văn phòng cho doanh nghiệp',
     template: '%s | OFINA'
   },
   description: 'OFINA cung cấp 2.664 sản phẩm nội thất văn phòng: ghế công thái học, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao Hà Nội/HCM.',
@@ -60,7 +60,7 @@ const ORGANIZATION_LD = {
   name: 'OFINA',
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  description: 'Nội thất văn phòng cao cấp, chính hãng — ghế, bàn, tủ, sofa cho doanh nghiệp Việt Nam.',
+  description: 'Nội thất văn phòng cho doanh nghiệp Việt Nam — ghế, bàn, tủ, sofa, cabin cách âm.',
   contactPoint: [{
     '@type': 'ContactPoint',
     telephone: toE164(HN_PHONES[0]),

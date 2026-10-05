@@ -55,7 +55,7 @@ export const COLLECTIONS: CollectionDef[] = [
       HOTLINE,
     intro:
       '<p><strong>Ghế giám đốc cao cấp</strong> là điểm nhấn thể hiện đẳng cấp và gu thẩm mỹ của người lãnh đạo. OFINA tuyển chọn các mẫu ghế giám đốc bọc da thật, da công nghiệp cao cấp, lưng cao nâng đỡ toàn thân, cơ chế ngả tựa và tựa đầu êm ái — phù hợp cho phòng làm việc giám đốc, chủ tịch, phòng họp lãnh đạo.</p>' +
-      '<p>Mọi sản phẩm đều <strong>chính hãng, có hoá đơn VAT</strong>, bảo hành 24 tháng, miễn phí giao và lắp đặt tại Hà Nội & TP.HCM. Đội ngũ OFINA tư vấn chọn ghế theo chiều cao, cân nặng và phong cách nội thất phòng của bạn.</p>',
+      '<p>Mọi sản phẩm đều <strong>có hoá đơn VAT</strong>, bảo hành khung 24 tháng, miễn phí giao và lắp đặt tại Hà Nội & TP.HCM. Đội ngũ OFINA tư vấn chọn ghế theo chiều cao, cân nặng và phong cách nội thất phòng của bạn.</p>',
     faqs: [
       {
         q: 'Ghế giám đốc cao cấp giá bao nhiêu?',
@@ -102,12 +102,12 @@ export const COLLECTIONS: CollectionDef[] = [
   {
     slug: 'ghe-van-phong-gia-re',
     name: 'Ghế văn phòng giá rẻ dưới 2 triệu',
-    title: 'Ghế văn phòng giá rẻ dưới 2 triệu — chính hãng | OFINA',
+    title: 'Ghế văn phòng giá rẻ dưới 2 triệu | OFINA',
     metaDescription:
-      'Ghế văn phòng giá rẻ dưới 2 triệu tại OFINA: ghế xoay, ghế lưới, ghế nhân viên bền đẹp, chính hãng, bảo hành 24 tháng. Phù hợp trang bị số lượng lớn.',
+      'Ghế văn phòng giá rẻ dưới 2 triệu tại OFINA: ghế xoay, ghế lưới, ghế nhân viên bền đẹp, bảo hành khung 24 tháng. Phù hợp trang bị số lượng lớn.',
     intro:
       '<p><strong>Ghế văn phòng giá rẻ dưới 2 triệu</strong> là lựa chọn hợp lý để trang bị cho nhân viên, văn phòng startup hoặc góc làm việc tại nhà với ngân sách tiết kiệm. OFINA chọn lọc các mẫu ghế xoay, ghế lưới bền đẹp, kiểu dáng hiện đại nhưng giá phải chăng.</p>' +
-      '<p>Dù giá tốt, mọi sản phẩm vẫn <strong>chính hãng, bảo hành 24 tháng</strong>. Mua số lượng lớn cho văn phòng được hỗ trợ báo giá ưu đãi và giao lắp tận nơi — liên hệ ' + HOTLINE + '.</p>',
+      '<p>Dù giá tốt, mọi sản phẩm vẫn <strong>bảo hành khung 24 tháng</strong>. Mua số lượng lớn cho văn phòng được hỗ trợ báo giá ưu đãi và giao lắp tận nơi — liên hệ ' + HOTLINE + '.</p>',
     faqs: [
       {
         q: 'Ghế văn phòng giá rẻ có bền không?',
@@ -131,7 +131,7 @@ export const COLLECTIONS: CollectionDef[] = [
       'Ghế xoay văn phòng đa dạng mẫu mã tại OFINA: ghế xoay lưới, ghế xoay da, lưng trung, có tay vịn. Bền, êm, bảo hành 24 tháng, giao lắp tận nơi.',
     intro:
       '<p><strong>Ghế xoay văn phòng</strong> là dòng ghế thông dụng nhất cho mọi vị trí làm việc nhờ khả năng xoay linh hoạt, nâng hạ độ cao và di chuyển bằng bánh xe. OFINA cung cấp đa dạng mẫu: ghế xoay lưới thoáng, ghế xoay da lịch sự, lưng trung gọn gàng — phù hợp nhân viên, trưởng nhóm đến quản lý.</p>' +
-      '<p>Tất cả đều chính hãng, bảo hành 24 tháng, miễn phí giao lắp nội thành Hà Nội & TP.HCM.</p>',
+      '<p>Tất cả đều bảo hành khung 24 tháng, miễn phí giao lắp nội thành Hà Nội & TP.HCM.</p>',
     faqs: [
       {
         q: 'Ghế xoay văn phòng loại nào tốt nhất?',
@@ -153,7 +153,7 @@ export const COLLECTIONS: CollectionDef[] = [
       'Bàn giám đốc cao cấp tại OFINA: bàn lãnh đạo gỗ tự nhiên, chân sắt hiện đại, mặt rộng, đẳng cấp. Bảo hành 24 tháng, giao lắp tận nơi. Hotline ' + HOTLINE,
     intro:
       '<p><strong>Bàn giám đốc cao cấp</strong> tạo nên không gian làm việc uy nghi, chuyên nghiệp cho lãnh đạo doanh nghiệp. OFINA quy tụ các mẫu bàn giám đốc, bàn lãnh đạo với mặt bàn rộng rãi, thiết kế từ gỗ công nghiệp phủ veneer/melamine cao cấp đến chân sắt hiện đại, tích hợp hộc tủ tiện dụng.</p>' +
-      '<p>Sản phẩm chính hãng, hoá đơn VAT đầy đủ, bảo hành 24 tháng, giao và lắp đặt tận nơi tại Hà Nội & TP.HCM.</p>',
+      '<p>Hoá đơn VAT đầy đủ, bảo hành khung 24 tháng, giao và lắp đặt tận nơi tại Hà Nội & TP.HCM.</p>',
     faqs: [
       {
         q: 'Bàn giám đốc nên chọn kích thước bao nhiêu?',
@@ -171,10 +171,10 @@ export const COLLECTIONS: CollectionDef[] = [
     slug: 'ban-hop-van-phong',
     name: 'Bàn họp văn phòng',
     metaDescription:
-      'Bàn họp văn phòng tại OFINA: bàn họp lớn, bàn họp gỗ công nghiệp, chân sắt, nhiều kích thước cho 6–20 người. Chính hãng, bảo hành 24 tháng, giao lắp tận nơi.',
+      'Bàn họp văn phòng tại OFINA: bàn họp lớn, bàn họp gỗ công nghiệp, chân sắt, nhiều kích thước cho 6–20 người. Bảo hành khung 24 tháng, giao lắp tận nơi.',
     intro:
       '<p><strong>Bàn họp văn phòng</strong> là trung tâm của mọi cuộc họp và thảo luận. OFINA cung cấp đa dạng bàn họp: bàn họp lớn cho phòng họp 10–20 người, bàn họp gỗ công nghiệp, bàn họp chân sắt hiện đại — nhiều kích thước, kiểu dáng phù hợp từng quy mô doanh nghiệp.</p>' +
-      '<p>Tất cả chính hãng, bảo hành 24 tháng, hỗ trợ tư vấn bố trí phòng họp và giao lắp tận nơi.</p>',
+      '<p>Tất cả bảo hành khung 24 tháng, hỗ trợ tư vấn bố trí phòng họp và giao lắp tận nơi.</p>',
     faqs: [
       {
         q: 'Bàn họp cho 10 người nên dài bao nhiêu?',
@@ -240,7 +240,7 @@ export const COLLECTIONS: CollectionDef[] = [
       'Trang bị góc làm việc tại nhà với OFINA: bàn nâng hạ thông minh, bàn làm việc nhỏ gọn, ghế công thái học. Tiện nghi, tiết kiệm diện tích, bảo hành 24 tháng.',
     intro:
       '<p>Làm việc tại nhà hiệu quả bắt đầu từ một <strong>góc làm việc tiện nghi</strong>. OFINA tuyển chọn các sản phẩm lý tưởng cho home office: bàn nâng hạ thông minh đứng/ngồi linh hoạt, bàn làm việc nhỏ gọn, ghế công thái học nâng đỡ cột sống — giúp bạn thoải mái và tập trung suốt ngày dài.</p>' +
-      '<p>Sản phẩm chính hãng, kiểu dáng hiện đại, tiết kiệm diện tích, bảo hành 24 tháng và giao lắp tận nơi.</p>',
+      '<p>Kiểu dáng hiện đại, tiết kiệm diện tích, bảo hành 24 tháng và giao lắp tận nơi.</p>',
     faqs: [
       {
         q: 'Bàn nâng hạ có thật sự cần cho làm việc tại nhà?',
@@ -263,7 +263,7 @@ export const COLLECTIONS: CollectionDef[] = [
       'Tủ hồ sơ, tủ tài liệu văn phòng tại OFINA: tủ cao, tủ giám đốc, hộc di động, tủ locker. Lưu trữ gọn gàng, chắc chắn, bảo hành 24 tháng, giao lắp tận nơi.',
     intro:
       '<p><strong>Tủ hồ sơ và tủ tài liệu</strong> giúp văn phòng lưu trữ giấy tờ gọn gàng, khoa học và bảo mật. OFINA cung cấp đa dạng: tủ tài liệu cao, tủ giám đốc, hộc di động đặt gầm bàn, tủ locker cá nhân — nhiều chất liệu gỗ và sắt, phù hợp mọi không gian.</p>' +
-      '<p>Sản phẩm chắc chắn, chính hãng, bảo hành 24 tháng và giao lắp tận nơi tại Hà Nội & TP.HCM.</p>',
+      '<p>Sản phẩm chắc chắn, bảo hành khung 24 tháng và giao lắp tận nơi tại Hà Nội & TP.HCM.</p>',
     faqs: [
       {
         q: 'Nên chọn tủ hồ sơ gỗ hay tủ sắt?',
@@ -308,7 +308,7 @@ export const COLLECTIONS: CollectionDef[] = [
       'Ghế phòng chờ, ghế quầy lễ tân tại OFINA: băng chờ, ghế phòng chờ chân xoay, bền đẹp, dễ vệ sinh. Phù hợp sảnh, phòng khám, văn phòng. Bảo hành 24 tháng.',
     intro:
       '<p><strong>Ghế phòng chờ và quầy lễ tân</strong> tạo ấn tượng đầu tiên với khách đến văn phòng, sảnh công ty, phòng khám hay ngân hàng. OFINA cung cấp băng ghế chờ chắc chắn, ghế phòng chờ chân xoay tiện lợi — chất liệu dễ vệ sinh, kiểu dáng hiện đại, chịu tần suất sử dụng cao.</p>' +
-      '<p>Sản phẩm chính hãng, bảo hành 24 tháng, giao lắp tận nơi.</p>',
+      '<p>Bảo hành khung 24 tháng, giao lắp tận nơi.</p>',
     faqs: [
       {
         q: 'Ghế phòng chờ nên chọn chất liệu nào dễ vệ sinh?',
@@ -329,7 +329,7 @@ export const COLLECTIONS: CollectionDef[] = [
       'Ghế bar, bàn ghế cafe tại OFINA: ghế quầy bar chân sắt, ghế cafe chân cố định, bàn cafe. Bền đẹp, hiện đại cho quán, đảo bếp, văn phòng. Bảo hành 24 tháng.',
     intro:
       '<p><strong>Ghế bar và bàn ghế cafe</strong> phù hợp cho quán cafe, quầy bar, đảo bếp và khu pantry văn phòng. OFINA cung cấp ghế quầy bar chân sắt cao, ghế cafe chân cố định, bàn cafe nhiều kiểu dáng — chắc chắn, hiện đại và dễ phối không gian.</p>' +
-      '<p>Sản phẩm chính hãng, bảo hành 24 tháng, giao lắp tận nơi tại Hà Nội & TP.HCM.</p>',
+      '<p>Bảo hành khung 24 tháng, giao lắp tận nơi tại Hà Nội & TP.HCM.</p>',
     faqs: [
       {
         q: 'Ghế bar cao bao nhiêu là phù hợp?',

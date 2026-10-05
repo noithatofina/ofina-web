@@ -51,13 +51,13 @@ export async function GET() {
 
   const categoryLines = categories.length
     ? categories
-        .map((c) => `- [${c.name}](${SITE_URL}/danh-muc/${c.slug}): Danh mục ${c.name.toLowerCase()} chính hãng tại OFINA`)
+        .map((c) => `- [${c.name}](${SITE_URL}/danh-muc/${c.slug}): Danh mục ${c.name.toLowerCase()} tại OFINA`)
         .join('\n')
     : `- [Ghế văn phòng](${SITE_URL}/danh-muc/ghe-van-phong)\n- [Bàn làm việc](${SITE_URL}/danh-muc/ban-lam-viec)`
 
-  const body = `# OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng
+  const body = `# OFINA — Nội thất văn phòng cho doanh nghiệp
 
-> OFINA là nhà cung cấp nội thất văn phòng cao cấp, chính hãng tại Việt Nam với hơn ${countStr} sản phẩm: ghế công thái học (ergonomic), ghế giám đốc, ghế phòng họp, bàn làm việc, tủ hồ sơ và sofa văn phòng. Bảo hành 24 tháng, giao hàng miễn phí nội thành Hà Nội và TP.HCM, có showroom trải nghiệm trực tiếp tại cả hai thành phố.
+> OFINA là nhà cung cấp nội thất văn phòng tại Việt Nam với hơn ${countStr} sản phẩm: ghế công thái học (ergonomic), ghế giám đốc, ghế phòng họp, bàn làm việc, tủ hồ sơ và sofa văn phòng. Bảo hành 24 tháng, giao hàng miễn phí nội thành Hà Nội và TP.HCM, có showroom trải nghiệm trực tiếp tại cả hai thành phố.
 
 ## Thông tin quan trọng
 
@@ -71,7 +71,7 @@ export async function GET() {
 
 ## Vì sao chọn OFINA
 
-- Sản phẩm chính hãng, nguồn gốc rõ ràng, hoá đơn VAT đầy đủ cho doanh nghiệp.
+- Hoá đơn VAT đầy đủ cho doanh nghiệp; báo giá theo số lượng cho đơn từ 50 triệu.
 - Tư vấn thiết kế & báo giá theo dự án (B2B) cho văn phòng số lượng lớn.
 - Đội ngũ tư vấn chọn ghế công thái học phù hợp theo chiều cao, cân nặng, nhu cầu sử dụng.
 

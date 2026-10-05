@@ -27,7 +27,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   // chúng là bản sao trang 1 và bỏ qua toàn bộ sản phẩm ở các trang sau.
   const pageSuffix = page > 1 ? ` — trang ${page}` : ''
   const canonical = page > 1 ? `/danh-muc/${slug}?page=${page}` : `/danh-muc/${slug}`
-  const title = `${name}${pageSuffix} — chính hãng, giá tốt | OFINA`
+  const title = `${name}${pageSuffix} — giá tốt cho doanh nghiệp | OFINA`
   const description = `${name} tại OFINA — đa dạng mẫu, giá cạnh tranh, bảo hành 24 tháng. Miễn phí giao Hà Nội & TP.HCM, lắp đặt tận nơi, trả góp 0%. Hotline HN ${CONTACT.hotline} · HCM ${CONTACT.branches[1].phones[0]}.`
   return {
     title: { absolute: title }, // bypass layout template
@@ -140,7 +140,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
         </h1>
         <p className="text-gray-500 text-[13px] md:text-lg">
           <strong className="text-gray-900">{total.toLocaleString('vi-VN')}</strong> sản phẩm
-          <span className="hidden md:inline"> · Giao hàng toàn quốc · Bảo hành chính hãng</span>
+          <span className="hidden md:inline"> · Giao hàng toàn quốc · Bảo hành 24 tháng</span>
         </p>
         {content && (
           <div

@@ -10,7 +10,7 @@ interface Props {
 export async function generateMetadata({ searchParams }: Props) {
   const { q } = await searchParams
   return {
-    title: q ? `Tìm kiếm: "${q}" | OFINA` : 'Tìm kiếm sản phẩm | OFINA',
+    title: q ? `Tìm kiếm: "${q}"` : 'Tìm kiếm sản phẩm',
     description: `Kết quả tìm kiếm cho "${q || ''}" tại OFINA.`,
     // Trang kết quả tìm kiếm nội bộ: không cho index (chống phình index bằng URL ?q=...)
     robots: { index: false, follow: true },

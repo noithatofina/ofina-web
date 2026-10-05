@@ -22,7 +22,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const col = getCollection(slug)
-  if (!col) return { title: 'Bộ sưu tập | OFINA' }
+  if (!col) return { title: 'Bộ sưu tập' }
   return {
     title: { absolute: col.title || `${col.name} | OFINA` },
     description: col.metaDescription,
@@ -116,7 +116,7 @@ export default async function CollectionPage({ params, searchParams }: Props) {
       <div className="mb-8">
         <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-950 mb-3">{col.name}</h1>
         <p className="text-gray-600 text-lg mb-4">
-          <strong>{total.toLocaleString('vi-VN')}</strong> sản phẩm · Chính hãng · Bảo hành 24 tháng · Giao lắp tận nơi
+          <strong>{total.toLocaleString('vi-VN')}</strong> sản phẩm · Bảo hành 24 tháng · Hoá đơn VAT · Giao lắp tận nơi
         </p>
         <div
           className="prose prose-sm max-w-none text-gray-700 [&_p]:mb-3 [&_strong]:text-brand-900"

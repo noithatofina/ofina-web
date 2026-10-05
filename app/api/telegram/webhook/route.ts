@@ -83,7 +83,7 @@ async function handleImageUpload(fileId: string, isDocument: boolean, draft: { i
   // 6. Insert product_images row
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const publicUrl = `${supabaseUrl}/storage/v1/object/public/products/${storagePath}`
-  const altText = `${draft.name} - ảnh ${position + 1} chính hãng OFINA`
+  const altText = `${draft.name} — ảnh ${position + 1} tại OFINA`
   const { error: insErr } = await admin.from('product_images').insert({
     product_id: draft.id,
     url: publicUrl,

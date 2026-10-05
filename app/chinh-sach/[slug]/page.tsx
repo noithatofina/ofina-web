@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const p = await getPolicy(slug)
   if (!p) return {}
   return {
-    title: `${p.title} | OFINA`,
+    title: p.title,
     description: p.title,
     alternates: { canonical: `/chinh-sach/${slug}` },
   }

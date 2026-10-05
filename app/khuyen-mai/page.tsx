@@ -6,7 +6,7 @@ import { publicImageUrl } from '@/lib/image-url'
 
 export const metadata = {
   alternates: { canonical: '/khuyen-mai' },
-  title: 'Khuyến mãi - Giảm đến 20% | OFINA',
+  title: 'Khuyến mãi — giảm đến 20%',
   description: 'Các sản phẩm nội thất văn phòng đang khuyến mãi tại OFINA. Giảm giá đến 20%, miễn phí giao hàng.',
 }
 

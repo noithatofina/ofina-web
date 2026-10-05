@@ -26,7 +26,7 @@ export async function generateMetadata({
   const post = await getPost(slug)
   if (!post) {
     return {
-      title: 'Bài viết đang cập nhật | OFINA',
+      title: 'Bài viết đang cập nhật',
     }
   }
   const title = post.seo_title || post.title

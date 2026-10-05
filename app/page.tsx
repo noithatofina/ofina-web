@@ -14,11 +14,11 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng' },
+  title: { absolute: 'OFINA — Nội thất văn phòng cho doanh nghiệp' },
   description: 'OFINA — 2.664 sản phẩm nội thất văn phòng: ghế ergonomic, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao HN/HCM, trả góp 0%.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'OFINA — Nội Thất Văn Phòng Cao Cấp Chính Hãng',
+    title: 'OFINA — Nội thất văn phòng cho doanh nghiệp',
     description: '2.664 sản phẩm nội thất văn phòng — bảo hành 24 tháng, miễn phí giao HN/HCM.',
     url: SITE_URL,
     // ảnh phòng làm việc 1200x630 hiển thị tốt hơn logo vuông khi chia sẻ link
@@ -51,7 +51,7 @@ const HOMEPAGE_FAQ = [
 
 const WHY_CHOOSE = [
   { icon: BadgeCheck, title: 'Sản phẩm chọn lọc', desc: 'Các dòng ghế và nội thất văn phòng được OFINA tuyển kỹ theo chất liệu, độ bền, công năng — không nhập tràn lan.' },
-  { icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Bảo hành chính hãng 24 tháng cho hầu hết sản phẩm. Ghế cao cấp có bảo hành khung dài hơn theo NSX.' },
+  { icon: Shield, title: 'Bảo hành 24 tháng', desc: 'Khung và phần gỗ 24 tháng; đệm, da, nỉ, cơ xoay, piston 12 tháng.' },
   { icon: Truck, title: 'Giao hàng HN/HCM', desc: 'Miễn phí giao và lắp đặt nội thành HN, TP.HCM 1-2 ngày làm việc. Các tỉnh hỗ trợ theo nhu cầu.' },
   { icon: Headphones, title: 'Tư vấn chọn ghế theo nhu cầu', desc: 'Hỏi về dáng người, thời gian ngồi, ngân sách, không gian — OFINA gợi ý đúng mẫu phù hợp, không bán theo combo.' },
   { icon: CreditCard, title: 'Báo giá số lượng cho doanh nghiệp', desc: 'Chiết khấu theo số lượng, hoá đơn VAT, hỗ trợ thanh toán linh hoạt cho khách doanh nghiệp.' },

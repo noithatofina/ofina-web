@@ -43,7 +43,7 @@ const SLIDES: Slide[] = [
     image: `${STORAGE}/ghe-giam-doc-van-phong-cao-cap-ofina`,
     alt: 'Ghế giám đốc cao cấp — đẳng cấp phòng giám đốc — OFINA',
     title: 'Ghế giám đốc cao cấp',
-    subtitle: 'Da chính hãng, khung bền — đẳng cấp sang trọng cho phòng giám đốc.',
+    subtitle: 'Da bò thật, khung thép — đẳng cấp sang trọng cho phòng giám đốc.',
     ctaLabel: 'Xem bộ sưu tập',
     ctaHref: '/danh-muc/ghe-da-giam-doc',
   },

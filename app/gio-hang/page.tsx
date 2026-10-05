@@ -148,7 +148,7 @@ export default function CartPage() {
 
             <div className="mt-6 pt-6 border-t text-sm space-y-2 text-gray-600">
               <p>✓ Giao hàng nhanh 2–3 ngày</p>
-              <p>✓ Bảo hành chính hãng 2 năm</p>
+              <p>✓ Bảo hành khung 24 tháng</p>
               <p>✓ Đổi trả miễn phí 7 ngày</p>
               <p>✓ Hỗ trợ 24/7 qua hotline</p>
             </div>

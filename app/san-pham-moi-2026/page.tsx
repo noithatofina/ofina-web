@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   keywords: ['sản phẩm mới 2026', 'nội thất 2026', 'ghế mới', 'bàn mới', 'sofa mới', 'OFINA'],
   alternates: { canonical: '/san-pham-moi-2026' },
   openGraph: {
-    title: 'Sản phẩm mới 2026 — Bộ sưu tập nội thất | OFINA',
+    title: 'Sản phẩm mới 2026 — Bộ sưu tập nội thất',
     description: 'Bộ sưu tập nội thất văn phòng mới nhất 2026 — cập nhật liên tục mỗi tuần',
     url: `${SITE_URL}/san-pham-moi-2026`,
     images: [{ url: `${SITE_URL}/logo.png`, width: 800, height: 800, alt: 'OFINA Sản phẩm mới 2026' }],

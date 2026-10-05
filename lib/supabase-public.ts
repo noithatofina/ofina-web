@@ -15,6 +15,21 @@ import { createClient } from '@supabase/supabase-js'
  */
 const PUBLIC_READ_REVALIDATE = 3600
 
+/**
+ * Gắn NHÃN cho fetch, nếu không thì `revalidateTag` không xoá được lớp đệm này.
+ * Đã mắc đúng lỗi đó ngày 05/10: sửa tên sản phẩm trong DB xong, gọi
+ * revalidatePath('/') lẫn revalidateTag('products') đều không ăn thua vì fetch
+ * của supabase-js chỉ khai revalidate mà không khai tags — trang chủ giữ tên cũ
+ * tới hết 1 tiếng. Nhãn suy ra từ tên bảng trong URL PostgREST (/rest/v1/<bảng>).
+ */
+const TAG_ALL = 'supabase-public'
+
+function tagsFor(input: RequestInfo | URL): string[] {
+  const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
+  const table = url.match(/\/rest\/v1\/([A-Za-z0-9_]+)/)?.[1]
+  return table ? [TAG_ALL, table] : [TAG_ALL]
+}
+
 export function createPublicSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -23,7 +38,10 @@ export function createPublicSupabase() {
       auth: { persistSession: false, autoRefreshToken: false },
       global: {
         fetch: (input: RequestInfo | URL, init?: RequestInit) =>
-          fetch(input, { ...init, next: { revalidate: PUBLIC_READ_REVALIDATE } } as RequestInit),
+          fetch(input, {
+            ...init,
+            next: { revalidate: PUBLIC_READ_REVALIDATE, tags: tagsFor(input) },
+          } as RequestInit),
       },
     },
   )

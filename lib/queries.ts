@@ -90,8 +90,26 @@ const SAMPLE_PRODUCTS: Partial<Product>[] = [
 
 // ============ QUERIES ============
 
+/**
+ * Liệt kê TƯỜNG MINH cột gửi ra trang công khai. Trước đây dùng `*` nên mọi cột
+ * nội bộ đều lọt vào payload RSC và ai xem mã trang cũng đọc được — đo 12/10/2026
+ * thấy govi_sku, cost_price, source_price, source_url, imported_at, search_vector
+ * đều hiện trên từng trang sản phẩm.
+ *
+ * ⛔ TUYỆT ĐỐI không thêm lại vào đây:
+ *   cost_price, source_price, source_url  → giá vốn và nguồn nhập, đối thủ đọc được
+ *   govi_sku, imported_at                 → lộ nguồn dữ liệu
+ *   search_vector                         → không dùng tới, chỉ làm nặng trang
+ */
 const PRODUCT_SELECT = `
-  *,
+  id, ofina_sku, slug, name, brand,
+  short_description, description,
+  price, compare_price, low_price, high_price, is_price_hidden,
+  in_stock, stock_quantity, category_id,
+  is_featured, is_bestseller, is_new, is_sale, status,
+  seo_title, seo_description, seo_keywords,
+  avg_rating, review_count, view_count, sale_count,
+  created_at, updated_at,
   product_images(url, position, is_primary)
 `
 

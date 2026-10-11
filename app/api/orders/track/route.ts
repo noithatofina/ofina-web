@@ -15,9 +15,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Thiếu thông tin' }, { status: 400 })
   }
 
+  // Liệt kê tường minh: `*` trả cả `admin_note` — ghi chú nội bộ của nhân viên —
+  // về thẳng cho khách tra đơn. Chỉ trả những trường khách cần biết.
   const { data } = await supabase
     .from('orders')
-    .select('*')
+    .select(
+      'order_number, status, payment_status, payment_method, created_at, updated_at, ' +
+        'customer_name, customer_phone, customer_email, ' +
+        'address_line, ward, district, city, ' +
+        'subtotal, discount, shipping_fee, total, coupon_code, note'
+    )
     .eq('order_number', order.toUpperCase())
     .eq('customer_phone', phone)
     .maybeSingle()

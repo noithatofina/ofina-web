@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { ShoppingCart, Phone } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCart } from '@/lib/cart'
@@ -61,7 +62,8 @@ export function StickyMobileBar({ product }: Props) {
         show ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="px-3 py-2 grid grid-cols-[auto_1fr_1fr] gap-2 items-center">
+      {/* Hàng báo giá theo đơn: thay hai nút mua bằng lối liên hệ, thay vì hiện nút mờ */}
+      <div className={`px-3 py-2 grid gap-2 items-center ${disabled ? 'grid-cols-[auto_1fr]' : 'grid-cols-[auto_1fr_1fr]'}`}>
         <a
           href={`tel:${CONTACT.hotline}`}
           className="w-12 h-12 rounded-lg bg-green-50 text-green-700 flex items-center justify-center"
@@ -69,21 +71,30 @@ export function StickyMobileBar({ product }: Props) {
         >
           <Phone className="w-5 h-5" />
         </a>
-        <button
-          onClick={() => add(false)}
-          disabled={disabled}
-          className="h-12 rounded-lg bg-brand-900 text-white font-semibold text-sm flex items-center justify-center gap-1 disabled:opacity-50"
-        >
-          <ShoppingCart className="w-4 h-4" /> Thêm giỏ
-        </button>
-        <button
-          onClick={() => add(true)}
-          disabled={disabled}
-          className="h-12 rounded-lg bg-accent-500 text-white font-bold text-sm flex flex-col items-center justify-center disabled:opacity-50"
-        >
-          <span>Mua ngay</span>
-          {!disabled && <span className="text-[10px] font-normal opacity-90">{formatPrice(product.price)}</span>}
-        </button>
+        {disabled ? (
+          <Link
+            href="/bao-gia-b2b"
+            className="h-12 rounded-lg bg-accent-500 text-white font-bold text-sm flex items-center justify-center"
+          >
+            Yêu cầu báo giá →
+          </Link>
+        ) : (
+          <>
+            <button
+              onClick={() => add(false)}
+              className="h-12 rounded-lg bg-brand-900 text-white font-semibold text-sm flex items-center justify-center gap-1"
+            >
+              <ShoppingCart className="w-4 h-4" /> Thêm giỏ
+            </button>
+            <button
+              onClick={() => add(true)}
+              className="h-12 rounded-lg bg-accent-500 text-white font-bold text-sm flex flex-col items-center justify-center"
+            >
+              <span>Mua ngay</span>
+              <span className="text-[10px] font-normal opacity-90">{formatPrice(product.price)}</span>
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

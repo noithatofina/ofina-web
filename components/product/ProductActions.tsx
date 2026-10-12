@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Minus, Plus, ShoppingCart, Heart } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCart } from '@/lib/cart'
+import { CONTACT } from '@/lib/utils'
 
 interface Props {
   product: {
@@ -74,6 +76,33 @@ export function ProductActions({ product }: Props) {
         toast.success('Đã thêm vào yêu thích', { icon: '❤️' })
       }
     } catch {}
+  }
+
+  // Hàng báo giá theo đơn: không hiện nút mua. Trước đây vẫn hiện "Thêm vào giỏ"
+  // rồi chặn bằng thông báo lỗi — khách bấm xong mới biết không mua được.
+  if (disabled) {
+    return (
+      <div className="mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Link
+            href="/bao-gia-b2b"
+            className="btn-accent py-4 text-base inline-flex items-center justify-center"
+          >
+            Yêu cầu báo giá →
+          </Link>
+          <a
+            href={`tel:${CONTACT.hotline}`}
+            className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-lg border-2 border-brand-900 text-brand-900 font-semibold hover:bg-brand-50 transition-all text-base"
+          >
+            Gọi {CONTACT.hotline}
+          </a>
+        </div>
+        <p className="text-sm text-gray-600 mt-3">
+          Hạng mục này báo giá theo đơn vì phụ thuộc cấu hình và số lượng. Gửi yêu cầu kèm số
+          lượng và thời hạn cần hàng, OFINA phản hồi trong 30 phút giờ hành chính.
+        </p>
+      </div>
+    )
   }
 
   return (

@@ -8,11 +8,13 @@ import { cn } from '@/lib/utils'
 interface Props {
   images: string[]
   productName: string
+  /** Mô tả riêng từng ảnh, cùng thứ tự với `images`. Rỗng thì dùng nhãn mặc định. */
+  alts?: string[]
 }
 
 const FALLBACK = 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&q=80'
 
-export function ProductGallery({ images, productName }: Props) {
+export function ProductGallery({ images, productName, alts }: Props) {
   const imgs = images.length ? images : [FALLBACK]
   const [active, setActive] = useState(0)
 
@@ -25,7 +27,7 @@ export function ProductGallery({ images, productName }: Props) {
       <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden mb-4 relative group">
         <ProductImage
           src={imgs[active]}
-          alt={`${productName} - ảnh ${active + 1}`}
+          alt={alts?.[active] || `${productName} - ảnh ${active + 1}`}
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
@@ -73,7 +75,7 @@ export function ProductGallery({ images, productName }: Props) {
             >
               <ProductImage
                 src={img}
-                alt={`${productName} thumbnail ${i + 1}`}
+                alt={alts?.[i] || `${productName} thumbnail ${i + 1}`}
                 fill
                 sizes="100px"
                 className="w-full h-full"

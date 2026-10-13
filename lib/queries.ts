@@ -110,7 +110,7 @@ const PRODUCT_SELECT = `
   seo_title, seo_description, seo_keywords,
   avg_rating, review_count, view_count, sale_count,
   created_at, updated_at,
-  product_images(url, position, is_primary)
+  product_images(url, position, is_primary, alt_text)
 `
 
 function mapProduct(p: any) {
@@ -124,6 +124,9 @@ function mapProduct(p: any) {
     ...rest,
     // qua proxy /img để Google Images không bị Supabase chặn bằng x-robots-tag
     images: imgs.map((i: any) => publicImageUrl(i.url)),
+    // mô tả riêng từng ảnh, viết tay theo nội dung tấm ảnh. Thiếu thì để rỗng
+    // và để thư viện ảnh tự sinh nhãn mặc định.
+    image_alts: imgs.map((i: any) => i.alt_text || ''),
     primary_image: primary ? publicImageUrl(primary) : null,
   }
 }

@@ -190,7 +190,7 @@ export default async function ProductPage({ params }: Props) {
         <div className="grid lg:grid-cols-[minmax(0,1fr)_460px] gap-8 lg:gap-10 mb-12">
           {/* Gallery (sticky on desktop) */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <ProductGallery images={images.length ? images : (mainImage ? [mainImage] : [])} productName={product.name} />
+            <ProductGallery images={images.length ? images : (mainImage ? [mainImage] : [])} productName={product.name} alts={product.image_alts} />
           </div>
 
           {/* Info */}

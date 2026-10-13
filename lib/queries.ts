@@ -168,14 +168,18 @@ export async function getHomepageData() {
     'sofa-van-phong',
   ]
 
-  const [categoriesRes, featuredRes, newestRes] = await Promise.all([
+  // ⚠️ Hai biến này TỪNG bị đặt tên ngược nhau: thứ trả về dưới tên `newest` lại là
+  // truy vấn sắp theo GIÁ giảm dần, nên tab "Mới 2026" ngoài trang chủ thực chất đang
+  // hiện 8 sản phẩm đắt nhất. Sáu cabin nhập mới nhất (giá 0, báo giá theo đơn) vì thế
+  // không bao giờ lọt vào. Đã đặt lại tên theo đúng cái nó sắp xếp.
+  const [categoriesRes, moiNhatRes, datNhatRes] = await Promise.all([
     supabase.from('categories').select('*').in('slug', FEATURED_SLUGS),
     supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').or(BAN_DUOC).order('created_at', { ascending: false }).limit(8),
     supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('price', { ascending: false }).limit(8),
   ])
 
-  const featured = (featuredRes.data || []).map(mapProduct)
-  const newest = (newestRes.data || []).map(mapProduct)
+  const moiNhat = (moiNhatRes.data || []).map(mapProduct)
+  const datNhat = (datNhatRes.data || []).map(mapProduct)
 
   const categoryImageFallback: Record<string, string> = {
     'ghe-xoay-van-phong': 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=600&q=80',
@@ -217,9 +221,9 @@ export async function getHomepageData() {
 
   return {
     categories: categoriesWithImage.length ? categoriesWithImage : MOCK_CATEGORIES,
-    bestsellers: featured,
-    newest,
-    featured: featured.slice(0, 4),
+    bestsellers: datNhat,
+    newest: moiNhat,
+    featured: datNhat.slice(0, 4),
   }
 }
 

@@ -61,7 +61,7 @@ const WHY_CHOOSE = [
 
 export default async function HomePage() {
   // 1 fetch settings (cached 1h) + 5 product queries song song
-  const [{ newest, categories }, allSettings, ergonomicChairs, staffChairs, executiveChairs, workDesks] = await Promise.all([
+  const [{ newest, bestsellers, categories }, allSettings, ergonomicChairs, staffChairs, executiveChairs, workDesks] = await Promise.all([
     getHomepageData(),
     getAllSettings(),
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
@@ -171,7 +171,7 @@ export default async function HomePage() {
             {/* LEFT: collage product grid (4 ô) — đại diện catalog OFINA cho doanh nghiệp */}
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-2 gap-3 md:gap-4">
-                {(newest || []).filter((p: any) => p?.primary_image).slice(0, 4).map((p: any) => (
+                {(bestsellers || []).filter((p: any) => p?.primary_image).slice(0, 4).map((p: any) => (
                   <Link
                     key={p.id}
                     href={`/san-pham/${p.slug}`}

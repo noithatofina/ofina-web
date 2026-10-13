@@ -33,7 +33,7 @@ export async function generateStaticParams() {
       .from('products')
       .select('slug')
       .eq('status', 'active')
-      .gt('price', 0)
+      .or('price.gt.0,is_price_hidden.eq.true')
       .order('created_at', { ascending: false })
       .limit(100)
     return (data || []).map((p: { slug: string }) => ({ slug: p.slug }))

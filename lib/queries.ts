@@ -17,6 +17,20 @@ import type { CollectionFilter } from './collections'
 
 const USE_SUPABASE = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL)
 
+/**
+ * Điều kiện "sản phẩm bán được".
+ *
+ * Trước đây mọi nơi dùng `.gt('price', 0)` làm phép lọc rác — nhưng từ khi có hạng mục
+ * báo giá theo đơn (cabin cách âm nhập khẩu, vách ngăn…) thì price = 0 là HỢP LỆ, đi
+ * kèm is_price_hidden = true. Lọc theo giá làm 103 sản phẩm loại này biến mất khỏi
+ * trang chủ, trang hàng mới và khối sản phẩm liên quan.
+ *
+ * Dùng `.or(BAN_DUOC)` thay cho `.gt('price', 0)` ở những chỗ ý định là "sản phẩm thật",
+ * và GIỮ `.gt('price', 0)` ở chỗ ý định đúng là "phải có giá" — sắp theo giá, trang
+ * khuyến mãi.
+ */
+const BAN_DUOC = 'price.gt.0,is_price_hidden.eq.true'
+
 // ============ MOCK DATA ============
 const MOCK_CATEGORIES: Category[] = [
   { id: '1', slug: 'ghe-van-phong', name: 'Ghế văn phòng', parent_id: null, description: null, image: 'https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?w=600&q=80', product_count: 450 },
@@ -156,7 +170,7 @@ export async function getHomepageData() {
 
   const [categoriesRes, featuredRes, newestRes] = await Promise.all([
     supabase.from('categories').select('*').in('slug', FEATURED_SLUGS),
-    supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('created_at', { ascending: false }).limit(8),
+    supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').or(BAN_DUOC).order('created_at', { ascending: false }).limit(8),
     supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('price', { ascending: false }).limit(8),
   ])
 
@@ -236,7 +250,7 @@ export async function getCollectionProducts(
     .select(PRODUCT_SELECT, { count: 'exact' })
     .in('category_id', ids)
     .eq('status', 'active')
-    .gt('price', 0)
+    .or(BAN_DUOC)
 
   if (filter.priceMin && filter.priceMin > 0) q = q.gte('price', filter.priceMin)
   if (filter.priceMax && filter.priceMax > 0) q = q.lte('price', filter.priceMax)
@@ -296,7 +310,7 @@ async function fetchRelatedProducts(productId: string, categoryId: string | null
     .from('products')
     .select(PRODUCT_SELECT)
     .eq('status', 'active')
-    .gt('price', 0)
+    .or(BAN_DUOC)
     .neq('id', productId)
     .limit(limit)
 
@@ -335,7 +349,7 @@ export async function getNewProductsByCategory(categorySlugs: string[], limit = 
     .from('products')
     .select(PRODUCT_SELECT)
     .eq('status', 'active')
-    .gt('price', 0)
+    .or(BAN_DUOC)
     .in('category_id', catIds)
     .order('created_at', { ascending: false })
     .limit(limit)
@@ -365,7 +379,7 @@ export async function getNewProducts(opts: { limit?: number; offset?: number } =
     .from('products')
     .select(PRODUCT_SELECT, { count: 'exact' })
     .eq('status', 'active')
-    .gt('price', 0)
+    .or(BAN_DUOC)
     .eq('in_stock', true)
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)

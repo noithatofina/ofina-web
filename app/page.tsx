@@ -61,13 +61,16 @@ const WHY_CHOOSE = [
 
 export default async function HomePage() {
   // 1 fetch settings (cached 1h) + 5 product queries song song
-  const [{ newest, bestsellers, categories }, allSettings, ergonomicChairs, staffChairs, executiveChairs, workDesks] = await Promise.all([
+  const [{ newest, categories }, allSettings, ergonomicChairs, staffChairs, executiveChairs, workDesks, cabinMoi] = await Promise.all([
     getHomepageData(),
     getAllSettings(),
     getNewProductsByCategory(['ghe-cong-thai-hoc'], 8),
     getNewProductsByCategory(['ghe-xoay-van-phong', 'ghe-xoay-luoi', 'ghe-xoay-lung-cao'], 8),
     getNewProductsByCategory(['ghe-da-giam-doc', 'ghe-lanh-dao'], 8),
     getNewProductsByCategory(['ban-lam-viec-chan-sat', 'ban-lam-viec-chan-go', 'ban-giam-doc-chan-sat', 'ban-giam-doc'], 8),
+    // Cabin cách âm nhập khẩu — hạng mục có hồ sơ đầy đủ nhất: thông số dịch từ
+    // bảng kỹ thuật nhà sản xuất, sơ đồ linh kiện đã Việt hoá, mô tả riêng từng ảnh.
+    getNewProductsByCategory(['cabin-cach-am-di-dong'], 6),
   ])
 
   const faqSetting: { items: Array<{ q: string; a: string }> } = allSettings['home.faq'] || { items: [] }
@@ -168,10 +171,12 @@ export default async function HomePage() {
         <div className="container-custom">
           <div className="grid lg:grid-cols-[52fr_48fr] gap-10 lg:gap-14 items-center max-w-6xl mx-auto">
 
-            {/* LEFT: collage product grid (4 ô) — đại diện catalog OFINA cho doanh nghiệp */}
+            {/* LEFT: 6 cabin cách âm nhập khẩu — hạng mục hồ sơ đầy đủ nhất.
+                Trước đây khối này lấy 4 sản phẩm ĐẮT NHẤT, nên luôn là cabin đời cũ;
+                dải mới để "liên hệ báo giá" (price = 0) không bao giờ lọt vào. */}
             <div className="order-2 lg:order-1">
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
-                {(bestsellers || []).filter((p: any) => p?.primary_image).slice(0, 4).map((p: any) => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4">
+                {(cabinMoi || []).filter((p: any) => p?.primary_image).slice(0, 6).map((p: any) => (
                   <Link
                     key={p.id}
                     href={`/san-pham/${p.slug}`}
@@ -181,9 +186,12 @@ export default async function HomePage() {
                       src={p.primary_image}
                       alt={p.name}
                       fill
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                      className="object-contain p-3 group-hover:scale-[1.04] transition-transform duration-500"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 17vw"
+                      className="object-contain p-3 pb-7 group-hover:scale-[1.04] transition-transform duration-500"
                     />
+                    <span className="absolute inset-x-0 bottom-0 px-2 py-1.5 text-[11px] leading-tight font-medium text-gray-600 bg-white/95 border-t border-[#EEF2F7] line-clamp-1">
+                      {p.name.replace(/^Cabin cách âm di động\s*/, '')}
+                    </span>
                   </Link>
                 ))}
               </div>

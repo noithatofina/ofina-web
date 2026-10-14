@@ -263,19 +263,24 @@ export async function getCollectionProducts(
   }
   const supabase = createPublicSupabase()
 
-  const { data: cats } = await supabase
-    .from('categories')
-    .select('id')
-    .in('slug', filter.categorySlugs)
-  const ids = (cats || []).map((c: any) => c.id)
-  if (ids.length === 0) return { products: [], total: 0 }
-
   let q = supabase
     .from('products')
     .select(PRODUCT_SELECT, { count: 'exact' })
-    .in('category_id', ids)
     .eq('status', 'active')
     .or(BAN_DUOC)
+
+  if (filter.productSlugs?.length) {
+    // Bộ sưu tập chốt đích danh sản phẩm (xem CollectionFilter.productSlugs)
+    q = q.in('slug', filter.productSlugs)
+  } else {
+    const { data: cats } = await supabase
+      .from('categories')
+      .select('id')
+      .in('slug', filter.categorySlugs)
+    const ids = (cats || []).map((c: any) => c.id)
+    if (ids.length === 0) return { products: [], total: 0 }
+    q = q.in('category_id', ids)
+  }
 
   if (filter.priceMin && filter.priceMin > 0) q = q.gte('price', filter.priceMin)
   if (filter.priceMax && filter.priceMax > 0) q = q.lte('price', filter.priceMax)

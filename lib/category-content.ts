@@ -564,7 +564,8 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
   'cabin-cach-am-di-dong': {
     intro:
       '<p><strong>Cabin cách âm di động</strong> (phone booth, acoustic pod) là buồng làm việc khép kín đặt ngay trong văn phòng, dùng cho việc cần yên tĩnh: gọi điện quan trọng, họp trực tuyến, phỏng vấn, hoặc đơn giản là tập trung làm việc giữa không gian mở ồn ào.</p>' +
-      '<p>Điểm khác biệt so với xây phòng kín: cabin lắp trong vài giờ, không đụng tới kết cấu toà nhà, và <strong>tháo ra mang đi được khi công ty chuyển văn phòng</strong> — thứ mà một bức tường xây không làm được. OFINA có 11 mẫu Silence Booth từ cỡ S đến XL.</p>',
+      '<p>Điểm khác biệt so với xây phòng kín: cabin lắp trong vài giờ, không đụng tới kết cấu toà nhà, và <strong>tháo ra mang đi được khi công ty chuyển văn phòng</strong> — thứ mà một bức tường xây không làm được. Nếu bạn đang cân nhắc giữa hai hướng, đọc bài <a href="/blog/cabin-cach-am-hay-xay-phong-hop-kin">cabin cách âm hay xây phòng họp kín</a> — so theo 5 tiêu chí, trong đó tiêu chí quyết định thường không nằm trong bảng báo giá.</p>' +
+      '<p>OFINA đang có <strong>17 mẫu</strong> từ 1 đến 8 người. Chọn nhanh theo số người ngồi: <a href="/bo-suu-tap/cabin-cach-am-1-nguoi">cabin 1 người</a> cho gọi điện và họp trực tuyến, <a href="/bo-suu-tap/cabin-cach-am-phong-hop">cabin phòng họp 2–8 người</a> để thay một phòng họp nhỏ.</p>',
     sections: [
       {
         h2: 'Hiểu đúng con số cách âm trước khi so sánh giá',
@@ -583,25 +584,32 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
           '<p>Lưu ý cuối: cách âm là <strong>hai chiều</strong>. Người bên ngoài cũng không nghe được nội dung bên trong — đây mới là lý do bộ phận nhân sự, pháp chế và ban giám đốc cần cabin thay vì chỉ một góc yên tĩnh.</p>',
       },
       {
-        h2: 'So 11 mẫu Silence Booth theo số chỗ ngồi',
+        h2: 'So 17 mẫu theo số chỗ ngồi',
         body:
-          '<p>Chọn sai cỡ là cách nhanh nhất để cabin bị bỏ không. Bảng dưới xếp đủ 11 mẫu OFINA đang bán theo giá, kèm cấu hình nội thất giao theo máy — <strong>đọc trực tiếp từ ảnh sản phẩm của từng mẫu</strong>:</p>' +
+          '<p>Chọn sai cỡ là cách nhanh nhất để cabin bị bỏ không. Bảng dưới xếp đủ 17 mẫu OFINA đang bán <strong>theo số chỗ ngồi</strong> — con số quyết định thật sự — kèm cấu hình nội thất giao theo máy, <strong>đọc trực tiếp từ ảnh sản phẩm của từng mẫu</strong>:</p>' +
           '<table>' +
-          '<tr><th>Mẫu</th><th>Giá</th><th>Chỗ ngồi</th><th>Nội thất kèm theo</th></tr>' +
-          '<tr><td><strong>SN-01S</strong></td><td>88,91tr</td><td>1 người</td><td>Ghế cao + kệ làm việc hẹp</td></tr>' +
-          '<tr><td><strong>SN-02M</strong></td><td>114,18tr</td><td>1 người</td><td>Bàn làm việc + 1 ghế xoay</td></tr>' +
-          '<tr><td><strong>ZUM-01S</strong></td><td>114,23tr</td><td>1 người</td><td>Ghế cao + kệ tròn</td></tr>' +
-          '<tr><td><strong>SN-03SL</strong></td><td>131,04tr</td><td>2 người</td><td>2 băng ghế đối diện + bàn tròn</td></tr>' +
-          '<tr><td><strong>SN-04L</strong></td><td>140,04tr</td><td>4 người</td><td>2 băng sofa đối diện + bàn giữa</td></tr>' +
-          '<tr><td><strong>ZB-01P</strong></td><td>140,72tr</td><td>1 người</td><td>Ghế cao + kệ làm việc</td></tr>' +
-          '<tr><td><strong>ZUM-02M</strong></td><td>143,81tr</td><td>1–2 người</td><td>Đôn ngồi + bàn cao</td></tr>' +
-          '<tr><td><strong>ZB-03SL</strong></td><td>159,19tr</td><td>2 người</td><td>2 ghế đơn đối diện + bàn tròn</td></tr>' +
-          '<tr><td><strong>ZB-04L</strong></td><td>179,10tr</td><td>4 người</td><td>2 băng sofa đối diện + bàn giữa</td></tr>' +
-          '<tr><td><strong>SN-05XL</strong></td><td>186,99tr</td><td>4 người</td><td>Bàn tròn + 4 ghế xoay</td></tr>' +
-          '<tr><td><strong>ZB-05XL</strong></td><td>231,20tr</td><td>6 người</td><td>Bàn họp dài + 6 ghế xoay</td></tr>' +
+          '<tr><th>Chỗ ngồi</th><th>Mẫu</th><th>Nội thất kèm theo / đặc điểm</th></tr>' +
+          '<tr><td rowspan="8"><strong>1 người</strong></td><td>SN-01S</td><td>Ghế cao + kệ làm việc hẹp</td></tr>' +
+          '<tr><td>SN-02M</td><td>Bàn làm việc + 1 ghế xoay</td></tr>' +
+          '<tr><td>ZUM-01S</td><td>Ghế cao + kệ tròn</td></tr>' +
+          '<tr><td>ZB-01P</td><td>Ghế cao + kệ làm việc</td></tr>' +
+          '<tr><td>ZUM-02M</td><td>Đôn ngồi + bàn cao (1–2 người, hợp trao đổi nhanh)</td></tr>' +
+          '<tr><td>Bản 3 mặt kính</td><td>Vách ván tiêu âm 12mm, ba mặt kính — thoáng, hợp gọi điện và họp trực tuyến</td></tr>' +
+          '<tr><td>Bản vỏ vân gỗ</td><td>Vách 2 lớp, kín hơn, có sẵn bàn kim loại 111 × 48 × 78 cm</td></tr>' +
+          '<tr><td>BLF-04</td><td>Tháo lắp được, đổi khí 20 lần mỗi giờ</td></tr>' +
+          '<tr><td rowspan="3"><strong>2 người</strong></td><td>SN-03SL</td><td>2 băng ghế đối diện + bàn tròn</td></tr>' +
+          '<tr><td>ZB-03SL</td><td>2 ghế đơn đối diện + bàn tròn</td></tr>' +
+          '<tr><td>BLF-03</td><td>Buồng họp 2–4 người, STC 30 dB (±5), đổi khí 20 lần mỗi giờ</td></tr>' +
+          '<tr><td rowspan="3"><strong>4 người</strong></td><td>SN-04L</td><td>2 băng sofa đối diện + bàn giữa</td></tr>' +
+          '<tr><td>ZB-04L</td><td>2 băng sofa đối diện + bàn giữa</td></tr>' +
+          '<tr><td>SN-05XL</td><td>Bàn tròn + 4 ghế xoay</td></tr>' +
+          '<tr><td rowspan="2"><strong>6 người</strong></td><td>ZB-05XL</td><td>Bàn họp dài + 6 ghế xoay</td></tr>' +
+          '<tr><td>Bản 6 người vách ván ép</td><td>Vách 2 lớp, chỉ một mặt kính nên kín hơn hẳn</td></tr>' +
+          '<tr><td><strong>8 người</strong></td><td>Bản 8 người vách 4 lớp</td><td>Vỏ thép + bông tiêu âm 50mm + ván 12mm + sợi polyester 9mm, kính dán 11mm</td></tr>' +
           '</table>' +
-          '<p><strong>Ba điều rút ra từ bảng.</strong> Thứ nhất, giá không đi đôi với số chỗ: ZB-01P 140,72tr chỉ một chỗ, trong khi SN-04L rẻ hơn một chút lại được bốn chỗ — chênh lệch nằm ở cấu tạo vách và phụ kiện, nên phải so bảng thông số chứ đừng so giá. Thứ hai, ba dòng SN, ZB và ZUM có mẫu trùng mã cỡ mà khác giá (SN-01S 88,91tr và ZUM-01S 114,23tr cùng là một chỗ). Thứ ba, mọi mẫu đều có đèn báo trạng thái xanh ở góc nóc, đèn LED gắn trần, khe thông gió ở mép trên vách sau, và <strong>8 màu lớp trong</strong> để chọn.</p>' +
-          '<p><strong>Kinh nghiệm bố trí:</strong> đừng chọn cỡ lớn nhất nếu 90% nhu cầu là gọi điện một mình. Hai cabin một chỗ phục vụ được nhiều lượt hơn một cabin bốn chỗ với cùng ngân sách.</p>',
+          '<p><strong>Ba điều rút ra từ bảng.</strong> Thứ nhất, <strong>số chỗ ngồi không đi đôi với mức cách âm</strong>: một buồng một người vách 2 lớp kín hơn một buồng bốn người nhiều kính. Cấu tạo vách mới là thứ quyết định, nên phải so bảng thông số chứ đừng so cỡ. Thứ hai, ba dòng SN, ZB và ZUM có mẫu trùng mã cỡ nhưng khác cấu tạo và phụ kiện. Thứ ba, các mẫu Silence Booth đều có đèn báo trạng thái xanh ở góc nóc, đèn LED gắn trần, khe thông gió ở mép trên vách sau, và <strong>8 màu lớp trong</strong> để chọn.</p>' +
+          '<p><strong>Kinh nghiệm bố trí:</strong> đừng chọn cỡ lớn nhất nếu 90% nhu cầu là gọi điện một mình. Hai cabin một chỗ phục vụ được nhiều lượt hơn một cabin bốn chỗ. Xem riêng <a href="/bo-suu-tap/cabin-cach-am-1-nguoi">nhóm 1 người</a> hoặc <a href="/bo-suu-tap/cabin-cach-am-phong-hop">nhóm phòng họp 2–8 người</a>.</p>' +
+          '<p>Cả dải <strong>báo giá theo đơn</strong> vì phụ thuộc màu vỏ, cấu hình bên trong và số lượng — gửi yêu cầu qua <a href="/bao-gia-b2b">trang báo giá doanh nghiệp</a>.</p>',
       },
       {
         h2: 'Áng diện tích sàn cần chừa',

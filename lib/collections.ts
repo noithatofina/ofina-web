@@ -21,6 +21,13 @@ export interface CollectionFilter {
   priceMin?: number
   priceMax?: number
   isBestseller?: boolean
+  /**
+   * Chốt đích danh sản phẩm thay vì lọc theo danh mục/giá.
+   * Cần cho các cụm mà tiêu chí nằm ngoài CSDL — ví dụ cabin cách âm chia theo
+   * SỐ NGƯỜI: cả 17 mẫu nằm chung một danh mục, số chỗ ngồi đọc từ ảnh sản phẩm
+   * chứ không có cột riêng.
+   */
+  productSlugs?: string[]
 }
 
 export interface CollectionFaq {
@@ -341,6 +348,98 @@ export const COLLECTIONS: CollectionDef[] = [
       },
     ],
     filter: { categorySlugs: ['ghe-bar', 'ghe-quay-bar-chan-sat', 'ghe-cafe-chan-co-dinh', 'ban-ghe-cafe-ghe-bar', 'ban-cafe'] },
+    sort: 'newest',
+  },
+  // ─────────── Cabin cách âm: hai cụm theo SỐ NGƯỜI ───────────
+  // Khách tìm cabin theo "mấy người ngồi", không theo mã mẫu hay dòng sản phẩm.
+  // Danh mục /danh-muc/cabin-cach-am-di-dong gom cả 17 mẫu từ 1 đến 8 người nên
+  // không trả lời được truy vấn đó. Hai bộ sưu tập dưới đây chia đúng theo cách
+  // khách hỏi. Số chỗ ngồi đọc từ ảnh sản phẩm của nhà sản xuất.
+  {
+    slug: 'cabin-cach-am-1-nguoi',
+    name: 'Cabin cách âm 1 người',
+    title: 'Cabin cách âm 1 người — buồng gọi điện văn phòng | OFINA',
+    metaDescription:
+      'Cabin cách âm 1 người cho văn phòng mở: buồng gọi điện, họp trực tuyến, làm việc tập trung. 8 mẫu từ buồng kính tới buồng vách kín. OFINA khảo sát mặt bằng.',
+    intro:
+      '<p><strong>Cabin cách âm 1 người</strong> giải quyết đúng một việc: cho nhân viên một chỗ gọi điện và họp trực tuyến mà không làm phiền sàn làm việc mở, cũng không bị sàn làm phiền ngược lại. Đây là cỡ cabin được mua nhiều nhất vì chiếm ít sàn nhất và đặt xen vào giữa các dãy bàn được.</p>' +
+      '<p><strong>Chọn theo hai thứ, đừng chọn theo giá.</strong> Thứ nhất là <strong>tỉ lệ kính</strong>: mẫu ba mặt kính có khoảng ba phần tư diện tích bao quanh là kính, nên thoáng và không gây cảm giác giam hãm, nhưng kính là mắt yếu nhất của buồng cách âm — hợp gọi điện và họp trực tuyến hơn là họp nội dung nhạy cảm. Mẫu vỏ kín vách hai lớp thì ngược lại. Thứ hai là <strong>thể tích lòng trong</strong>: trong dải này chênh từ 2,46 đến 2,75 m³, nghe thì ít nhưng ngồi quá một tiếng là cảm nhận được.</p>' +
+      '<p>Mỗi trang sản phẩm ghi rõ cấu tạo vách từng lớp, số khe cấp và thoát khí, và <strong>điều kiện đo</strong> của từng con số cách âm — phòng thí nghiệm hay đo thực tế tại showroom. Hạng mục này <strong>báo giá theo đơn</strong> vì phụ thuộc màu vỏ, cấu hình bên trong và số lượng.</p>',
+    faqs: [
+      {
+        q: 'Cabin cách âm 1 người chiếm bao nhiêu diện tích sàn?',
+        a: 'Khoảng 1,2 đến 1,6 m² tuỳ mẫu. Cần chừa thêm khoảng trống để mở cửa và lối đi, nên khi tính mặt bằng hãy lấy rộng hơn kích thước phủ bì. OFINA khảo sát lối vào, chiều cao trần và thang máy trước khi chốt đơn.',
+      },
+      {
+        q: 'Cabin 1 người cách âm được bao nhiêu dB?',
+        a: 'Tuỳ mẫu và tuỳ điều kiện đo. Ví dụ mẫu một người ba mặt kính: nhà sản xuất công bố tiếng từ ngoài vào giảm 15 dB trong phòng đo 9 m², còn đo thực tế tại showroom 400 m² thì cách ly được 32–36 dB; chiều từ trong lọt ra là 20–25 dB theo phòng đo và 26,3–32,05 dB theo showroom. Đây là số đo theo điều kiện của nhà sản xuất, không phải hạng theo ISO 23351-1:2020 — hai cách đo khác nhau và không quy đổi được.',
+      },
+      {
+        q: 'Chọn buồng kính hay buồng vách kín?',
+        a: 'Buồng kính thoáng, nhìn từ ngoài biết bên trong có người, hợp gọi điện và họp trực tuyến. Buồng vách kín cách âm tốt hơn vì ít diện tích kính — kính mỏng hơn vách nhiều lớp nên luôn là mắt yếu nhất. Nếu việc cần là chặn nội dung cuộc họp không lọt ra ngoài, hãy chọn vách kín.',
+      },
+      {
+        q: 'Ngồi trong cabin kín có bí không?',
+        a: 'Đây là câu đáng hỏi nhất với mọi cabin, và cách hỏi đúng là hỏi lưu lượng khí tính bằng m³/h cho mỗi người ngồi, chứ không hỏi số quạt — hai cái quạt khác cỡ chênh nhau nhiều lần lưu lượng. Một số mẫu nhà sản xuất công bố thời gian làm mới toàn bộ không khí, từ đó suy ra được số lần đổi khí mỗi giờ; mẫu nào chỉ ghi số quạt thì OFINA hỏi nhà máy giúp bạn.',
+      },
+    ],
+    filter: {
+      categorySlugs: ['cabin-cach-am-di-dong'],
+      productSlugs: [
+        'cabin-cach-am-di-dong-1-nguoi-3-mat-kinh-ofn-cca-0013',
+        'cabin-cach-am-di-dong-1-nguoi-van-go-ofn-cca-0014',
+        'cabin-cach-am-di-dong-blf-04-ofn-cca-0017',
+        'cabin-cach-am-di-dong-silence-booth-sn-01s-ofn-cca-0001',
+        'cabin-cach-am-di-dong-silence-booth-sn-02m-ofn-cca-0002',
+        'cabin-cach-am-di-dong-silence-booth-zb-01p-ofn-cca-0006',
+        'cabin-cach-am-di-dong-silence-booth-zum-01s-ofn-cca-0010',
+        'cabin-cach-am-di-dong-silence-booth-zum-02m-ofn-cca-0011',
+      ],
+    },
+    sort: 'newest',
+  },
+  {
+    slug: 'cabin-cach-am-phong-hop',
+    name: 'Cabin cách âm phòng họp 2–8 người',
+    title: 'Cabin cách âm phòng họp 2–8 người di động | OFINA',
+    metaDescription:
+      'Buồng họp cách âm di động 2–8 người: thay phòng họp nhỏ mà không xây vách, tháo dời mang theo khi đổi mặt bằng. 9 mẫu. OFINA khảo sát trước khi báo giá.',
+    intro:
+      '<p><strong>Cabin cách âm cỡ phòng họp</strong> thay được một phòng họp nhỏ mà không phải xây vách, không đụng tới kết cấu toà nhà, và <strong>tháo dời mang theo được</strong> khi công ty đổi mặt bằng. Với doanh nghiệp thuê văn phòng theo chu kỳ 3–5 năm, đó là khác biệt về chi phí thật: một vách xây cố định là khoản mất trắng khi trả mặt bằng.</p>' +
+      '<p><strong>Hai con số quyết định, và cả hai đều hay bị bỏ qua.</strong> Thứ nhất là <strong>cấu tạo vách</strong>: mẫu vách bốn lớp (vỏ thép + bông tiêu âm 50mm + ván tiêu âm 12mm + tấm sợi polyester 9mm) khác hẳn mẫu vách hai lớp, và khác biệt đó lớn hơn khác biệt về số chỗ ngồi. Thứ hai là <strong>thể tích lòng trong chia cho số người</strong>: trong dải này con số đó chạy từ 0,90 đến 1,11 m³ mỗi người — buồng đông người mà thể tích đầu người thấp thì thông gió là thứ phải hỏi kỹ trước cả mức cách âm.</p>' +
+      '<p>Mỗi trang sản phẩm ghi đủ bốn con số cách âm theo hai chiều và hai điều kiện đo, kèm cảnh báo rõ rằng đó là số đo của nhà sản xuất chứ không phải hạng chứng nhận quốc tế. Chỗ nào tài liệu nhà máy tự mâu thuẫn, OFINA ghi cả hai con số và nói rõ là chưa xác nhận.</p>',
+    faqs: [
+      {
+        q: 'Cabin họp 6–8 người có thay được phòng họp xây không?',
+        a: 'Thay được về công năng — có bàn, ghế, điện, mạng, chiếu sáng và thông gió riêng. Khác biệt lớn nhất là bạn không phải xin phép sửa chữa mặt bằng thuê và tháo mang đi được khi chuyển văn phòng. Đổi lại, mức cách âm của một buồng rời không bằng tường xây đặc cùng độ dày.',
+      },
+      {
+        q: 'Vách 4 lớp hơn vách 2 lớp ở chỗ nào?',
+        a: 'Với một tấm vách đặc, mức cách âm đi theo định luật khối lượng: gấp đôi khối lượng trên mỗi mét vuông mới được thêm khoảng 6 dB — một cabin đẩy được bằng tay thì không có cửa làm theo hướng đó. Vách nhiều lớp đi đường khác: hai lớp vỏ cứng tách nhau bởi một lớp mềm tạo thành hệ khối–lò xo–khối, ở dải tần trung và cao vượt xa mức mà định luật khối lượng cho phép với cùng khối lượng. Lớp bông tiêu âm ở giữa còn dập cộng hưởng trong khoang rỗng.',
+      },
+      {
+        q: 'Cabin có đưa được vào văn phòng trên cao không?',
+        a: 'Cabin được giao theo cấu kiện rời rồi lắp tại chỗ chứ không đưa nguyên khối. Dù vậy vẫn phải khảo sát lối vào, chiều cao trần và thang máy trước khi chốt đơn — đây là khâu OFINA làm trước khi báo giá, vì kích thước cấu kiện quyết định có đưa lên được hay không.',
+      },
+      {
+        q: 'Vì sao giá để liên hệ chứ không niêm yết?',
+        a: 'Vì giá phụ thuộc màu vỏ, cấu hình nội thất bên trong và số lượng đặt. Gửi số lượng và thời hạn cần hàng qua trang báo giá doanh nghiệp, OFINA gửi báo giá kèm thời gian giao và lắp đặt.',
+      },
+    ],
+    filter: {
+      categorySlugs: ['cabin-cach-am-di-dong'],
+      productSlugs: [
+        'cabin-cach-am-di-dong-8-nguoi-ofn-cca-0012',
+        'cabin-cach-am-di-dong-6-nguoi-ofn-cca-0015',
+        'cabin-cach-am-di-dong-blf-03-ofn-cca-0016',
+        'cabin-cach-am-di-dong-silence-booth-sn-03sl-ofn-cca-0003',
+        'cabin-cach-am-di-dong-silence-booth-sn-04l-ofn-cca-0004',
+        'cabin-cach-am-di-dong-silence-booth-sn-05xl-ofn-cca-0005',
+        'cabin-cach-am-di-dong-silence-booth-zb-03sl-ofn-cca-0007',
+        'cabin-cach-am-di-dong-silence-booth-zb-04l-ofn-cca-0008',
+        'cabin-cach-am-di-dong-silence-booth-zb-05xl-ofn-cca-0009',
+      ],
+    },
     sort: 'newest',
   },
 ]

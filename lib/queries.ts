@@ -145,6 +145,27 @@ function mapProduct(p: any) {
   }
 }
 
+
+/**
+ * Bản rút gọn cho DANH SÁCH sản phẩm (thẻ sản phẩm, dải trang chủ, sản phẩm liên quan).
+ *
+ * Thẻ sản phẩm chỉ dùng: name, slug, ofina_sku, price, compare_price, is_price_hidden,
+ * primary_image, images, is_new, is_bestseller. Nhưng `mapProduct` trả về NGUYÊN bản ghi,
+ * nên toàn bộ `description` của từng sản phẩm bị Next đẩy vào payload RSC của trang
+ * danh sách. Đo 14/10/2026 trên /danh-muc/cabin-cach-am-di-dong: 61.442 ký tự mô tả
+ * trong một trang 297.813 ký tự — khoảng 20% trang, không hiển thị gì.
+ *
+ * Giữ `short_description` vì một số dải có hiển thị; bỏ `description` và nhóm seo_*.
+ */
+function mapCard(p: any) {
+  const m = mapProduct(p)
+  if (!m) return m
+  const { description: _d, seo_title: _t, seo_description: _sd, seo_keywords: _k,
+    image_alts: _a, ...nhe } = m
+  return nhe
+}
+
+
 export async function getHomepageData() {
   if (!USE_SUPABASE) {
     return {
@@ -178,8 +199,8 @@ export async function getHomepageData() {
     supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('price', { ascending: false }).limit(8),
   ])
 
-  const moiNhat = (moiNhatRes.data || []).map(mapProduct)
-  const datNhat = (datNhatRes.data || []).map(mapProduct)
+  const moiNhat = (moiNhatRes.data || []).map(mapCard)
+  const datNhat = (datNhatRes.data || []).map(mapCard)
 
   const categoryImageFallback: Record<string, string> = {
     'ghe-xoay-van-phong': 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=600&q=80',
@@ -268,7 +289,7 @@ export async function getCollectionProducts(
   q = q.range(offset, offset + limit - 1)
 
   const { data, count } = await q
-  return { products: (data || []).map(mapProduct), total: count || 0 }
+  return { products: (data || []).map(mapCard), total: count || 0 }
 }
 
 /**
@@ -321,7 +342,7 @@ async function fetchRelatedProducts(productId: string, categoryId: string | null
   if (categoryId) q = q.eq('category_id', categoryId)
 
   const { data } = await q
-  return (data || []).map(mapProduct)
+  return (data || []).map(mapCard)
 }
 
 export async function getCategoryById(id: string) {
@@ -358,7 +379,7 @@ export async function getNewProductsByCategory(categorySlugs: string[], limit = 
     .order('created_at', { ascending: false })
     .limit(limit)
 
-  return (data || []).map(mapProduct)
+  return (data || []).map(mapCard)
 }
 
 /** Public: query 1 product by slug — dùng riêng cho hero featured ở homepage. */
@@ -388,7 +409,7 @@ export async function getNewProducts(opts: { limit?: number; offset?: number } =
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
 
-  return { products: (data || []).map(mapProduct), total: count || 0 }
+  return { products: (data || []).map(mapCard), total: count || 0 }
 }
 
 export async function getAllProducts(opts: { limit?: number; offset?: number } = {}) {
@@ -401,7 +422,7 @@ export async function getAllProducts(opts: { limit?: number; offset?: number } =
     .eq('status', 'active')
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
-  return { products: (data || []).map(mapProduct), total: count || 0 }
+  return { products: (data || []).map(mapCard), total: count || 0 }
 }
 
 export async function searchProducts(
@@ -421,7 +442,7 @@ export async function searchProducts(
     .or(`name.ilike.%${query}%,ofina_sku.ilike.%${query}%,govi_sku.ilike.%${query}%`)
     .range(offset, offset + limit - 1)
 
-  return { products: (data || []).map(mapProduct), total: count || 0 }
+  return { products: (data || []).map(mapCard), total: count || 0 }
 }
 
 export async function getCategoryInfo(slug: string) {
@@ -466,7 +487,7 @@ export async function getProductsBySubcategories(
   q = q.range(offset, offset + limit - 1)
 
   const { data, count } = await q
-  return { products: (data || []).map(mapProduct), total: count || 0 }
+  return { products: (data || []).map(mapCard), total: count || 0 }
 }
 
 export async function getProductsByCategory(
@@ -500,5 +521,5 @@ export async function getProductsByCategory(
   q = q.range(offset, offset + limit - 1)
 
   const { data, count } = await q
-  return { products: (data || []).map(mapProduct), total: count || 0 }
+  return { products: (data || []).map(mapCard), total: count || 0 }
 }

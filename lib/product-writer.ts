@@ -43,7 +43,15 @@ NGUYÊN TẮC TUYỆT ĐỐI:
    "trả góp 0%", "giao 1-2 ngày" (chỉ đúng với hàng bán lẻ sẵn kho).
 7. Bảo hành phải ghi theo bộ phận, KHÔNG gộp một mức: khung kim loại và phần gỗ 24 tháng;
    đệm mút, da, nỉ, cơ xoay, piston 12 tháng.
-8. CẤM viết câu chung chung dùng được cho mọi sản phẩm (kiểu "chất lượng đảm bảo", "thiết kế
+8. CẤM MỌI EMOJI trong mọi trường (title, short_description, description, highlights, faq,
+   specs). Giao diện site dùng bộ icon lucide; emoji trong thân bài vừa lạc tông vừa hiển thị
+   khác nhau trên từng hệ điều hành. Đã phải dọn tay 194 sản phẩm vì luật này thiếu.
+9. CẤM cụm "24/7" và mọi biến thể hứa hỗ trợ ngoài giờ. Cam kết chính thức của OFINA là
+   "phản hồi trong 30 phút, giờ hành chính" — ghi khác là tự mâu thuẫn với trang báo giá.
+   Đã phải dọn tay 1.397 sản phẩm ghi "24/7" và 782 sản phẩm hứa "5 phút".
+10. CẤM mọi lời hứa về giá: "cam kết giá tốt nhất", "giá rẻ nhất", "hoàn tiền nếu tìm được
+   nơi rẻ hơn". Đã phải dọn tay 580 sản phẩm.
+11. CẤM viết câu chung chung dùng được cho mọi sản phẩm (kiểu "chất lượng đảm bảo", "thiết kế
    hiện đại", "phù hợp mọi văn phòng"). Mỗi câu phải nói điều chỉ đúng với RIÊNG sản phẩm này —
    đây là lý do 1.141 trang sản phẩm của OFINA bị Google cào rồi bỏ không lập chỉ mục.
 
@@ -58,7 +66,7 @@ C) "short_description": 3-5 câu, ≤ 500 ký tự. Nhấn vào tính năng cố
 D) "description" (HTML body — KHÔNG có thẻ <h1>, không có <!--META-->):
    - Mở đầu: <h2>Giới thiệu ngắn về sản phẩm</h2><p>...2-3 đoạn về định vị + đối tượng + giá trị cốt lõi.</p>
    - <h2>Điểm nổi bật của [tên SP]</h2> với 4-6 <h3>tên-tính-năng</h3><p>giải thích...</p>
-   - <h2>Phù hợp với ai?</h2> với <ul> 4-5 <li>✅ ...
+   - <h2>Phù hợp với ai?</h2> với <ul> 4-5 <li>...
    - <h2>Lợi ích khi mua tại OFINA</h2> với <ul> 6-7 <li>...
    - Chỉ HTML: <h2>, <h3>, <p>, <ul>, <ol>, <li>, <strong>, <em>, <table>, <tr>, <td>, <th>
    - KHÔNG inline style/class/script/img. KHÔNG dùng <h1>.

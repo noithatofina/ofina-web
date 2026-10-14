@@ -265,10 +265,15 @@ export default async function ProductPage({ params }: Props) {
                       Có nhiều phiên bản: {formatPrice(product.low_price)} – {formatPrice(product.high_price)}
                     </p>
                   )}
-                  <p className="text-sm text-gray-700 mt-3 flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-gray-500" />
-                    Trả góp chỉ <strong className="text-gray-900">{formatPrice(Math.ceil(price / 12))}</strong>/tháng (0% lãi suất)
-                  </p>
+                  {/* Trả góp 0%: chỉ hiện với hàng dưới ngưỡng bán lẻ. Áp cho hàng
+                      hàng trăm triệu là lời hứa tài chính chưa kiểm chứng — cùng lý do
+                      đã gỡ "đổi trả 7 ngày" và "trả góp thẻ tín dụng" khỏi hạng mục này. */}
+                  {!isHighValue && (
+                    <p className="text-sm text-gray-700 mt-3 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-gray-500" />
+                      Trả góp chỉ <strong className="text-gray-900">{formatPrice(Math.ceil(price / 12))}</strong>/tháng (0% lãi suất)
+                    </p>
+                  )}
                 </>
               )}
             </div>

@@ -27,8 +27,17 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   // chúng là bản sao trang 1 và bỏ qua toàn bộ sản phẩm ở các trang sau.
   const pageSuffix = page > 1 ? ` — trang ${page}` : ''
   const canonical = page > 1 ? `/danh-muc/${slug}?page=${page}` : `/danh-muc/${slug}`
-  const title = `${name}${pageSuffix} — giá tốt cho doanh nghiệp | OFINA`
-  const description = `${name} tại OFINA — đa dạng mẫu, giá cạnh tranh, bảo hành 24 tháng. Miễn phí giao Hà Nội & TP.HCM, lắp đặt tận nơi, trả góp 0%. Hotline HN ${CONTACT.hotline} · HCM ${CONTACT.branches[1].phones[0]}.`
+  // ⛔ Bản cũ ghi cứng cho MỌI danh mục: "giá tốt", "giá cạnh tranh", "trả góp 0%".
+  //   - "trả góp 0%" là lời hứa đã bị gỡ khỏi trang sản phẩm vì không áp cho hàng
+  //     hàng trăm triệu, nhưng vẫn còn sót ở đây.
+  //   - "giá tốt / giá cạnh tranh" sai hẳn với danh mục đã ẩn giá (cabin cách âm).
+  // Nay ưu tiên giá trị riêng của từng danh mục trong CSDL, không có thì dùng khuôn
+  // chung đã bỏ mọi lời hứa chưa kiểm chứng.
+  const title = cat?.seo_title
+    ? `${cat.seo_title}${pageSuffix}`
+    : `${name}${pageSuffix} cho doanh nghiệp | OFINA`
+  const description = cat?.seo_description
+    || `${name} tại OFINA — nhiều mẫu, bảo hành theo từng bộ phận, có showroom xem trực tiếp tại Hà Nội và TP.HCM. Tư vấn chọn theo không gian: ${CONTACT.hotline}.`
   return {
     title: { absolute: title }, // bypass layout template
     description,

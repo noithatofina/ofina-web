@@ -17,7 +17,7 @@ const GROUPS = {
   'ghe': {
     title: 'Tất cả Ghế Văn Phòng',
     seoTitle: 'Ghế văn phòng — xoay, da giám đốc, ergonomic | OFINA',
-    description: 'Bộ sưu tập ghế văn phòng đầy đủ tại OFINA: ghế xoay, da giám đốc, công thái học, chân quỳ. Bảo hành 24 tháng, miễn phí giao HN/HCM, trả góp 0%.',
+    description: 'Bộ sưu tập ghế văn phòng đầy đủ tại OFINA: ghế xoay, da giám đốc, công thái học, chân quỳ. Bảo hành 24 tháng, miễn phí giao nội thành HN/HCM, có showroom xem trực tiếp.',
     matchLabel: 'Ghế',
   },
   'ban': {

@@ -13,6 +13,11 @@ export function ProductCard({ product }: Props) {
   const price = product.price || 0
   const comparePrice = product.compare_price || 0
   const hasDiscount = !!comparePrice && comparePrice > price
+  // ⛔ Chỉ kiểm `price > 0` là CHƯA ĐỦ: hàng báo-giá-theo-đơn có thể vẫn còn giá niêm
+  // yết trong CSDL kèm cờ is_price_hidden. Trước khi vá, 11 cabin đã bật ẩn giá vẫn in
+  // giá trên MỌI danh sách (danh mục, trang chủ, sản phẩm liên quan, tìm kiếm) —
+  // trang chi tiết ẩn còn thẻ sản phẩm thì không.
+  const anGia = product.is_price_hidden || price <= 0
   const img = product.primary_image || product.images?.[0] || '/placeholder-product.jpg'
 
   return (
@@ -58,7 +63,7 @@ export function ProductCard({ product }: Props) {
 
         <div className="mt-auto flex items-baseline justify-between gap-2">
           <div className="min-w-0">
-            {price > 0 ? (
+            {!anGia ? (
               <div className="flex items-baseline gap-2 flex-wrap">
                 <span className="text-[17px] font-bold text-gray-900">{formatPrice(price)}</span>
                 {hasDiscount && (

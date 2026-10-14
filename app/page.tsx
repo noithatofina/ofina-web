@@ -15,7 +15,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'OFINA — Nội thất văn phòng cho doanh nghiệp' },
-  description: 'OFINA — 2.664 sản phẩm nội thất văn phòng: ghế ergonomic, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao HN/HCM, trả góp 0%.',
+  description: 'OFINA — 2.664 sản phẩm nội thất văn phòng: ghế ergonomic, bàn làm việc, tủ hồ sơ, sofa. Bảo hành 24 tháng, miễn phí giao nội thành HN/HCM, có showroom xem trực tiếp.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'OFINA — Nội thất văn phòng cho doanh nghiệp',

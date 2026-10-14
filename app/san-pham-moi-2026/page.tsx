@@ -178,9 +178,9 @@ export default async function NewProductsPage() {
                 hàng OFINA luôn có lựa chọn hiện đại, thời thượng và chất lượng nhất.
               </p>
               <p>
-                <strong>🆕 Cập nhật mới nhất:</strong> Bộ sưu tập ghế công thái học CAT với da Silicon chống xước,
+                <strong>Cập nhật mới nhất:</strong> Bộ sưu tập ghế công thái học CAT với da Silicon chống xước,
                 dòng bàn nâng hạ 2 motor thế hệ 3 điều khiển bằng app, và sofa văn phòng phong cách Nhật Bản tối giản.
-                Tất cả đều đã có mặt tại OFINA với giá tốt nhất thị trường.
+                Tất cả đều đã có tại showroom OFINA Hà Nội và TP.HCM.
               </p>
             </div>
 

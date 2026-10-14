@@ -181,20 +181,24 @@ export default async function ProductPage({ params }: Props) {
 
       <div className="container-custom py-6 lg:py-8 pb-24 lg:pb-12">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-gray-500 mb-6 flex-wrap">
-          <Link href="/" className="hover:text-brand-900">Trang chủ</Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/san-pham" className="hover:text-brand-900">Sản phẩm</Link>
+        {/* Trên 390px, bốn mục + ba mũi tên không vừa một dòng nên `flex-wrap` đẩy tên
+            sản phẩm xuống hẳn dòng hai (đo được 46px = 2 dòng). Chặn bề ngang mục cuối
+            không cứu được vì chỗ ngắt nằm TRƯỚC nó. Nay cho cuộn ngang một dòng —
+            giữ đủ đường dẫn, không ăn thêm chiều cao. */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-gray-500 mb-6 flex-nowrap overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
+          <Link href="/" className="hover:text-brand-900 flex-shrink-0">Trang chủ</Link>
+          <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
+          <Link href="/san-pham" className="hover:text-brand-900 flex-shrink-0">Sản phẩm</Link>
           {category && (
             <>
-              <ChevronRight className="w-3.5 h-3.5" />
-              <Link href={`/danh-muc/${category.slug}`} className="hover:text-brand-900">{category.name}</Link>
+              <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
+              <Link href={`/danh-muc/${category.slug}`} className="hover:text-brand-900 flex-shrink-0">{category.name}</Link>
             </>
           )}
-          <ChevronRight className="w-3.5 h-3.5" />
+          <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
           {/* `truncate` không ăn trong flex-wrap nếu không chặn bề ngang: trên di động
               tên sản phẩm dài xuống hẳn dòng thứ hai. Chặn ngang để nó cắt gọn 1 dòng. */}
-          <span className="text-brand-900 font-semibold truncate min-w-0 max-w-[55vw] sm:max-w-none">{product.name}</span>
+          <span className="text-brand-900 font-semibold flex-shrink-0 sm:truncate">{product.name}</span>
         </nav>
 
         {/* Product main */}
@@ -210,7 +214,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 flex-wrap">
               {product.ofina_sku && <span>Mã SP: <strong className="text-gray-900">{product.ofina_sku}</strong></span>}
               {product.brand && <><span>·</span><span>Thương hiệu: <strong className="text-gray-900">{product.brand}</strong></span></>}
-              {category && <><span>·</span><Link href={`/danh-muc/${category.slug}`} className="hover:text-brand-900">{category.name}</Link></>}
+              {category && <><span>·</span><Link href={`/danh-muc/${category.slug}`} className="hover:text-brand-900 flex-shrink-0">{category.name}</Link></>}
             </div>
 
             <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 leading-snug">

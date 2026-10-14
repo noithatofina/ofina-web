@@ -121,10 +121,13 @@ export default async function HomePage() {
       </section>
 
       {/* ============ BỘ SƯU TẬP NỔI BẬT (Product tabs) ============ */}
-      <section className="py-8 md:py-12">
+      {/* Nhịp dọc toàn trang dùng một mức py-16 md:py-20. Trước đây khối sản phẩm
+          chính lại là khối có đệm NHỎ NHẤT (py-8 md:py-12 = 48px) trong khi các mục
+          phụ được 80px — ngược thứ tự quan trọng và làm nhịp trang gãy. */}
+      <section className="py-16 md:py-20">
         <div className="container-custom">
-          <div className="text-center mb-5 md:mb-7">
-            <h2 className="text-[18px] md:text-[22px] font-bold text-gray-900 leading-tight tracking-wider uppercase">
+          <div className="text-center mb-7 md:mb-9">
+            <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 leading-[1.15]">
               Bộ sưu tập nổi bật
             </h2>
           </div>
@@ -210,7 +213,7 @@ export default async function HomePage() {
                 <MessageSquare className="w-3.5 h-3.5" strokeWidth={2} />
                 Doanh nghiệp & Dự án
               </div>
-              <h2 className="text-[30px] md:text-[38px] font-bold text-gray-900 leading-[1.15] mb-4">
+              <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-4">
                 Giải pháp nội thất văn phòng cho doanh nghiệp
               </h2>
               <p className="text-gray-500 text-base md:text-[17px] mb-6 leading-relaxed">
@@ -368,7 +371,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============ CTA xem toàn bộ danh mục (cuối trang chủ) ============ */}
-      <section className="py-14 md:py-16 border-t border-[#E5EAF1]">
+      <section className="py-16 md:py-20 border-t border-[#E5EAF1]">
         <div className="container-custom text-center">
           <p className="text-gray-500 text-sm md:text-base mb-4">Xem hết tất cả danh mục ghế, bàn, tủ và nội thất văn phòng tại OFINA.</p>
           <Link

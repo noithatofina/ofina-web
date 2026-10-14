@@ -225,16 +225,10 @@ export async function getHomepageData() {
   const moiNhat = (moiNhatRes.data || []).map(mapCard)
   const datNhat = (datNhatRes.data || []).map(mapCard)
 
-  const categoryImageFallback: Record<string, string> = {
-    'ghe-xoay-van-phong': 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=600&q=80',
-    'ghe-da-giam-doc': 'https://images.unsplash.com/photo-1541558869434-2840d308329a?w=600&q=80',
-    'ghe-cong-thai-hoc': 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=600&q=80',
-    'ban-lam-viec-chan-sat': 'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?w=600&q=80',
-    'ban-hop-van-phong-chan-sat': 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&q=80',
-    'ban-nang-ha-thong-minh': 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80',
-    'tu-ho-so-cao': 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80',
-    'sofa-van-phong': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80',
-  }
+  // ⛔ Trước đây chỗ này là bảng 8 ảnh Unsplash dùng khi danh mục thiếu ảnh — tức là
+  // ảnh nội thất của người khác đứng đại diện cho danh mục OFINA. Đo 14/10/2026: cả
+  // 95/95 danh mục đều đã có ảnh riêng nên bảng này chưa bao giờ chạy, nhưng để lại là
+  // để sẵn một quả mìn: hôm nào ảnh danh mục hỏng là ảnh người khác lên thay.
 
   // Fix N+1: gộp 8 count queries thành 1 query rồi count trong JS.
   // 8 categories × ~hàng nghìn rows = vài chục KB transfer, cache 1h ở page level.
@@ -257,7 +251,7 @@ export async function getHomepageData() {
       if (!c) return null
       return {
         ...c,
-        image: publicImageUrl(c.image) || categoryImageFallback[c.slug] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
+        image: publicImageUrl(c.image) || null,
         product_count: counts[c.id] || 0,
       }
     })

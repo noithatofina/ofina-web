@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { ProductImage } from './ProductImage'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ImageOff } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -12,10 +12,26 @@ interface Props {
   alts?: string[]
 }
 
-const FALLBACK = 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&q=80'
+/**
+ * ⛔ Trước đây chỗ này là một ảnh ghế trên Unsplash — tức là ảnh SẢN PHẨM CỦA NGƯỜI
+ * KHÁC đứng làm ảnh sản phẩm OFINA. Đo 14/10/2026: 1 sản phẩm đang bán không có ảnh
+ * nào, trang của nó hiện ảnh Unsplash 19 lần và vẫn nằm trong sitemap. Khách đặt hàng
+ * theo ảnh đó là đặt theo cái không phải hàng mình bán.
+ * Nay thay bằng khối trống có nhãn rõ ràng — thà nói "chưa có ảnh" còn hơn cho xem
+ * nhầm hàng.
+ */
+function KhungChuaCoAnh() {
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#F7F9FC] text-gray-400 gap-3">
+      <ImageOff className="w-10 h-10" strokeWidth={1.5} aria-hidden />
+      <span className="text-sm font-medium">Đang cập nhật ảnh sản phẩm</span>
+      <span className="text-xs text-gray-400">Liên hệ OFINA để xem ảnh thực tế</span>
+    </div>
+  )
+}
 
 export function ProductGallery({ images, productName, alts }: Props) {
-  const imgs = images.length ? images : [FALLBACK]
+  const imgs = images
   const [active, setActive] = useState(0)
 
   const prev = () => setActive((i) => (i === 0 ? imgs.length - 1 : i - 1))
@@ -25,15 +41,19 @@ export function ProductGallery({ images, productName, alts }: Props) {
     <div>
       {/* Main image */}
       <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden mb-4 relative group">
-        <ProductImage
-          src={imgs[active]}
-          alt={alts?.[active] || `${productName} - ảnh ${active + 1}`}
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="w-full h-full"
-          watermark="full"
-        />
+        {imgs.length === 0 ? (
+          <KhungChuaCoAnh />
+        ) : (
+          <ProductImage
+            src={imgs[active]}
+            alt={alts?.[active] || `${productName} - ảnh ${active + 1}`}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="w-full h-full"
+            watermark="full"
+          />
+        )}
         {imgs.length > 1 && (
           <>
             <button

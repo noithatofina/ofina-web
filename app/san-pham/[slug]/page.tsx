@@ -95,8 +95,17 @@ export default async function ProductPage({ params }: Props) {
   const specs = meta.specs || {}
   const faq = meta.faq || []
 
-  /** Hàng giá trị lớn dùng điều khoản khác: đóng theo đơn, lắp tại chỗ, cần khảo sát mặt bằng. */
-  const isHighValue = price >= HIGH_VALUE_THRESHOLD
+  /**
+   * Hàng giá trị lớn dùng điều khoản khác: đóng theo đơn, lắp tại chỗ, cần khảo sát mặt bằng.
+   *
+   * ⛔ Chỉ so `price` là SAI từ khi có hạng mục báo giá theo đơn: những món đó có
+   * price = 0 nên lọt xuống nhánh bán lẻ, và trang lại hiện "đổi trả 7 ngày",
+   * "giao 2-3 ngày", "lắp đặt miễn phí" — đúng những điều khoản không áp được cho
+   * hàng đóng theo đơn. Đo 14/10/2026: 103 sản phẩm đang bị xếp nhầm hạng, gồm cả
+   * 6 cabin cách âm nhập khẩu. Hàng không niêm yết giá thì theo định nghĩa đã là
+   * hàng theo đơn.
+   */
+  const isHighValue = product.is_price_hidden || price >= HIGH_VALUE_THRESHOLD
 
   const category = product.category_id ? await getCategoryById(product.category_id) : null
   const variantGroup = findVariantGroup(product.slug)

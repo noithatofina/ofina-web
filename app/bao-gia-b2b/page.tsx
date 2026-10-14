@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Building2, Users, FileCheck, Truck, ShieldCheck, Clock } from 'lucide-react'
+import { CONTACT } from '@/lib/utils'
 import QuoteForm from './QuoteForm'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
@@ -118,6 +119,23 @@ export default function B2BPage() {
           <p className="text-xl text-gray-200">
             Nội thất văn phòng theo số lượng · Hoá đơn VAT · Giao và lắp đặt tận nơi
           </p>
+          {/* Trước đây trang không có nút nào dẫn xuống biểu mẫu, mà biểu mẫu lại nằm ở
+              3.538px — khách trên điện thoại phải cuộn 4,2 màn hình mới thấy chỗ gửi
+              yêu cầu. Đây là trang chuyển đổi chính cho khách doanh nghiệp. */}
+          <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="#gui-yeu-cau"
+              className="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-xl bg-white text-brand-900 font-semibold hover:bg-gray-100 transition-colors"
+            >
+              Gửi yêu cầu báo giá →
+            </a>
+            <a
+              href={`tel:${CONTACT.hotline.replace(/\s/g, '')}`}
+              className="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-xl border border-white/40 text-white font-semibold hover:bg-white/10 transition-colors"
+            >
+              Gọi {CONTACT.hotline}
+            </a>
+          </div>
         </div>
       </section>
 
@@ -244,7 +262,9 @@ export default function B2BPage() {
         </div>
 
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <QuoteForm />
+          <div id="gui-yeu-cau" className="scroll-mt-28">
+            <QuoteForm />
+          </div>
         </div>
       </div>
 

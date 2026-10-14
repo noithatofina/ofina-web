@@ -198,8 +198,15 @@ export function Header({
           </div>
         </div>
 
-        {/* MOBILE search bar row — always visible dưới header */}
-        <div className="md:hidden border-t border-[#E5EAF1] bg-white">
+        {/* MOBILE search bar row.
+            Trước đây hàng này DÍNH luôn cùng header nên thanh cố định cao 146px —
+            gấp đôi mức thường (56–64px) và chiếm 24% màn hình 390×844 cùng với thanh
+            đáy. Nay chỉ hiện khi ở đầu trang; cuộn xuống thì thu lại, khách vẫn bấm
+            được nút kính lúp ở hàng trên. */}
+        <div className={cn(
+          "md:hidden border-t border-[#E5EAF1] bg-white overflow-hidden transition-all duration-200",
+          scrolled && "max-h-0 border-t-0 opacity-0 pointer-events-none"
+        )}>
           <div className="container-custom py-2.5">
             <form
               onSubmit={handleSearch}

@@ -77,3 +77,24 @@ sang hạng ISO. Khách doanh nghiệp lớn hay hỏi đúng chuẩn này.
 - **Bổ sung số còn thiếu:** mọi mẫu đều có hai điều kiện đo cho mỗi chiều (phòng đo 9 m²
   và showroom 400 m²); trang cũ chỉ lấy con số phòng đo và bỏ hẳn con số showroom — tức
   là đang nói thấp hơn mức nhà sản xuất công bố. Đã dẫn đủ cả bốn con số cho từng mẫu.
+
+---
+
+## Phụ lục kỹ thuật — bẫy khi đóng dấu / vẽ chữ lên ảnh
+
+Trình vẽ SVG mà `sharp` dùng **bỏ qua hoàn toàn** thuộc tính `dominant-baseline`.
+Đo ngày 14/10/2026: `"middle"`, `"central"` và *không ghi gì* cho kết quả y hệt nhau —
+chữ nằm cao hơn tâm đúng **0,375 × cỡ chữ**. Căn ngang bằng `text-anchor="middle"` thì
+vẫn chính xác.
+
+Hệ quả thực tế: huy hiệu OFINA đóng lên 38 ảnh cabin có chỏm chữ chạm sát viền trên,
+đáy khung thừa một mảng xanh — nhìn là thấy lệch, nhưng script đo toạ độ *khung* lại
+báo sạch vì khung đặt đúng chỗ.
+
+**Quy tắc từ nay:**
+
+1. Vẽ chữ căn giữa theo chiều dọc: dùng `dy="0.375em"`, **không** dùng `dominant-baseline`.
+2. Kiểm dấu phải **cắt vùng đó phóng to ≥5 lần, đặt cạnh bản mẫu để so** — đo toạ độ
+   khung là chưa đủ.
+3. Ảnh không vuông (đã gặp 600×847 và 1080×1440): tính kích thước khung theo **chiều
+   rộng cho cả hai cạnh**, nếu lấy `0,18×W` và `0,058×H` thì khung bị kéo méo.

@@ -157,6 +157,29 @@ function mapProduct(p: any) {
  *
  * Giữ `short_description` vì một số dải có hiển thị; bỏ `description` và nhóm seo_*.
  */
+/**
+ * Bộ cột cho DANH SÁCH — chỉ lấy đúng thứ thẻ sản phẩm và schema ItemList cần.
+ *
+ * `mapCard` đã bỏ `description` khỏi payload gửi về trình duyệt, nhưng truy vấn vẫn
+ * TẢI nó từ CSDL rồi mới vứt đi. Đo 14/10/2026 trên 24 cabin:
+ *   PRODUCT_SELECT đầy đủ : 163 KB · 425 ms
+ *   bộ rút gọn này        :  31 KB · 147 ms
+ * Trang /danh-muc/[slug] dựng ĐỘNG (đọc searchParams nên không đệm được ở CDN), tức là
+ * mỗi lượt xem đều chạy lại truy vấn này — nên 5 lần dữ liệu là 5 lần lãng phí thật.
+ *
+ * Thẻ sản phẩm đọc: slug, name, ofina_sku, price, compare_price, is_price_hidden,
+ * is_bestseller, is_new, primary_image, images. Schema ItemList đọc: slug, name.
+ * Phần sắp xếp và lọc cần: created_at, category_id, in_stock.
+ */
+const PRODUCT_CARD_SELECT = `
+  id, ofina_sku, slug, name,
+  price, compare_price, is_price_hidden,
+  in_stock, category_id,
+  is_bestseller, is_new, is_sale,
+  avg_rating, review_count, created_at,
+  product_images(url, position, is_primary)
+`
+
 function mapCard(p: any) {
   const m = mapProduct(p)
   if (!m) return m
@@ -195,8 +218,8 @@ export async function getHomepageData() {
   // không bao giờ lọt vào. Đã đặt lại tên theo đúng cái nó sắp xếp.
   const [categoriesRes, moiNhatRes, datNhatRes] = await Promise.all([
     supabase.from('categories').select('*').in('slug', FEATURED_SLUGS),
-    supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').or(BAN_DUOC).order('created_at', { ascending: false }).limit(8),
-    supabase.from('products').select(PRODUCT_SELECT).eq('status', 'active').gt('price', 0).order('price', { ascending: false }).limit(8),
+    supabase.from('products').select(PRODUCT_CARD_SELECT).eq('status', 'active').or(BAN_DUOC).order('created_at', { ascending: false }).limit(8),
+    supabase.from('products').select(PRODUCT_CARD_SELECT).eq('status', 'active').gt('price', 0).order('price', { ascending: false }).limit(8),
   ])
 
   const moiNhat = (moiNhatRes.data || []).map(mapCard)
@@ -265,7 +288,7 @@ export async function getCollectionProducts(
 
   let q = supabase
     .from('products')
-    .select(PRODUCT_SELECT, { count: 'exact' })
+    .select(PRODUCT_CARD_SELECT, { count: 'exact' })
     .eq('status', 'active')
     .or(BAN_DUOC)
 
@@ -338,7 +361,7 @@ async function fetchRelatedProducts(productId: string, categoryId: string | null
 
   let q = supabase
     .from('products')
-    .select(PRODUCT_SELECT)
+    .select(PRODUCT_CARD_SELECT)
     .eq('status', 'active')
     .or(BAN_DUOC)
     .neq('id', productId)
@@ -377,7 +400,7 @@ export async function getNewProductsByCategory(categorySlugs: string[], limit = 
   const catIds = cats.map((c: any) => c.id)
   const { data } = await supabase
     .from('products')
-    .select(PRODUCT_SELECT)
+    .select(PRODUCT_CARD_SELECT)
     .eq('status', 'active')
     .or(BAN_DUOC)
     .in('category_id', catIds)
@@ -407,7 +430,7 @@ export async function getNewProducts(opts: { limit?: number; offset?: number } =
 
   const { data, count } = await supabase
     .from('products')
-    .select(PRODUCT_SELECT, { count: 'exact' })
+    .select(PRODUCT_CARD_SELECT, { count: 'exact' })
     .eq('status', 'active')
     .or(BAN_DUOC)
     .eq('in_stock', true)
@@ -423,7 +446,7 @@ export async function getAllProducts(opts: { limit?: number; offset?: number } =
   const supabase = createPublicSupabase()
   const { data, count } = await supabase
     .from('products')
-    .select(PRODUCT_SELECT, { count: 'exact' })
+    .select(PRODUCT_CARD_SELECT, { count: 'exact' })
     .eq('status', 'active')
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
@@ -442,7 +465,7 @@ export async function searchProducts(
 
   const { data, count } = await supabase
     .from('products')
-    .select(PRODUCT_SELECT, { count: 'exact' })
+    .select(PRODUCT_CARD_SELECT, { count: 'exact' })
     .eq('status', 'active')
     .or(`name.ilike.%${query}%,ofina_sku.ilike.%${query}%,govi_sku.ilike.%${query}%`)
     .range(offset, offset + limit - 1)
@@ -477,7 +500,7 @@ export async function getProductsBySubcategories(
 
   let q = supabase
     .from('products')
-    .select(PRODUCT_SELECT, { count: 'exact' })
+    .select(PRODUCT_CARD_SELECT, { count: 'exact' })
     .in('category_id', catIds)
     .eq('status', 'active')
 
@@ -511,7 +534,7 @@ export async function getProductsByCategory(
 
   let q = supabase
     .from('products')
-    .select(PRODUCT_SELECT, { count: 'exact' })
+    .select(PRODUCT_CARD_SELECT, { count: 'exact' })
     .eq('category_id', category.id)
     .eq('status', 'active')
 

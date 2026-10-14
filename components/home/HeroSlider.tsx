@@ -150,43 +150,39 @@ export function HeroSlider() {
             aria-hidden="true"
           />
 
-          {/* Layer 3: Text + CTA — DESKTOP */}
-          <div className="hidden md:flex absolute inset-0 items-center">
-            <div className="container-custom w-full">
-              <div className="max-w-[520px] text-gray-900">
-                <h2 className="text-[40px] lg:text-[52px] xl:text-[56px] font-bold leading-[1.08] tracking-tight mb-4">
+          {/* Layer 3: Chữ + nút.
+              Trước đây dựng HAI khối riêng (một `hidden md:flex` cho máy tính, một
+              `md:hidden` cho điện thoại), mỗi khối một thẻ h2 — nên 5 slide đẻ ra 10 thẻ
+              H2 trong DOM, nửa số đó luôn `display:none`. Nay gộp làm một khối, khác biệt
+              giữa hai cỡ màn hình diễn đạt bằng lớp responsive.
+
+              Nhịp hiện chữ tách khỏi nhịp mờ ảnh: ảnh vẫn chuyển chéo 700ms cho mượt,
+              nhưng chữ của slide cũ tắt nhanh (150ms) và chữ slide mới chỉ hiện sau 350ms
+              — nếu để cùng nhịp thì giữa lúc chuyển, chữ hai slide chồng lên nhau, đọc
+              không ra. */}
+          <div
+            className={`absolute inset-0 flex flex-col justify-end md:justify-center ${
+              i === index
+                ? 'opacity-100 transition-opacity duration-300 delay-[350ms]'
+                : 'opacity-0 transition-opacity duration-150'
+            }`}
+          >
+            <div className="container-custom w-full pb-12 md:pb-0">
+              <div className="md:max-w-[520px] text-white md:text-gray-900">
+                <h2 className="text-[26px] sm:text-[30px] md:text-[40px] lg:text-[52px] xl:text-[56px] font-bold leading-[1.15] md:leading-[1.08] tracking-tight mb-2 md:mb-4 drop-shadow-sm md:drop-shadow-none">
                   {slide.title}
                 </h2>
-                <p className="text-[17px] lg:text-[19px] text-gray-700 leading-relaxed mb-6">
+                <p className="text-[14px] sm:text-[15px] md:text-[17px] lg:text-[19px] opacity-95 md:opacity-100 md:text-gray-700 leading-relaxed mb-3.5 md:mb-6 line-clamp-2 md:line-clamp-none drop-shadow-sm md:drop-shadow-none">
                   {slide.subtitle}
                 </p>
                 <Link
                   href={slide.ctaHref}
-                  className="inline-flex items-center justify-center gap-2 h-12 px-6 bg-[#155EEF] text-white text-[15px] font-semibold rounded-xl hover:bg-[#1D4ED8] transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center gap-1.5 md:gap-2 h-10 md:h-12 px-4 md:px-6 bg-[#155EEF] text-white text-[13px] md:text-[15px] font-semibold rounded-lg md:rounded-xl hover:bg-[#1D4ED8] transition-colors shadow-sm w-fit"
                 >
                   {slide.ctaLabel}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </Link>
               </div>
-            </div>
-          </div>
-
-          {/* Layer 3: Text + CTA — MOBILE (bottom-left, white text) */}
-          <div className="md:hidden absolute inset-0 flex flex-col justify-end">
-            <div className="container-custom pb-12 text-white">
-              <h2 className="text-[26px] sm:text-[30px] font-bold leading-[1.15] tracking-tight mb-2 drop-shadow-sm">
-                {slide.title}
-              </h2>
-              <p className="text-[14px] sm:text-[15px] opacity-95 mb-3.5 line-clamp-2 drop-shadow-sm">
-                {slide.subtitle}
-              </p>
-              <Link
-                href={slide.ctaHref}
-                className="inline-flex items-center gap-1.5 h-10 px-4 bg-[#155EEF] text-white text-[13px] font-semibold rounded-lg shadow-sm w-fit"
-              >
-                {slide.ctaLabel}
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
           </div>
         </div>

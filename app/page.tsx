@@ -189,8 +189,15 @@ export default async function HomePage() {
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 17vw"
                       className="object-contain p-3 pb-7 group-hover:scale-[1.04] transition-transform duration-500"
                     />
-                    <span className="absolute inset-x-0 bottom-0 px-2 py-1.5 text-[11px] leading-tight font-medium text-gray-600 bg-white/95 border-t border-[#EEF2F7] line-clamp-1">
-                      {p.name.replace(/^Cabin cách âm di động\s*/, '')}
+                    {/* `line-clamp-1` KHÔNG ăn ở đây: thẻ span bị tính display:flow-root
+                        chứ không phải -webkit-box, nên tên xuống 2 dòng và tràn khỏi ô.
+                        Dùng `truncate` — không phụ thuộc -webkit-box — và cắt bớt phần
+                        sau dấu phẩy cho nhãn đủ ngắn để không phải cắt ngang chữ. */}
+                    <span
+                      title={p.name}
+                      className="absolute inset-x-0 bottom-0 px-2 py-1.5 text-[11px] leading-tight font-medium text-gray-600 bg-white/95 border-t border-[#EEF2F7] truncate"
+                    >
+                      {p.name.replace(/^Cabin cách âm di động\s*/, '').split(',')[0]}
                     </span>
                   </Link>
                 ))}

@@ -39,7 +39,7 @@ export function StickyMobileBar({ product }: Props) {
 
   function add(buyNow = false) {
     if (disabled) {
-      toast.error('Sản phẩm này vui lòng liên hệ báo giá', { icon: '📞' })
+      toast.error('Sản phẩm này vui lòng liên hệ báo giá', { icon: <Phone className="w-5 h-5 text-brand-900" strokeWidth={2.2} /> })
       return
     }
     addItem({
@@ -53,7 +53,7 @@ export function StickyMobileBar({ product }: Props) {
       quantity: 1,
     })
     if (buyNow) router.push('/thanh-toan')
-    else toast.success('Đã thêm vào giỏ', { icon: '🛒' })
+    else toast.success('Đã thêm vào giỏ', { icon: <ShoppingCart className="w-5 h-5 text-green-600" strokeWidth={2.2} /> })
   }
 
   return (

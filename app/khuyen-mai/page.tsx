@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Flame } from 'lucide-react'
 import { ProductCard } from '@/components/product/ProductCard'
 import { createClient } from '@supabase/supabase-js'
 import { getSetting } from '@/lib/site-settings'
@@ -76,7 +77,8 @@ export default async function SalePage() {
             <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,255,0.1)_10px,rgba(255,255,255,0.1)_20px)]" />
             <div className="container-custom text-center relative z-10">
               <div className="inline-block px-4 py-1 bg-white/20 rounded-full text-sm font-bold uppercase tracking-wider mb-4">
-                🔥 MEGA SALE
+                <Flame className="w-4 h-4 inline-block align-[-3px] mr-1.5" strokeWidth={2.2} aria-hidden />
+                MEGA SALE
               </div>
               <h1 className="font-display text-5xl md:text-6xl font-bold mb-4">
                 {cms.title || 'Khuyến mãi sốc — Giảm đến 20%'}

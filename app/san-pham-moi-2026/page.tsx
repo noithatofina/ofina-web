@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ProductCard } from '@/components/product/ProductCard'
 import { getNewProductsByCategory, getNewProducts } from '@/lib/queries'
-import { Sparkles, TrendingUp, ArrowRight, Award, Zap, Star } from 'lucide-react'
+import { Sparkles, TrendingUp, ArrowRight, Award, Zap, Star, Armchair, Monitor, Archive, Sofa, CalendarDays, PenLine, Flame, Filter, RefreshCw, FileCheck } from 'lucide-react'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ofina.vn'
 
@@ -25,28 +25,28 @@ const GROUPED_CATEGORIES = [
   {
     title: 'Ghế văn phòng mới',
     slug: 'ghe-van-phong',
-    icon: '🪑',
+    icon: Armchair,
     description: 'Ghế xoay, ghế lãnh đạo, ghế công thái học mẫu mới — ngồi thoải mái 8 tiếng không đau lưng',
     categorySlugs: ['ghe-xoay-van-phong', 'ghe-da-giam-doc', 'ghe-cong-thai-hoc', 'ghe-xoay-luoi', 'ghe-lanh-dao', 'ghe-chan-quy-luoi', 'ghe-xoay-lung-trung'],
   },
   {
     title: 'Bàn làm việc mới',
     slug: 'ban-lam-viec',
-    icon: '💻',
+    icon: Monitor,
     description: 'Bàn giám đốc, bàn nhân viên, bàn nâng hạ thông minh thế hệ mới — thiết kế tối giản Hàn Quốc',
     categorySlugs: ['ban-lam-viec-chan-sat', 'ban-giam-doc-chan-sat', 'ban-lanh-dao', 'ban-hop-van-phong-chan-sat', 'ban-nang-ha-thong-minh', 'cum-ban-lam-viec-4-nguoi'],
   },
   {
     title: 'Tủ & Kệ mới',
     slug: 'tu-ho-so-cao',
-    icon: '📦',
+    icon: Archive,
     description: 'Tủ hồ sơ, tủ locker, kệ trang trí mẫu mới — giải pháp lưu trữ tối ưu không gian',
     categorySlugs: ['tu-ho-so-cao', 'tu-ho-so-thap-tu-cay', 'tu-locker-go', 'tu-giam-doc', 'ke-trang-tri', 'tu-tai-lieu-sat'],
   },
   {
     title: 'Sofa & Ghế thư giãn mới',
     slug: 'sofa-van-phong',
-    icon: '🛋️',
+    icon: Sofa,
     description: 'Sofa văn phòng, ghế thư giãn, ghế armchair — tạo không gian tiếp khách sang trọng',
     categorySlugs: ['sofa-van-phong', 'sofa-don', 'ghe-thu-gian', 'ghe-armchair', 'bo-ghe-sofa'],
   },
@@ -113,7 +113,9 @@ export default async function NewProductsPage() {
             <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-4xl">{group.icon}</span>
+                  <span className="w-12 h-12 rounded-xl bg-brand-900/5 flex items-center justify-center flex-shrink-0">
+                    <group.icon className="w-6 h-6 text-brand-900" strokeWidth={1.75} aria-hidden />
+                  </span>
                   <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-950">
                     {group.title}
                   </h2>
@@ -184,7 +186,11 @@ export default async function NewProductsPage() {
 
             <div className="mt-6 pt-6 border-t flex items-center justify-between text-sm">
               <div className="text-gray-500">
-                📅 Cập nhật: <strong>Hàng tuần</strong> · ✍️ OFINA Editorial Team
+                <CalendarDays className="w-4 h-4 inline-block align-[-3px] mr-1.5" strokeWidth={2} aria-hidden />
+                Cập nhật: <strong>Hàng tuần</strong>
+                <span className="mx-2 text-gray-300">·</span>
+                <PenLine className="w-4 h-4 inline-block align-[-3px] mr-1.5" strokeWidth={2} aria-hidden />
+                Biên tập: OFINA
               </div>
               <Link href="/blog" className="text-brand-900 font-semibold hover:underline">
                 Xem thêm blog →
@@ -209,7 +215,7 @@ export default async function NewProductsPage() {
               Xem tất cả {total}+ sản phẩm <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
             <Link href="/khuyen-mai" className="btn-ghost text-lg px-8 py-4 !border-white !text-white hover:!bg-white hover:!text-brand-900">
-              🔥 Xem khuyến mãi
+              <Flame className="w-5 h-5 mr-2" strokeWidth={2} aria-hidden />Xem khuyến mãi
             </Link>
           </div>
         </div>
@@ -223,24 +229,31 @@ export default async function NewProductsPage() {
           </h3>
           <div className="grid md:grid-cols-3 gap-6 text-left mt-8">
             <div>
-              <div className="text-4xl mb-3">🎯</div>
-              <h4 className="font-bold mb-2">Chọn lọc kỹ càng</h4>
+              <div className="w-12 h-12 mb-3 rounded-xl bg-brand-900/5 flex items-center justify-center">
+                <Filter className="w-6 h-6 text-brand-900" strokeWidth={1.75} aria-hidden />
+              </div>
+              <h4 className="font-bold mb-2">Thông số ghi rõ nguồn</h4>
               <p className="text-sm text-gray-600">
-                Mỗi sản phẩm đều được đội OFINA test thực tế trước khi đưa vào bộ sưu tập mới
+                Thông số lấy từ bảng kỹ thuật của nhà sản xuất. Chỗ nào tài liệu chưa rõ,
+                trang sản phẩm ghi thẳng là chưa xác nhận.
               </p>
             </div>
             <div>
-              <div className="text-4xl mb-3">⚡</div>
+              <div className="w-12 h-12 mb-3 rounded-xl bg-brand-900/5 flex items-center justify-center">
+                <RefreshCw className="w-6 h-6 text-brand-900" strokeWidth={1.75} aria-hidden />
+              </div>
               <h4 className="font-bold mb-2">Cập nhật mỗi tuần</h4>
               <p className="text-sm text-gray-600">
-                Sản phẩm mới được thêm liên tục — đảm bảo bạn luôn có lựa chọn hiện đại nhất
+                Mẫu mới được bổ sung liên tục, kèm ảnh và thông số đầy đủ chứ không chỉ tên gọi.
               </p>
             </div>
             <div>
-              <div className="text-4xl mb-3">💰</div>
-              <h4 className="font-bold mb-2">Giá tốt nhất thị trường</h4>
+              <div className="w-12 h-12 mb-3 rounded-xl bg-brand-900/5 flex items-center justify-center">
+                <FileCheck className="w-6 h-6 text-brand-900" strokeWidth={1.75} aria-hidden />
+              </div>
+              <h4 className="font-bold mb-2">Báo giá theo số lượng</h4>
               <p className="text-sm text-gray-600">
-                Cam kết giá hợp lý, hoàn tiền nếu tìm được nơi bán rẻ hơn cho cùng sản phẩm
+                Đơn doanh nghiệp tính lại theo danh mục thực tế, xuất hoá đơn VAT đầy đủ.
               </p>
             </div>
           </div>

@@ -57,11 +57,13 @@ export function Header({
           <span>{topbarText}</span>
           <div className="flex items-center gap-3">
             <a href={`tel:${CONTACT.branches[0].phones[0]}`} className="hover:text-accent-400 transition-colors">
-              📞 HN: {CONTACT.branches[0].phones[0]}
+              <Phone className="w-3.5 h-3.5 inline-block align-[-2px] mr-1.5" strokeWidth={2.2} aria-hidden />
+              HN: {CONTACT.branches[0].phones[0]}
             </a>
             <span className="opacity-50">|</span>
             <a href={`tel:${CONTACT.branches[1].phones[0]}`} className="hover:text-accent-400 transition-colors">
-              📞 HCM: {CONTACT.branches[1].phones[0]}
+              <Phone className="w-3.5 h-3.5 inline-block align-[-2px] mr-1.5" strokeWidth={2.2} aria-hidden />
+              HCM: {CONTACT.branches[1].phones[0]}
             </a>
             <span className="opacity-50">|</span>
             <Link href="/tra-cuu-don-hang" className="hover:text-accent-400 transition-colors">Tra cứu đơn</Link>

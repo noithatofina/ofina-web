@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Minus, Plus, ShoppingCart, Heart } from 'lucide-react'
+import { Minus, Plus, ShoppingCart, Heart, Phone, HeartOff } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCart } from '@/lib/cart'
 import { CONTACT } from '@/lib/utils'
@@ -30,7 +30,7 @@ export function ProductActions({ product }: Props) {
 
   function handleAddToCart() {
     if (disabled) {
-      toast.error('Sản phẩm này vui lòng liên hệ báo giá', { icon: '📞' })
+      toast.error('Sản phẩm này vui lòng liên hệ báo giá', { icon: <Phone className="w-5 h-5 text-brand-900" strokeWidth={2.2} /> })
       return
     }
     addItem({
@@ -43,7 +43,7 @@ export function ProductActions({ product }: Props) {
       image: product.primary_image || '',
       quantity,
     })
-    toast.success(`Đã thêm ${quantity} × ${product.name.substring(0, 30)}...`, { icon: '🛒' })
+    toast.success(`Đã thêm ${quantity} × ${product.name.substring(0, 30)}...`, { icon: <ShoppingCart className="w-5 h-5 text-green-600" strokeWidth={2.2} /> })
   }
 
   function handleBuyNow() {
@@ -70,10 +70,10 @@ export function ProductActions({ product }: Props) {
       const list = JSON.parse(localStorage.getItem(key) || '[]')
       if (list.includes(product.id)) {
         localStorage.setItem(key, JSON.stringify(list.filter((id: string) => id !== product.id)))
-        toast('Đã bỏ khỏi yêu thích', { icon: '💔' })
+        toast('Đã bỏ khỏi yêu thích', { icon: <HeartOff className="w-5 h-5 text-gray-500" strokeWidth={2.2} /> })
       } else {
         localStorage.setItem(key, JSON.stringify([...list, product.id]))
-        toast.success('Đã thêm vào yêu thích', { icon: '❤️' })
+        toast.success('Đã thêm vào yêu thích', { icon: <Heart className="w-5 h-5 text-red-500 fill-red-500" strokeWidth={2.2} /> })
       }
     } catch {}
   }

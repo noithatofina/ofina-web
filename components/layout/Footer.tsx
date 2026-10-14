@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Facebook, Mail, MapPin, Phone, Youtube } from 'lucide-react'
+import { Facebook, Mail, MapPin, Phone, Youtube, Sparkles, Flame, LayoutGrid } from 'lucide-react'
 import { CONTACT, zaloUrl } from '@/lib/utils'
 import type { ContactInfo, Branch } from '@/lib/shop-chrome-context'
 
@@ -67,9 +67,9 @@ export function Footer({
             <li><Link href="/danh-muc/tu-ho-so-cao" className="hover:text-accent-400">Tủ hồ sơ</Link></li>
             <li><Link href="/danh-muc/tu-locker-go" className="hover:text-accent-400">Tủ locker</Link></li>
             <li><Link href="/danh-muc/sofa-van-phong" className="hover:text-accent-400">Sofa văn phòng</Link></li>
-            <li><Link href="/san-pham-moi-2026" className="hover:text-accent-400 font-semibold text-accent-400">✨ Sản phẩm mới 2026</Link></li>
-            <li><Link href="/khuyen-mai" className="hover:text-accent-400 font-semibold text-red-400">🔥 Khuyến mãi</Link></li>
-            <li><Link href="/bo-suu-tap" className="hover:text-accent-400 font-semibold">📦 Bộ sưu tập theo nhu cầu</Link></li>
+            <li><Link href="/san-pham-moi-2026" className="hover:text-accent-400 font-semibold text-accent-400 inline-flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" strokeWidth={2.2} aria-hidden />Sản phẩm mới 2026</Link></li>
+            <li><Link href="/khuyen-mai" className="hover:text-accent-400 font-semibold text-red-400 inline-flex items-center gap-1.5"><Flame className="w-3.5 h-3.5" strokeWidth={2.2} aria-hidden />Khuyến mãi</Link></li>
+            <li><Link href="/bo-suu-tap" className="hover:text-accent-400 font-semibold inline-flex items-center gap-1.5"><LayoutGrid className="w-3.5 h-3.5" strokeWidth={2.2} aria-hidden />Bộ sưu tập theo nhu cầu</Link></li>
             <li><Link href="/san-pham" className="hover:text-accent-400 font-semibold">Xem tất cả sản phẩm →</Link></li>
           </ul>
         </div>

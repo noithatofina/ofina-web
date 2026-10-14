@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight, Shield, Truck, RefreshCw, Phone, MessageCircle, Award, BadgeCheck, Sparkles, FileCheck } from 'lucide-react'
+import { ChevronRight, Shield, Truck, RefreshCw, Phone, MessageCircle, Award, BadgeCheck, Sparkles, FileCheck, Check } from 'lucide-react'
 import { getProductBySlug, getRelatedProducts, getCategoryById } from '@/lib/queries'
 import { formatPrice, calcDiscountPercent, CONTACT } from '@/lib/utils'
 import { findVariantGroup } from '@/lib/variant-groups'
@@ -303,7 +303,7 @@ export default async function ProductPage({ params }: Props) {
               <ul className="mb-6 space-y-2">
                 {highlights.slice(0, 3).map((h, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
-                    <span className="text-green-600 mt-0.5">✓</span>
+                    <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} aria-hidden />
                     <span className="text-gray-700">{h}</span>
                   </li>
                 ))}
@@ -480,12 +480,14 @@ export default async function ProductPage({ params }: Props) {
             Cần tư vấn thêm về {product.name}?
           </h2>
           <p className="text-lg text-gray-200 mb-6">
-            Đội ngũ OFINA sẵn sàng hỗ trợ bạn — gọi hotline hoặc chat Zalo để nhận giá tốt nhất hôm nay.
+            Đội ngũ OFINA tư vấn chọn theo không gian và số lượng, báo giá kèm thời gian giao và lắp đặt.
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <a href={`tel:${CONTACT.hotline}`} className="btn-accent">📞 Gọi {CONTACT.hotline}</a>
+            <a href={`tel:${CONTACT.hotline}`} className="btn-accent">
+              <Phone className="w-4 h-4 mr-2" strokeWidth={2.2} aria-hidden />Gọi {CONTACT.hotline}
+            </a>
             <a href={CONTACT.zaloUrl} className="btn-ghost !border-white !text-white hover:!bg-white hover:!text-brand-900">
-              💬 Chat Zalo
+              <MessageCircle className="w-4 h-4 mr-2" strokeWidth={2.2} aria-hidden />Chat Zalo
             </a>
           </div>
         </section>

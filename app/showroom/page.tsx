@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { MapPin, Phone, Clock, Car, MessageCircle } from 'lucide-react'
+import { MapPin, Phone, Clock, Car, MessageCircle, Eye, Palette, Headset } from 'lucide-react'
 import { CONTACT, zaloUrl } from '@/lib/utils'
 
 export const revalidate = 3600
@@ -91,17 +91,23 @@ export default function ShowroomPage() {
         <h2 className="font-display text-3xl font-bold mb-4">Tại sao nên đến showroom?</h2>
         <div className="grid md:grid-cols-3 gap-6 mt-8">
           <div>
-            <div className="text-4xl mb-2">👁️</div>
+            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/10 flex items-center justify-center">
+              <Eye className="w-6 h-6 text-white" strokeWidth={1.75} aria-hidden />
+            </div>
             <h3 className="font-bold mb-1">Trải nghiệm thật</h3>
             <p className="text-sm text-gray-200">Ngồi thử, cảm nhận chất liệu trực tiếp</p>
           </div>
           <div>
-            <div className="text-4xl mb-2">🎨</div>
+            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/10 flex items-center justify-center">
+              <Palette className="w-6 h-6 text-white" strokeWidth={1.75} aria-hidden />
+            </div>
             <h3 className="font-bold mb-1">So sánh màu sắc</h3>
             <p className="text-sm text-gray-200">Xem màu thực tế, không qua ảnh</p>
           </div>
           <div>
-            <div className="text-4xl mb-2">💬</div>
+            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/10 flex items-center justify-center">
+              <Headset className="w-6 h-6 text-white" strokeWidth={1.75} aria-hidden />
+            </div>
             <h3 className="font-bold mb-1">Tư vấn chuyên sâu</h3>
             <p className="text-sm text-gray-200">Kiến trúc sư tư vấn miễn phí</p>
           </div>

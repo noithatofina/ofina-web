@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Tag } from 'lucide-react'
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Tag, Lightbulb, Check } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { useCart } from '@/lib/cart'
 
@@ -123,7 +123,8 @@ export default function CartPage() {
               </div>
               {shipping > 0 && (
                 <div className="text-xs text-green-600 bg-green-50 p-2 rounded">
-                  💡 Mua thêm {formatPrice(500_000 - subtotal)} để được miễn phí giao hàng
+                  <Lightbulb className="w-3.5 h-3.5 inline-block align-[-2px] mr-1" strokeWidth={2.2} aria-hidden />
+                  Mua thêm {formatPrice(500_000 - subtotal)} để được miễn phí giao hàng
                 </div>
               )}
             </div>
@@ -147,10 +148,10 @@ export default function CartPage() {
             </div>
 
             <div className="mt-6 pt-6 border-t text-sm space-y-2 text-gray-600">
-              <p>✓ Giao hàng nhanh 2–3 ngày</p>
-              <p>✓ Bảo hành khung 24 tháng</p>
-              <p>✓ Đổi trả miễn phí 7 ngày</p>
-              <p>✓ Hỗ trợ 24/7 qua hotline</p>
+              <p className="flex items-start gap-2"><Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} aria-hidden />Giao hàng nhanh 2–3 ngày</p>
+              <p className="flex items-start gap-2"><Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} aria-hidden />Bảo hành khung 24 tháng</p>
+              <p className="flex items-start gap-2"><Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} aria-hidden />Đổi trả 7 ngày theo chính sách</p>
+              <p className="flex items-start gap-2"><Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={2.5} aria-hidden />Hỗ trợ qua hotline trong giờ hành chính</p>
             </div>
           </div>
         </aside>

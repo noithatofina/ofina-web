@@ -217,7 +217,7 @@ export function Header({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm ghế văn phòng, ghế công thái học..."
+                placeholder="Tìm ghế, bàn, tủ, cabin…"
                 className="flex-1 min-w-0 bg-transparent text-sm focus:outline-none placeholder:text-gray-400 text-gray-900"
                 aria-label="Tìm kiếm sản phẩm"
               />

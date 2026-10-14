@@ -192,7 +192,9 @@ export default async function ProductPage({ params }: Props) {
             </>
           )}
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-brand-900 font-semibold truncate">{product.name}</span>
+          {/* `truncate` không ăn trong flex-wrap nếu không chặn bề ngang: trên di động
+              tên sản phẩm dài xuống hẳn dòng thứ hai. Chặn ngang để nó cắt gọn 1 dòng. */}
+          <span className="text-brand-900 font-semibold truncate min-w-0 max-w-[55vw] sm:max-w-none">{product.name}</span>
         </nav>
 
         {/* Product main */}
@@ -341,8 +343,10 @@ export default async function ProductPage({ params }: Props) {
               ))}
             </div>
 
-            {/* Contact CTAs */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* Contact CTAs — ẩn trên di động vì thanh đáy cố định đã có sẵn
+                "Gọi ngay" và "Zalo tư vấn"; để cả hai thì màn hình điện thoại có tới
+                bốn nút liên hệ hiện cùng lúc. Máy tính không có thanh đáy nên vẫn giữ. */}
+            <div className="hidden md:grid grid-cols-2 gap-3">
               <a href={`tel:${CONTACT.hotline}`} className="flex items-center justify-center gap-2 p-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 font-semibold text-sm">
                 <Phone className="w-4 h-4" /> Gọi {CONTACT.hotline}
               </a>

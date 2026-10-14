@@ -194,17 +194,24 @@ export function HeroSlider() {
         style={{ bottom: 'max(14px, env(safe-area-inset-bottom))' }}
       >
         {SLIDES.map((_, i) => (
+          // Vùng bấm phải đủ 24×24 (WCAG 2.2 §2.5.8); trước đây chính thẻ button là
+          // cái chấm 8×8 nên rất khó bấm trúng trên điện thoại. Nay button là vùng
+          // bấm trong suốt 24×24, cái chấm là thẻ span bên trong.
           <button
             key={i}
             onClick={() => setIndex(i)}
-            className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
-              i === index
-                ? 'w-7 md:w-9 bg-[#155EEF] shadow-sm'
-                : 'w-1.5 md:w-2 bg-white/70 hover:bg-white md:bg-gray-400/60 md:hover:bg-gray-500'
-            }`}
+            className="h-6 min-w-6 flex items-center justify-center"
             aria-label={`Chuyển sang slide ${i + 1}`}
             aria-current={i === index}
-          />
+          >
+            <span
+              className={`block h-1.5 md:h-2 rounded-full transition-all duration-300 ${
+                i === index
+                  ? 'w-7 md:w-9 bg-[#155EEF] shadow-sm'
+                  : 'w-1.5 md:w-2 bg-white/70 md:bg-gray-400/60'
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>

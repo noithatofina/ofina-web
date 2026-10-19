@@ -62,7 +62,7 @@ export async function GET() {
 ## Thông tin quan trọng
 
 - **Website:** ${SITE_URL}
-- **Hotline / Zalo Hà Nội:** ${HOTLINE} (135 đường K2, Phường Phú Đô)
+- **Hotline / Zalo Hà Nội:** ${HOTLINE} (Tòa CT1 Chung cư Ban Cơ yếu Chính phủ, 43 Lê Văn Lương, Phường Thanh Xuân)
 - **Hotline / Zalo TP.HCM:** ${HOTLINE_HCM} (Tầng 2, số 36 Lương Định Của, Quận 2)
 - **Giờ mở cửa:** 08:00–18:00 tất cả các ngày trong tuần
 - **Bảo hành:** 24 tháng cho hầu hết sản phẩm

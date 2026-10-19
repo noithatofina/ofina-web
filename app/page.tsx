@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 const HOMEPAGE_FAQ = [
   {
     q: 'OFINA có showroom để xem trực tiếp không?',
-    a: 'Có. OFINA có 2 showroom trải nghiệm trực tiếp: Trụ sở Hà Nội — 135 đường K2, Phường Phú Đô; Chi nhánh TP.HCM — Tầng 2, số 36 Lương Định Của, Quận 2. Mở cửa 8h-18h hàng ngày. Gọi 0325669996 (HN) hoặc 0777569996 (HCM) để đặt lịch.',
+    a: 'Có. OFINA có 2 showroom trải nghiệm trực tiếp: Trụ sở Hà Nội — Tòa CT1 Chung cư Ban Cơ yếu Chính phủ, 43 Lê Văn Lương, Phường Thanh Xuân; Chi nhánh TP.HCM — Tầng 2, số 36 Lương Định Của, Quận 2. Mở cửa 8h-18h hàng ngày. Gọi 0325669996 (HN) hoặc 0777569996 (HCM) để đặt lịch.',
   },
   {
     q: 'Có hỗ trợ báo giá cho doanh nghiệp không?',

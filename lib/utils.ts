@@ -40,8 +40,8 @@ export const BRANCHES = [
   {
     name: 'Trụ sở Hà Nội',
     region: 'HN' as const,
-    address: '135 đường K2, Phường Phú Đô, Hà Nội',
-    mapsQuery: '135 K2 Phú Đô Hà Nội',
+    address: 'Tòa CT1 Chung cư Ban Cơ yếu Chính phủ, 43 Lê Văn Lương, Phường Thanh Xuân, Hà Nội',
+    mapsQuery: 'CT1 Ban Cơ yếu Chính phủ 43 Lê Văn Lương Thanh Xuân Hà Nội',
     phones: ['0325669996'],
   },
   {

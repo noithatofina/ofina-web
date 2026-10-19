@@ -104,8 +104,8 @@ const LOCAL_BUSINESS_LD = [
     image: `${SITE_URL}/logo.png`,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '135 đường K2',
-      addressLocality: 'Phường Phú Đô',
+      streetAddress: 'Tòa CT1 Chung cư Ban Cơ yếu Chính phủ, 43 Lê Văn Lương',
+      addressLocality: 'Phường Thanh Xuân',
       addressRegion: 'Hà Nội',
       addressCountry: 'VN',
     },
